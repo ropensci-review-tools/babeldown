@@ -18,7 +18,7 @@ test_that("get_glossary_id() errors if multiple glossaries with name", {
 
 test_that("can create glossary", {
   with_mock_dir("glossary-creation", {
-   glossary <- upsert_glossary(
+   glossary <- deepl_upsert_glossary(
       system.file("example-es-en.csv", package = "babeldown"),
       glossary_name = "rstats-glosario",
       target_lang = "Spanish",

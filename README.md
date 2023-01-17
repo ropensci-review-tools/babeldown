@@ -22,3 +22,28 @@ You can install the development version of babeldown from
 # install.packages("devtools")
 devtools::install_github("ropensci-review-tools/babeldown")
 ```
+
+## Examples
+
+### Glossary creation
+
+``` r
+filename <- system.file("example-es-en.tsv", package = "babeldown")
+
+# file contents for info
+readr::read_tsv(filename, show_col_types = FALSE)
+#> # A tibble: 2 × 2
+#>   Spanish     English   
+#>   <chr>       <chr>     
+#> 1 paquete     package   
+#> 2 repositorio repository
+
+# create (or update) glossary
+babeldown::deepl_upsert_glossary(
+  system.file("example-es-en.csv", package = "babeldown"),
+  glossary_name = "rstats-glosario",
+  target_lang = "Spanish",
+  source_lang = "English"
+)
+#> Updating glossary rstats-glosario
+```

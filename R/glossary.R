@@ -12,14 +12,14 @@
 #'
 #' @examples
 #' \dontrun{
-#' upsert_glossary(
+#' deepl_upsert_glossary(
 #'   system.file("example-es-en.csv", package = "babeldown"),
 #'   glossary_name = "rstats-glosario",
 #'   target_lang = "Spanish",
 #'   source_lang = "English"
 #' )
 #' }
-upsert_glossary <- function(filename, glossary_name = NULL,
+deepl_upsert_glossary <- function(filename, glossary_name = NULL,
                             source_lang, target_lang) {
 
   # args checking and input preparation ---------------
@@ -89,7 +89,7 @@ upsert_glossary <- function(filename, glossary_name = NULL,
     entries = entries,
     entries_format = format
   )
-  return(glossary[["glossary_id"]])
+  return(invisible(glossary[["glossary_id"]]))
 
 }
 
