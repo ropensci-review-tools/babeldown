@@ -15,3 +15,15 @@ test_that("get_glossary_id() errors if multiple glossaries with name", {
     expect_error(get_glossary_id("glosario"), "There are")
   })
 })
+
+test_that("can create glossary", {
+  with_mock_dir("glossary-creation", {
+   glossary <- upsert_glossary(
+      system.file("example-es-en.csv", package = "babeldown"),
+      glossary_name = "rstats-glosario",
+      target_lang = "Spanish",
+      source_lang = "English"
+    )
+   expect_equal(glossary, "42")
+  })
+})
