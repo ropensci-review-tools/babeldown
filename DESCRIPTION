@@ -1,10 +1,11 @@
 Package: babeldown
-Title: What the Package Does (One Line, Title Case)
+Title: Helpers for Automatic Translation of Markdown-based Content
 Version: 0.0.0.9000
 Authors@R: 
     person("Maëlle", "Salmon", , "msmaellesalmon@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-2815-0399"))
-Description: What the package does (one paragraph).
+Description: Provide workflows and guidance for automatic translation of Markdown-based R content
+  using DeepL API.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
