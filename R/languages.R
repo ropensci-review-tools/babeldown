@@ -1,11 +1,11 @@
 #' @importFrom memoise memoise
 
-.deepl_languagues <- function(type = c("target", "source")) {
+.deepl_languages <- function(type = c("target", "source")) {
   languages <- deepl_request("v2/languages", type = type)
   do.call(rbind, purrr::map(languages, tibble::as_tibble))
 }
 
-deepl_languages <- memoise::memoise(.deepl_languagues)
+deepl_languages <- memoise::memoise(.deepl_languages)
 
 examine_source_lang <- function(source_lang) {
   source_languages <- deepl_languages(type = "source")
@@ -25,7 +25,6 @@ examine_source_lang <- function(source_lang) {
     )
   )
 }
-
 
 examine_target_lang <- function(target_lang) {
   target_languages <- deepl_languages(type = "target")
