@@ -6,7 +6,6 @@
 #' @inheritParams deepl_upsert_glossary
 #' @param formality Formality level to use (character), one of
 #' * "default" (default)
-#' * "more" -- for a more formal language
 #' * "less" -- for a more informal language
 #' * "prefer_more" -- for a more formal language if available, otherwise fallback to default formality
 #' * "prefer_less" -- for a more informal language if available, otherwise fallback to default formality
@@ -49,9 +48,12 @@ deepl_translate <- function(path,
 
   # create tinkr object for splitting ----
   wool <- tinkr::yarn$new(path = path)
+
+  split_size <- 3
+
   children_pods <- split(
     xml2::xml_children(wool[["body"]]),
-    ceiling(seq_along(xml2::xml_children(wool[["body"]]))/50)
+    ceiling(seq_along(xml2::xml_children(wool[["body"]]))/split_size)
   )
 
   translated_children_pods <- purrr::map(
@@ -63,17 +65,7 @@ deepl_translate <- function(path,
     formality = formality
   )
 
-  temp_xml <- xml2::xml_new_document()
-
-  add_nodes <- function(xml_document, temp_xml) {
-    purrr::walk(
-      xml2::xml_children(xml_document),
-      function(x, temp_xml) xml2::xml_add_child(temp_xml, x),
-      temp_xml = temp_xml
-    )
-  }
-  purrr::walk(translated_children_pods, add_nodes, temp_xml = temp_xml)
-  wool[["body"]] <- temp_xml
+  wool[["body"]] <- fakify_xml(translated_children_pods)
   wool$write(out_path)
 
 }
@@ -83,14 +75,7 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
   file.create(temp_file)
   woolish <- tinkr::yarn$new(path = temp_file)
 
-  temp_xml <- xml2::xml_new_document()
-  purrr::walk(
-    xml,
-    function(x, temp_xml) xml2::xml_add_child(temp_xml, x),
-    temp_xml = temp_xml
-  )
-
-  woolish$body <- temp_xml
+  woolish$body <- fakify_xml(xml)
 
   ## protect content inside curly braces ----
   woolish$body <- tinkr::protect_curly(woolish$body)
@@ -138,4 +123,23 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
   purrr::walk(curlies, replace_curly)
 
   woolish[["body"]]
+}
+
+fakify_xml <- function(nodes_list) {
+  temp_file <- withr::local_tempfile()
+  lines <- paste(
+    readLines(system.file("template.xml", package = "babeldown")),
+    collapse = "\n"
+  )
+  fill <- if (length(nodes_list) == 1) {
+    paste(as.character(nodes_list), collapse = "\n")
+  } else {
+    paste(
+      purrr::map_chr(nodes_list, ~paste(as.character(xml2::xml_children(.x)), collapse = "\n")),
+      collapse = "\n"
+    )
+  }
+  lines <- sub("FILLHERE", fill, lines)
+  writeLines(lines, temp_file)
+  xml2::read_xml(temp_file)
 }
