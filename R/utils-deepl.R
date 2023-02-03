@@ -1,3 +1,5 @@
+#' @importFrom memoise memoise
+
 deepl_url <- function() {
   Sys.getenv("DEEPL_API_URL", "https://api-free.deepl.com")
 }
