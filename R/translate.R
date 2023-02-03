@@ -74,7 +74,6 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
   temp_file <- withr::local_tempfile()
   file.create(temp_file)
   woolish <- tinkr::yarn$new(path = temp_file)
-
   woolish$body <- fakify_xml(xml)
 
   ## protect content inside curly braces ----
@@ -131,7 +130,7 @@ fakify_xml <- function(nodes_list) {
     readLines(system.file("template.xml", package = "babeldown")),
     collapse = "\n"
   )
-  fill <- if (length(nodes_list) == 1) {
+  fill <- if (is(nodes_list, "xml_nodeset")) {
     paste(as.character(nodes_list), collapse = "\n")
   } else {
     paste(
