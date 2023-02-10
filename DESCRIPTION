@@ -15,6 +15,7 @@ BugReports: https://github.com/ropensci-review-tools/babeldown/issues
 Depends: R (>= 4.1)
 Imports: 
     brio,
+    cli,
     glue,
     httr2,
     memoise,
@@ -23,7 +24,11 @@ Imports:
     rlang,
     tibble,
     tinkr (>= 0.1.0.9000),
-    withr
-Suggests: httptest2
-Remotes:  
+    withr,
+    xml2
+Suggests: 
+    httptest2,
+    testthat (>= 3.0.0)
+Remotes: 
     ropensci/tinkr
+Config/testthat/edition: 3
