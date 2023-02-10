@@ -28,13 +28,23 @@ test_that("deepl_translate() errors well", {
   file.create(file)
   with_mock_dir("get-glossary-ok", {
     expect_snapshot(
-      deepl_translate(file, glossary_name = "non-existing-glossary"),
+      deepl_translate(
+        file,
+        glossary_name = "non-existing-glossary",
+        source_lang = "en",
+        target_lang = "es"
+      ),
       error = TRUE
     )
   })
 
   expect_snapshot(
-    deepl_translate(file, formality = "non-existing-formality"),
+    deepl_translate(
+      file,
+      formality = "non-existing-formality",
+      source_lang = "en",
+      target_lang = "es"
+    ),
     error = TRUE
   )
 })

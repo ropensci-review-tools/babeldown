@@ -27,8 +27,15 @@ deepl_translate <- function(path,
     cli::cli_abort("Can't find {.field path} {.val {path}}.")
   }
 
+  source_lang_code <- examine_source_lang(source_lang)
+  target_lang_code <- examine_target_lang(target_lang)
+
   if (!is.null(glossary_name)) {
-    glossary_id <- get_glossary_id(glossary_name)
+    glossary_id <- get_glossary_id(
+      glossary_name,
+      source_lang = source_lang_code,
+      target_lang = target_lang_code
+    )
     if (is.null(glossary_id)) {
       cli::cli_abort(
         c(

@@ -10,7 +10,7 @@ deepl_languages <- memoise::memoise(.deepl_languages)
 examine_source_lang <- function(source_lang) {
   source_languages <- deepl_languages(type = "source")
 
-  if (source_lang %in% source_languages[["language"]]) {
+  if (toupper(source_lang) %in% source_languages[["language"]]) {
     return(source_lang)
   }
 
@@ -29,7 +29,7 @@ examine_source_lang <- function(source_lang) {
 examine_target_lang <- function(target_lang) {
   target_languages <- deepl_languages(type = "target")
 
-  if (target_lang %in% target_languages[["language"]]) {
+  if (toupper(target_lang) %in% target_languages[["language"]]) {
     return(target_lang)
   }
 
