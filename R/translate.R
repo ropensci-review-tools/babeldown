@@ -49,7 +49,9 @@ deepl_translate <- function(path,
   # create tinkr object for splitting ----
   wool <- tinkr::yarn$new(path = path)
 
-  split_size <- 3
+  # the API doesn't document what is too much
+  # so this is more or less a random number :-)
+  split_size <- 10
 
   children_pods <- split(
     xml2::xml_children(wool[["body"]]),
