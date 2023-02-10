@@ -41,6 +41,11 @@ store it with the keyring package and retrieve it like so:
 Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 ```
 
+## Troubleshooting
+
+Getting an HTTP error 456 means you've used up all your API credits.
+Use `deepl_usage()` (or the online interface) to get your usage data.
+
 ## Examples
 
 ### File translation

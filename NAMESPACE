@@ -2,4 +2,5 @@
 
 export(deepl_translate)
 export(deepl_upsert_glossary)
+export(deepl_usage)
 importFrom(memoise,memoise)
