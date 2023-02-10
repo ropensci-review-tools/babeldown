@@ -27,7 +27,6 @@ deepl_translate(
 \item{formality}{Formality level to use (character), one of
 \itemize{
 \item "default" (default)
-\item "more" -- for a more formal language
 \item "less" -- for a more informal language
 \item "prefer_more" -- for a more formal language if available, otherwise fallback to default formality
 \item "prefer_less" -- for a more informal language if available, otherwise fallback to default formality

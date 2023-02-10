@@ -1,22 +1,21 @@
 {
     "glossaries": [
         {
+            "glossary_id": "41",
+            "name": "glosario",
+            "ready": true,
+            "source_lang": "en",
+            "target_lang": "es",
+            "creation_time": "2023-01-17T14:45:48.081231Z",
+            "entry_count": 2
+        },
+        {
             "glossary_id": "42",
             "name": "glosario",
             "ready": true,
             "source_lang": "en",
             "target_lang": "es",
-            "creation_time": "2022-10-18T13:20:13.807055+00:00",
-            "entry_count": 46
-        },
-
-        {
-            "glossary_id": "43",
-            "name": "glosario",
-            "ready": true,
-            "source_lang": "en",
-            "target_lang": "es",
-            "creation_time": "2022-10-18T13:20:13.807055+00:00",
+            "creation_time": "2022-10-18T13:20:13.807055Z",
             "entry_count": 46
         }
     ]

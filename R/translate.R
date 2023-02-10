@@ -132,7 +132,7 @@ fakify_xml <- function(nodes_list) {
     readLines(system.file("template.xml", package = "babeldown")),
     collapse = "\n"
   )
-  fill <- if (is(nodes_list, "xml_nodeset")) {
+  fill <- if (inherits(nodes_list, "xml_nodeset")) {
     paste(as.character(nodes_list), collapse = "\n")
   } else {
     paste(
