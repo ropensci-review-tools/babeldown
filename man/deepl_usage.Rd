@@ -2,13 +2,13 @@
 % Please edit documentation in R/usage.R
 \name{deepl_usage}
 \alias{deepl_usage}
-\title{Get usage data}
+\title{Get DeepL API usage data}
 \usage{
 deepl_usage()
 }
 \value{
-A list with usage data, depending on the account type.
+A list with DeepL API usage data, depending on the account type.
 }
 \description{
-Get usage data
+Get DeepL API usage data
 }

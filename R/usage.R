@@ -1,6 +1,6 @@
-#' Get usage data
+#' Get DeepL API usage data
 #'
-#' @return A list with usage data, depending on the account type.
+#' @return A list with DeepL API usage data, depending on the account type.
 #' @export
 #'
 deepl_usage <- function() {
