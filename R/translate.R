@@ -97,7 +97,7 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
         non_splitting_tags = "text,softbreak",
         formality = formality,
         glossary_id = glossary_id,
-        ignore_tags = "code,curly"
+        ignore_tags = "code,code_block,curly"
       ) |>
       purrr::compact()
 

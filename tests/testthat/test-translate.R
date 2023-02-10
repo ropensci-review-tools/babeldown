@@ -38,3 +38,23 @@ test_that("deepl_translate() errors well", {
     error = TRUE
   )
 })
+
+test_that("deepl_translate() does not translate Markdown blocks (#16)", {
+  with_mock_dir("example-markdown-blocks", {
+    to_translate <- system.file("example-markdown-blocks.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
+
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less"
+    )
+
+    link_not_translated <- any(grepl("very nice", readLines(out_path)))
+    expect_true(link_not_translated)
+  })
+
+})
+
