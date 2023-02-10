@@ -1,0 +1,17 @@
+[
+    {
+        "language": "EN-GB",
+        "name": "English (British)",
+        "supports_formality": false
+    },
+    {
+        "language": "EN-US",
+        "name": "English (American)",
+        "supports_formality": false
+    },
+    {
+        "language": "ES",
+        "name": "Spanish",
+        "supports_formality": true
+    }
+]

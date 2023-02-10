@@ -20,7 +20,7 @@
 #' )
 #' }
 deepl_upsert_glossary <- function(filename, glossary_name = NULL,
-                            source_lang, target_lang) {
+                                  source_lang, target_lang) {
 
   # args checking and input preparation ---------------
 
@@ -40,7 +40,11 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
   source_lang_code <- examine_source_lang(source_lang)
   target_lang_code <- examine_target_lang(target_lang)
 
-  glossary_id <- get_glossary_id(glossary_name)
+  glossary_id <- get_glossary_id(
+    glossary_name = glossary_name,
+    source_lang = source_lang,
+    target_lang = target_lang
+  )
 
   # prepare entries
   entries <- switch(
@@ -93,9 +97,13 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
 
 }
 
-get_glossary_id <- function(glossary_name) {
-  glossaries <- deepl_request("v2/glossaries") |>
-    purrr::pluck("glossaries")
+get_glossary_id <- function(glossary_name,
+                            source_lang, target_lang) {
+  glossaries <- deepl_request("v2/glossaries")
+  glossaries <- purrr::pluck(glossaries, "glossaries")
+
+  glossaries <- glossaries[purrr::map_chr(glossaries, "source_lang") == source_lang]
+  glossaries <- glossaries[purrr::map_chr(glossaries, "target_lang") == target_lang]
 
   if (length(glossaries) == 0) {
     return(NULL)
