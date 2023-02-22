@@ -102,8 +102,8 @@ get_glossary_id <- function(glossary_name,
   glossaries <- deepl_request("glossaries")
   glossaries <- purrr::pluck(glossaries, "glossaries")
 
-  glossaries <- glossaries[purrr::map_chr(glossaries, "source_lang") == source_lang]
-  glossaries <- glossaries[purrr::map_chr(glossaries, "target_lang") == target_lang]
+  glossaries <- glossaries[tolower(purrr::map_chr(glossaries, "source_lang")) == tolower(source_lang)]
+  glossaries <- glossaries[tolower(purrr::map_chr(glossaries, "target_lang")) == tolower(target_lang)]
 
   if (length(glossaries) == 0) {
     return(NULL)
@@ -116,6 +116,7 @@ get_glossary_id <- function(glossary_name,
   }
 
   if (sum(glossary_names == glossary_name) > 1) {
+
     rlang::abort(
       sprintf(
         "There are %s glossaries with the name %s, please fix.",
