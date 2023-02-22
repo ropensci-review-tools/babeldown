@@ -76,7 +76,7 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
   # delete existing glossary if necessary ------
   if (!is.null(glossary_id)) {
   deepl_request(
-    path = sprintf("v2/glossaries/%s", glossary_id),
+    path = sprintf("glossaries/%s", glossary_id),
     method = "DELETE"
   )
     message(sprintf("Updating glossary %s", glossary_name))
@@ -86,7 +86,7 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
 
   # create glossary ---------------------
   glossary <- deepl_form_request(
-    path = "v2/glossaries",
+    path = "glossaries",
     name = glossary_name,
     source_lang = source_lang_code,
     target_lang = target_lang_code,
@@ -99,7 +99,7 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
 
 get_glossary_id <- function(glossary_name,
                             source_lang, target_lang) {
-  glossaries <- deepl_request("v2/glossaries")
+  glossaries <- deepl_request("glossaries")
   glossaries <- purrr::pluck(glossaries, "glossaries")
 
   glossaries <- glossaries[purrr::map_chr(glossaries, "source_lang") == source_lang]

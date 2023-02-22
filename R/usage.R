@@ -4,5 +4,5 @@
 #' @export
 #'
 deepl_usage <- function() {
-  deepl_request("v2/usage")
+  deepl_request("usage")
 }

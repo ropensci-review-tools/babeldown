@@ -108,7 +108,7 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
       ) |>
       purrr::compact()
 
-    doc <- deepl_form_request("v2/translate", !!!body_params)
+    doc <- deepl_form_request("translate", !!!body_params)
     doc$translations[[1]]$text
   }
   translate <- memoise::memoise(.translate)

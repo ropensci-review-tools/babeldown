@@ -14,11 +14,21 @@ deepl_key <- function() {
   key
 }
 
-deepl_request <- function(path, method = "GET", ...) {
-  resp <- httr2::request(deepl_url()) |>
+deepl_api_version <- function() {
+  "v2"
+}
+
+deepl_request_basic <- function(path, method) {
+  httr2::request(deepl_url()) |>
+    httr2::req_url_path_append(deepl_api_version()) |>
     httr2::req_url_path_append(path) |>
     httr2::req_headers("Authorization" = sprintf("DeepL-Auth-Key %s", deepl_key())) |>
     httr2::req_method(method) |>
+    httr2::req_retry(max_tries = 3)
+}
+
+deepl_request <- function(path, method = "GET", ...) {
+  resp <- deepl_request_basic(path, method) |>
     httr2::req_url_query(...) |>
     httr2::req_perform()
 
@@ -29,10 +39,7 @@ deepl_request <- function(path, method = "GET", ...) {
 }
 
 deepl_form_request <- function(path, ...) {
-  httr2::request(deepl_url()) |>
-    httr2::req_url_path_append(path) |>
-    httr2::req_headers("Authorization" = sprintf("DeepL-Auth-Key %s", deepl_key())) |>
-    httr2::req_method("POST") |>
+  deepl_request_basic(path, method = "POST") |>
     httr2::req_body_form(...) |>
     httr2::req_perform() |>
     httr2::resp_body_json()
