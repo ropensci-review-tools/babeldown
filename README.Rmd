@@ -46,7 +46,7 @@ Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
 Set your API key via the environment variable `DEEPL_API_KEY`.
 You could store it with the keyring package and retrieve it like so:
 
-```r
+```{r}
 Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 ```
 
@@ -88,7 +88,7 @@ readLines(out_path)
 filename <- system.file("example-es-en.csv", package = "babeldown")
 
 # file contents for info
-readr::read_tsv(filename, show_col_types = FALSE)
+readr::read_csv(filename, show_col_types = FALSE)
 
 # create (or update) glossary
 babeldown::deepl_upsert_glossary(

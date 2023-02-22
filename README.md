@@ -43,8 +43,8 @@ Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 
 ## Troubleshooting
 
-Getting an HTTP error 456 means you've used up all your API credits.
-Use `deepl_usage()` (or the online interface) to get your usage data.
+Getting an HTTP error 456 means you’ve used up all your API credits. Use
+`deepl_usage()` (or the online interface) to get your usage data.
 
 ## Examples
 
@@ -88,12 +88,12 @@ readLines(out_path)
 filename <- system.file("example-es-en.csv", package = "babeldown")
 
 # file contents for info
-readr::read_tsv(filename, show_col_types = FALSE)
-#> # A tibble: 2 × 1
-#>   `Spanish,English`     
-#>   <chr>                 
-#> 1 paquete,package       
-#> 2 repositorio,repository
+readr::read_csv(filename, show_col_types = FALSE)
+#> # A tibble: 2 × 2
+#>   Spanish     English   
+#>   <chr>       <chr>     
+#> 1 paquete     package   
+#> 2 repositorio repository
 
 # create (or update) glossary
 babeldown::deepl_upsert_glossary(
