@@ -24,21 +24,23 @@ render_quarto_multilingual_book <- function(book_folder, language_codes) {
   )
 
   # Add the language switching link to the sidebar ----
-  # TODO this does not add all combinations
+  # TODO this depend on having actions links, use sidebar instead
+  # <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+
   purrr::walk(
     language_codes,
     ~ purrr::walk(fs::dir_ls(book_output_folder, glob = "*.html"), add_link, language_code = .x)
   )
 # FIXME
-  purrr::walk(
-    language_codes,
+  for (other_lang in language_codes) {
+    to_add <- language_codes[language_codes != other_lang]
     purrr::walk(
-      ~ language_codes[language_codes != .x],
-      function(language_code) {
-        purrr::walk(fs::dir_ls(sprintf("%s/%s", book_output_folder, .x), glob = "*.html"), add_link, language_code = language_code)
-      }
+      to_add,
+      ~ purrr::walk(fs::dir_ls(file.path(book_output_folder, other_lang), glob = "*.html"),
+        add_link,
+        language_code = .x)
     )
-  )
+  }
 
 }
 
