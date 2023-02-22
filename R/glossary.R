@@ -42,8 +42,8 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
 
   glossary_id <- get_glossary_id(
     glossary_name = glossary_name,
-    source_lang = source_lang,
-    target_lang = target_lang
+    source_lang = source_lang_code,
+    target_lang = target_lang_code
   )
 
   # prepare entries
