@@ -16,6 +16,7 @@ Depends: R (>= 4.1)
 Imports: 
     brio,
     cli,
+    fs,
     glue,
     httr2,
     memoise,
@@ -27,7 +28,6 @@ Imports:
     withr,
     xml2
 Suggests: 
-    fs,
     httptest2,
     quarto,
     sys,
