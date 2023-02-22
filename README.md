@@ -10,6 +10,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![R-CMD-check](https://github.com/ropensci-review-tools/babeldown/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci-review-tools/babeldown/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
+**babeldown is an experimental package!**
+
 The goal of babeldown is to support workflows that include automatic
 translation of Markdown-based R content, through DeepL API.
 
@@ -82,7 +84,7 @@ readLines(out_path)
 #> [9] ""
 ```
 
-### Glossary creation
+### Glossary creation or update
 
 ``` r
 filename <- system.file("example-es-en.csv", package = "babeldown")
@@ -102,7 +104,7 @@ babeldown::deepl_upsert_glossary(
   target_lang = "Spanish",
   source_lang = "English"
 )
-#> Creating glossary rstats-glosario
+#> Updating glossary rstats-glosario
 ```
 
 ### File translation with glossary
