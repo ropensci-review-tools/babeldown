@@ -9,7 +9,8 @@ render_quarto_multilingual_book <- function(book_folder, language_codes) {
 
   # start from blank slate ----
   # TODO read actual destination in _quarto.yml config!
-  if (fs::dir_exists("_book")) fs::dir_delete("_book")
+  book_output_folder <- file.path(book_folder, "_book")
+  if (fs::dir_exists(book_output_folder)) fs::dir_delete(book_output_folder)
 
   # render book ----
   withr::with_dir(book_folder, {
@@ -24,10 +25,19 @@ render_quarto_multilingual_book <- function(book_folder, language_codes) {
 
   # Add the language switching link to the sidebar ----
   # TODO this does not add all combinations
-  purrr::walk(fs::dir_ls("_book", glob = "*.html"), add_link, language_code = "es")
   purrr::walk(
     language_codes,
-    ~ purrr::walk(fs::dir_ls(sprintf("_book/%s", .x), glob = "*.html"), add_link, language_code = .x)
+    ~ purrr::walk(fs::dir_ls(book_output_folder, glob = "*.html"), add_link, language_code = .x)
+  )
+# FIXME
+  purrr::walk(
+    language_codes,
+    purrr::walk(
+      ~ language_codes[language_codes != .x],
+      function(language_code) {
+        purrr::walk(fs::dir_ls(sprintf("%s/%s", book_output_folder, .x), glob = "*.html"), add_link, language_code = language_code)
+      }
+    )
   )
 
 }
@@ -94,7 +104,7 @@ add_link <- function(path, language_code = "en") {
   html <- xml2::read_html(path)
   sidebar_action_links <- xml2::xml_find_all(html, "//div[@class='action-links']")
 
-  if (lang == "en") {
+  if (language_code == "en") {
     new_path <- sub("\\...\\.html", ".html", basename(path))
     xml2::xml_add_child(
       sidebar_action_links,
