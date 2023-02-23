@@ -16,6 +16,7 @@ Depends: R (>= 4.1)
 Imports: 
     brio,
     cli,
+    digest,
     glue,
     httr2,
     memoise,

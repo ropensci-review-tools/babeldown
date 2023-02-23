@@ -55,8 +55,31 @@ deepl_translate <- function(path,
     values = c("default", "more", "less", "prefer_more", "prefer_less")
   )
 
-  # create tinkr object for splitting ----
-  wool <- tinkr::yarn$new(path = path)
+  # protect Hugo shortcodes ----
+  temp_markdown_file <- withr::local_tempfile()
+  markdown_lines <- brio::read_lines(path)
+  shortcodes_no <- which(grepl("\\{\\{<", markdown_lines))
+  shortcodes_present <- length(shortcodes_no > 0)
+  if (shortcodes_present) {
+    # FIXME add translation
+    shortcodes <- markdown_lines[shortcodes_no]
+
+    ## translate shortcodes
+    shortcodes <- purrr::map_chr(
+      shortcodes,
+      translate_shortcode,
+      glossary_name = glossary_name,
+      source_lang = source_lang,
+      target_lang = target_lang,
+      formality = formality
+    )
+
+    markdown_lines[shortcodes_no] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
+    brio::write_lines(markdown_lines, temp_markdown_file)
+    wool <- tinkr::yarn$new(path = temp_markdown_file)
+  } else {
+    wool <- tinkr::yarn$new(path = path)
+  }
 
   # translate some YAML fields ----
 
@@ -98,8 +121,25 @@ deepl_translate <- function(path,
     formality = formality
   )
 
+  # write back, unprotect Hugo shortcodes ----
   wool[["body"]] <- fakify_xml(translated_children_pods)
-  wool$write(out_path)
+
+  temp_markdown_file <- withr::local_tempfile()
+  wool$write(temp_markdown_file)
+  markdown_lines <- brio::read_lines(temp_markdown_file)
+  if (shortcodes_present) {
+    for (shortcode in shortcodes) {
+        digested_shortcode <- sprintf("`%s`", digest::digest(shortcode))
+        markdown_lines[markdown_lines == digested_shortcode] <- shortcode
+    }
+  }
+
+  lines_to_write <- if (length(wool$yaml) > 0) {
+    c(wool$yaml, "", markdown_lines)
+  } else {
+    markdown_lines
+  }
+  brio::write_lines(lines_to_write, out_path)
 
 }
 
@@ -219,4 +259,31 @@ deepl_translate_markdown_string <- function(markdown_string,
   lines <- gsub("\n*$", "", lines)
 
   lines
+}
+
+translate_shortcode <- function(shortcode,
+                                      glossary_name = NULL,
+                                      source_lang,
+                                      target_lang,
+                                      formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+  for (param in c("alt", "caption", "title")) {
+    m <- regexpr(sprintf(' %s=".*?"', param), shortcode)
+    param_value <- regmatches(shortcode, m)
+    if (length(param_value) > 0) {
+      translated_param_value <- deepl_translate_markdown_string(
+        param_value,
+        glossary_name = glossary_name,
+        source_lang = source_lang,
+        target_lang = target_lang,
+        formality = formality
+      )
+      shortcode <- sub(
+        param_value,
+        sprintf(" %s ", translated_param_value),
+        shortcode,
+        fixed=TRUE
+      )
+    }
+  }
+  shortcode
 }
