@@ -25,7 +25,8 @@ Imports:
     tibble,
     tinkr (>= 0.1.0.9000),
     withr,
-    xml2
+    xml2,
+    yaml
 Suggests: 
     fs,
     httptest2,
