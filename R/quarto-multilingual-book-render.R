@@ -50,6 +50,9 @@ render_quarto_multilingual_book <- function(book_folder) {
 
   # render book ----
   withr::with_dir(book_folder, {
+    config <- yaml::read_yaml("_quarto.yml")
+    config$lang <- main_language
+    yaml::write_yaml(config, "_quarto.yml")
     quarto::quarto_render(as_job = FALSE)
   })
 
@@ -149,7 +152,7 @@ use_lang_chapter <- function(chapters_list, language_code, book_name, directory)
     chapters_list
 }
 
-add_link <- function(path, main_language = main_language, language_code = "en") {
+add_link <- function(path, main_language = main_language, language_code) {
   html <- xml2::read_html(path)
 
   left_sidebar <- xml2::xml_find_first(html, "//div[@class='sidebar-menu-container']")
@@ -175,10 +178,11 @@ add_link <- function(path, main_language = main_language, language_code = "en") 
   languages_links <- xml2::xml_find_first(html, "//ul[@id='language-links-ul']")
 
   if (language_code == main_language) {
-    new_path <- fs::path_ext_set(basename(path), sprintf(".%s.html", language_code))
+    new_path <- sub("\\..*\\.html", ".html", basename(path))
     href <- sprintf("/%s", new_path)
   } else {
-    new_path <- sub("\\...\\.html", ".html", basename(path))
+    base_path <- sub("\\..*\\.html", ".html", basename(path))
+    new_path <- fs::path_ext_set(base_path, sprintf(".%s.html", language_code))
     href <- sprintf("/%s/%s", language_code, new_path)
   }
 
