@@ -3,6 +3,7 @@
 #' @param path Path to the Markdown file to be translated (character).
 #' @param out_path Path where the new translated file should be saved (character).
 #' @param glossary_name Name of the glossary to be used, if any (character).
+#' @param yaml_fields Vector of character names of YAML fields to translate.
 #' @inheritParams deepl_upsert_glossary
 #' @param formality Formality level to use (character), one of
 #' * "default" (default)
@@ -16,6 +17,7 @@
 #' @examples
 deepl_translate <- function(path,
                             out_path,
+                            yaml_fields = c("title", "description"),
                             glossary_name = NULL,
                             source_lang = NULL,
                             target_lang = NULL,
@@ -56,6 +58,28 @@ deepl_translate <- function(path,
   # create tinkr object for splitting ----
   wool <- tinkr::yarn$new(path = path)
 
+  # translate some YAML fields ----
+
+  yaml <- yaml::yaml.load(wool$yaml)
+  if (!is.null(yaml_fields) && !is.null(yaml)) {
+
+  for (yaml_field in yaml_fields) {
+    if (is_non_empty_string(yaml[[yaml_field]])) {
+      yaml[[yaml_field]] <- deepl_translate_markdown_string(
+        yaml[[yaml_field]],
+        glossary_name = glossary_name,
+        source_lang = source_lang,
+        target_lang = target_lang,
+        formality = formality
+      )
+    }
+  }
+  yaml_file <- withr::local_tempfile()
+  yaml::write_yaml(yaml, yaml_file)
+  wool$yaml <- c("---", brio::read_lines(yaml_file), "---")
+  }
+
+  # translate content ----
   # the API doesn't document what is too much
   # so this is more or less a random number :-)
   split_size <- 10
@@ -150,4 +174,49 @@ fakify_xml <- function(nodes_list) {
   lines <- sub("FILLHERE", fill, lines)
   writeLines(lines, temp_file)
   xml2::read_xml(temp_file)
+}
+
+#' Title
+#'
+#' @param markdown_string Markdown string to translate
+#' @inheritParams deepl_translate
+#'
+#' @return Translated Markdown string
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' deepl_translate_markdown_string(
+#'   "[So _incredibly_ **wonderful**](https://ropensci.org)!",
+#'   source_lang = "EN",
+#'   target_lang = "FR",
+#'   formality = "less"
+#' )
+#' }
+deepl_translate_markdown_string <- function(markdown_string,
+                                      glossary_name = NULL,
+                                      source_lang,
+                                      target_lang,
+                                      formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+  file <- withr::local_tempfile()
+  brio::write_lines(markdown_string, file)
+  deepl_translate(
+    path = file,
+    out_path = file,
+    glossary_name = glossary_name,
+    source_lang = source_lang,
+    target_lang = target_lang,
+    formality = formality,
+    yaml_fields = NULL
+  )
+
+  lines <- brio::read_lines(file)
+
+  if (length(lines) > 1) {
+   lines <- paste(lines, collapse = "\n")
+  }
+
+  lines <- gsub("\n*$", "", lines)
+
+  lines
 }

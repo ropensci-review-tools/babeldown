@@ -68,3 +68,46 @@ test_that("deepl_translate() does not translate Markdown blocks (#16)", {
 
 })
 
+test_that("deepl_translate() can translate YAML field (#16)", {
+  with_mock_dir("example-yaml", {
+    to_translate <- system.file("example-yaml.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
+
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = c("title", "description", "slug")
+    )
+
+    lines <- readLines(out_path)
+    expect_false(any(grepl("Wonderful", lines)))
+    expect_false(any(grepl("Check", lines)))
+    expect_false(any(grepl("universe", lines)))
+  })
+
+})
+test_that("deepl_translate() can skip translation of YAML field (#16)", {
+  with_mock_dir("example-yaml", {
+    to_translate <- system.file("example-yaml.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
+
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = NULL
+    )
+
+    lines <- readLines(out_path)
+    expect_true(any(grepl("Wonderful", lines)))
+    expect_true(any(grepl("Check", lines)))
+    expect_true(any(grepl("universe", lines)))
+  })
+
+})
+
