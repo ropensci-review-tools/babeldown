@@ -184,8 +184,8 @@ translate_markdown_string <- function(markdown_string,
   file <- withr::local_tempfile()
   brio::write_lines(markdown_string, file)
   deepl_translate(
-    file,
-    file,
+    path = file,
+    out_path = file,
     glossary_name = glossary_name,
     source_lang = source_lang,
     target_lang = target_lang,
