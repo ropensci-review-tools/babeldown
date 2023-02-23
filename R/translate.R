@@ -134,12 +134,7 @@ deepl_translate <- function(path,
     }
   }
 
-  lines_to_write <- if (length(wool$yaml) > 0) {
-    c(wool$yaml, "", markdown_lines)
-  } else {
-    markdown_lines
-  }
-  brio::write_lines(lines_to_write, out_path)
+  brio::write_lines(markdown_lines, out_path)
 
 }
 
@@ -276,6 +271,12 @@ translate_shortcode <- function(shortcode,
         source_lang = source_lang,
         target_lang = target_lang,
         formality = formality
+      )
+
+      translated_param_value <- sub(
+        '\\"\\.$',
+        '\\."',
+        translated_param_value
       )
       shortcode <- sub(
         param_value,

@@ -1,8 +1,0 @@
-{
-    "translations": [
-        {
-            "detected_source_language": "EN",
-            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <heading level=\"2\">\n   <text xml:space=\"preserve\">Nombre del paquete y metadatos<\/text>\n  <\/heading>\n  <paragraph>\n    <code xml:space=\"preserve\">544f5bccd803faba3e1b8fe9b951c653<\/code>\n  <\/paragraph>\n  <code_block xml:space=\"preserve\" language=\"=&quot;html&quot;\" name=\"\">`53c032ff9f79b70456eb43b5f0ea34cd`\n<\/code_block>\n<\/document>\n"
-        }
-    ]
-}
