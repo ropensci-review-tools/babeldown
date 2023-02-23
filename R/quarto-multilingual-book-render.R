@@ -5,7 +5,9 @@
 #'
 #' @export
 #'
-render_quarto_multilingual_book <- function(book_folder, language_codes) {
+render_quarto_multilingual_book <- function(book_folder,
+                                            main_language = "en",
+                                            language_codes) {
 
   # start from blank slate ----
   # TODO read actual destination in _quarto.yml config!
@@ -29,15 +31,21 @@ render_quarto_multilingual_book <- function(book_folder, language_codes) {
 
   purrr::walk(
     language_codes,
-    ~ purrr::walk(fs::dir_ls(book_output_folder, glob = "*.html"), add_link, language_code = .x)
+    ~ purrr::walk(
+      fs::dir_ls(book_output_folder, glob = "*.html"),
+      add_link,
+      main_language = main_language,
+      language_code = .x
+    )
   )
-# FIXME
+
   for (other_lang in language_codes) {
-    to_add <- language_codes[language_codes != other_lang]
+    to_add <- c(main_language, language_codes[language_codes != other_lang])
     purrr::walk(
       to_add,
       ~ purrr::walk(fs::dir_ls(file.path(book_output_folder, other_lang), glob = "*.html"),
         add_link,
+        main_language = main_language,
         language_code = .x)
     )
   }
@@ -100,34 +108,30 @@ use_lang_chapter <- function(chapters_list, language_code, book_name, directory)
     }
 
     chapters_list
-  }
+}
 
-add_link <- function(path, language_code = "en") {
+add_link <- function(path, main_language = main_language, language_code = "en") {
   html <- xml2::read_html(path)
-  sidebar_action_links <- xml2::xml_find_all(html, "//div[@class='action-links']")
 
-  if (language_code == "en") {
-    new_path <- sub("\\...\\.html", ".html", basename(path))
-    xml2::xml_add_child(
-      sidebar_action_links,
-      "a",
-      sprintf("Version in <b>%s</b>", toupper(language_code)),
-      class = "toc-action",
-      href = sprintf("/%s", new_path)
-    )
-  } else {
+  sidebar <- xml2::xml_find_first(html, "//div[@class='sidebar-menu-container']")
+  xml2::xml_add_sibling(sidebar, "div", class = "sidebar-menu-container", id = "languages-links", .where = "before")
+  languages_links <- xml2::xml_find_first(html, "//div[@id='languages-links']")
+
+  if (language_code == main_language) {
     new_path <- fs::path_ext_set(basename(path), sprintf(".%s.html", language_code))
-    xml2::xml_add_child(
-      sidebar_action_links,
-      "a",
-      sprintf("Version in <b>%s</b>", toupper(language_code)),
-      class = "toc-action",
-      href = sprintf("/%s/%s", language_code, new_path)
-    )
+    href <- sprintf("/%s", new_path)
+  } else {
+    new_path <- sub("\\...\\.html", ".html", basename(path))
+    href <- sprintf("/%s/%s", language_code, new_path)
   }
-  a <- xml2::xml_children(sidebar_action_links)[length(xml2::xml_children(sidebar_action_links))]
-  xml2::xml_add_parent(a, "p")
 
+  xml2::xml_add_child(
+    languages_links,
+    "a",
+    sprintf("Version in %s", toupper(language_code)),
+    class = "toc-action",
+    href = href
+  )
 
   xml2::write_html(html, path)
 }
