@@ -117,9 +117,27 @@ use_lang_chapter <- function(chapters_list, language_code, book_name, directory)
 add_link <- function(path, main_language = main_language, language_code = "en") {
   html <- xml2::read_html(path)
 
-  sidebar <- xml2::xml_find_first(html, "//div[@class='sidebar-menu-container']")
-  xml2::xml_add_sibling(sidebar, "div", class = "sidebar-menu-container", id = "languages-links", .where = "before")
-  languages_links <- xml2::xml_find_first(html, "//div[@id='languages-links']")
+  left_sidebar <- xml2::xml_find_first(html, "//div[@class='sidebar-menu-container']")
+
+  languages_links_div_exists <- (length(xml2::xml_find_first(html, "//div[@id='languages-links']")) > 0)
+
+  if (!languages_links_div_exists) {
+    xml2::xml_add_sibling(
+      left_sidebar,
+      "div",
+      class = "sidebar-menu-container",
+      id = "languages-links",
+      .where = "before"
+    )
+    xml2::xml_add_child(
+      xml2::xml_find_first(html, "//div[@id='languages-links']"),
+      "ul",
+      class = "list-unstyled mt-1",
+      id = "language-links-ul"
+    )
+  }
+
+  languages_links <- xml2::xml_find_first(html, "//ul[@id='language-links-ul']")
 
   if (language_code == main_language) {
     new_path <- fs::path_ext_set(basename(path), sprintf(".%s.html", language_code))
@@ -134,8 +152,16 @@ add_link <- function(path, main_language = main_language, language_code = "en") 
     "a",
     sprintf("Version in %s", toupper(language_code)),
     class = "toc-action",
-    href = href
+    href = href,
+    id = sprintf("language-link-%s", language_code)
   )
+
+  just_added_link <- xml2::xml_find_first(html, sprintf("//a[@id='language-link-%s']", language_code))
+  xml2::xml_add_parent(just_added_link, "li", id = sprintf("language-link-li-%s", language_code))
+
+  just_added_link_item <- xml2::xml_find_first(html, sprintf("//li[@id='language-link-li-%s']", language_code))
+  xml2::xml_add_child(just_added_link_item, "span", " ", .where = 0)
+  xml2::xml_add_child(just_added_link_item, "i", class = "bi bi-globe2", .where = 0)
 
   xml2::write_html(html, path)
 }
