@@ -17,7 +17,6 @@
 #' @importFrom rlang `%||%`
 #'
 #' @param book_folder Path where the book source is located
-#' @param output_folder Path of the folder where the book will be rendered
 #'
 #' @export
 #'

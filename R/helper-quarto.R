@@ -1,10 +1,10 @@
 quarto_multilingual_book <- function(dir,
-                                  subdir,
-                                  further_languages = c("es", "fr"),
-                                  main_language = "en") {
+                                     subdir,
+                                     further_languages = c("es", "fr"),
+                                     main_language = "en") {
 
   # Vanilla book from Quarto CLI ----
-  withr::local_dir(dir)
+  if (dir != getwd()) withr::local_dir(dir)
   quarto_bin <- quarto::quarto_path()
   sys::exec_wait(
     quarto_bin,

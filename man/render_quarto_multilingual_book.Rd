@@ -8,8 +8,6 @@ render_quarto_multilingual_book(book_folder)
 }
 \arguments{
 \item{book_folder}{Path where the book source is located}
-
-\item{output_folder}{Path of the folder where the book will be rendered}
 }
 \description{
 Render a Quarto multilingual book

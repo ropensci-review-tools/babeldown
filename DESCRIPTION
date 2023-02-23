@@ -24,11 +24,13 @@ Imports:
     quarto,
     readr,
     rlang,
+    servr,
     sys,
     tibble,
     tinkr (>= 0.1.0.9000),
     withr,
-    xml2
+    xml2,
+    yaml
 Suggests: 
     httptest2,
     testthat (>= 3.0.0)
