@@ -59,6 +59,16 @@ Use `deepl_usage()` (or the online interface) to get your usage data.
 
 ## Examples
 
+### Markdown string translation
+
+```{r}
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful**](https://ropensci.org)!",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+```
+
 ### File translation
 
 ```{r}

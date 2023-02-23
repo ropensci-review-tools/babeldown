@@ -60,12 +60,12 @@ deepl_translate <- function(path,
 
   # translate some YAML fields ----
 
-  if (!is.null(yaml_fields)) {
   yaml <- yaml::yaml.load(wool$yaml)
+  if (!is.null(yaml_fields) && !is.null(yaml)) {
 
   for (yaml_field in yaml_fields) {
     if (is_non_empty_string(yaml[[yaml_field]])) {
-      yaml[[yaml_field]] <- translate_markdown_string(
+      yaml[[yaml_field]] <- deepl_translate_markdown_string(
         yaml[[yaml_field]],
         glossary_name = glossary_name,
         source_lang = source_lang,
@@ -176,11 +176,28 @@ fakify_xml <- function(nodes_list) {
   xml2::read_xml(temp_file)
 }
 
-translate_markdown_string <- function(markdown_string,
-                                      glossary_name,
+#' Title
+#'
+#' @param markdown_string Markdown string to translate
+#' @inheritParams deepl_translate
+#'
+#' @return Translated Markdown string
+#' @export
+#'
+#' @examples
+#' \dontrun{
+#' deepl_translate_markdown_string(
+#'   "[So _incredibly_ **wonderful**](https://ropensci.org)!",
+#'   source_lang = "EN",
+#'   target_lang = "FR",
+#'   formality = "less"
+#' )
+#' }
+deepl_translate_markdown_string <- function(markdown_string,
+                                      glossary_name = NULL,
                                       source_lang,
                                       target_lang,
-                                      formality) {
+                                      formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
   file <- withr::local_tempfile()
   brio::write_lines(markdown_string, file)
   deepl_translate(
