@@ -146,3 +146,10 @@ readLines(out_path)
 #> [8] ""                                                            
 #> [9] ""
 ```
+
+## Details
+
+### Hugo shortcodes
+
+Hugo shortcodes are supported but not very flexibly: you need to use
+`param="` value with no space, and double quotes.

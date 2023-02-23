@@ -130,3 +130,9 @@ babeldown::deepl_translate(
 
 readLines(out_path)
 ```
+
+## Details
+
+### Hugo shortcodes
+
+Hugo shortcodes are supported but not very flexibly: you need to use `param="` value with no space, and double quotes.

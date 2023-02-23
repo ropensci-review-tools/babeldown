@@ -110,7 +110,8 @@ test_that("deepl_translate() can skip translation of YAML field (#16)", {
   })
 
 })
-test_that("deepl_translate() protects Hugo shortcodes", {
+
+test_that("deepl_translate() protects+translate Hugo shortcodes", {
   with_mock_dir("example-shortcode", {
     to_translate <- system.file("example-shortcode.md", package = "babeldown")
     out_path <- withr::local_tempfile()
@@ -126,6 +127,9 @@ test_that("deepl_translate() protects Hugo shortcodes", {
 
     lines <- readLines(out_path)
     expect_true(any(grepl('\\{\\{< figure src="blop', lines)))
+    expect_false(any(grepl("crying", lines)))
+    expect_false(any(grepl("bad", lines)))
+    expect_false(any(grepl("someone", lines)))
   })
 
 })

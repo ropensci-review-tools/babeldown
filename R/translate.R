@@ -63,6 +63,17 @@ deepl_translate <- function(path,
   if (shortcodes_present) {
     # FIXME add translation
     shortcodes <- markdown_lines[shortcodes_no]
+
+    ## translate shortcodes
+    shortcodes <- purrr::map_chr(
+      shortcodes,
+      translate_shortcode,
+      glossary_name = glossary_name,
+      source_lang = source_lang,
+      target_lang = target_lang,
+      formality = formality
+    )
+
     markdown_lines[shortcodes_no] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
     brio::write_lines(markdown_lines, temp_markdown_file)
     wool <- tinkr::yarn$new(path = temp_markdown_file)
@@ -248,4 +259,31 @@ deepl_translate_markdown_string <- function(markdown_string,
   lines <- gsub("\n*$", "", lines)
 
   lines
+}
+
+translate_shortcode <- function(shortcode,
+                                      glossary_name = NULL,
+                                      source_lang,
+                                      target_lang,
+                                      formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+  for (param in c("alt", "caption", "title")) {
+    m <- regexpr(sprintf(' %s=".*?"', param), shortcode)
+    param_value <- regmatches(shortcode, m)
+    if (length(param_value) > 0) {
+      translated_param_value <- deepl_translate_markdown_string(
+        param_value,
+        glossary_name = glossary_name,
+        source_lang = source_lang,
+        target_lang = target_lang,
+        formality = formality
+      )
+      shortcode <- sub(
+        param_value,
+        sprintf(" %s ", translated_param_value),
+        shortcode,
+        fixed=TRUE
+      )
+    }
+  }
+  shortcode
 }
