@@ -21,16 +21,16 @@ Imports:
     httr2,
     memoise,
     purrr,
+    quarto,
     readr,
     rlang,
+    sys,
     tibble,
     tinkr (>= 0.1.0.9000),
     withr,
     xml2
 Suggests: 
     httptest2,
-    quarto,
-    sys,
     testthat (>= 3.0.0)
 Remotes: 
     ropensci/tinkr

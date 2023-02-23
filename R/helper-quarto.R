@@ -1,4 +1,4 @@
-quarto_bilingual_book <- function(dir,
+quarto_multilingual_book <- function(dir,
                                   subdir,
                                   further_languages = c("es", "fr"),
                                   main_language = "en") {

@@ -3,4 +3,6 @@
 export(deepl_translate)
 export(deepl_upsert_glossary)
 export(deepl_usage)
+export(render_quarto_multilingual_book)
 importFrom(memoise,memoise)
+importFrom(rlang,`%||%`)

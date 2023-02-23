@@ -1,17 +1,51 @@
 #' Render a Quarto multilingual book
 #'
+#' @details babeldown expects a book folder with
+#' each qmd/Rmd present in as many languages as needed,
+#' with the same basename but,
+#' - once with only `.qmd` as extension for the main language,
+#' - once with `.es.qmd` (using the language code) for each other language.
+#'
+#' You also need to register the language in the configuration file:
+#'
+#' ```yaml
+#' babeldown:
+#'   mainlanguage: 'en'
+#'   languages: ['es', 'fr']
+#' ```
+#'
+#' @importFrom rlang `%||%`
+#'
 #' @param book_folder Path where the book source is located
 #' @param output_folder Path of the folder where the book will be rendered
 #'
 #' @export
 #'
-render_quarto_multilingual_book <- function(book_folder,
-                                            main_language = "en",
-                                            language_codes) {
+#' @examples
+#' directory <- withr::local_tempdir()
+#' babeldown:::quarto_multilingual_book(directory, subdir = "blop")
+#' render_quarto_multilingual_book(file.path(directory, "blop"))
+#' if (require("servr") && rlang::is_interactive()) {
+#'   servr::httw(file.path(directory, "blop", "_book"))
+#' }
+#'
+render_quarto_multilingual_book <- function(book_folder) {
+  # configuration ----
+  config <- file.path(book_folder, "_quarto.yml")
+  config_contents <- yaml::read_yaml(config)
 
-  # start from blank slate ----
-  # TODO read actual destination in _quarto.yml config!
-  book_output_folder <- file.path(book_folder, "_book")
+  output_dir <- config_contents[["project"]][["output-dir"]] %||% "_book"
+
+  language_codes <- config_contents[["babeldown"]][["languages"]]
+  if (is.null(language_codes)) {
+    cli::cli_abort("Can't find {.field babeldown/languages} in {.field _quarto.yml}")
+  }
+  main_language <- config_contents[["babeldown"]][["mainlanguage"]]
+  if (is.null(main_language)) {
+    cli::cli_abort("Can't find {.field babeldown/mainlanguage} in {.field _quarto.yml}")
+  }
+
+  book_output_folder <- file.path(book_folder, output_dir)
   if (fs::dir_exists(book_output_folder)) fs::dir_delete(book_output_folder)
 
   # render book ----
@@ -22,7 +56,8 @@ render_quarto_multilingual_book <- function(book_folder,
   purrr::walk(
     language_codes,
     render_quarto_lang_book,
-    book_folder = book_folder
+    book_folder = book_folder,
+    output_dir = output_dir
   )
 
   # Add the language switching link to the sidebar ----
@@ -53,7 +88,7 @@ render_quarto_multilingual_book <- function(book_folder,
 
 }
 
-render_quarto_lang_book <- function(language_code, book_folder) {
+render_quarto_lang_book <- function(language_code, book_folder, output_dir) {
 
   temporary_directory <- withr::local_tempdir()
   fs::dir_copy(book_folder, temporary_directory)
@@ -85,8 +120,8 @@ render_quarto_lang_book <- function(language_code, book_folder) {
 
   # Copy it to local not temporary _book/<language-code>
   fs::dir_copy(
-    file.path(temporary_directory, book_name, "_book"),
-    file.path(book_folder, "_book", language_code)
+    file.path(temporary_directory, book_name, output_dir),
+    file.path(book_folder, output_dir, language_code)
   )
 
 }
