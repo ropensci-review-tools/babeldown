@@ -17,8 +17,14 @@ translation of Markdown-based R content, through DeepL API.
 
 ## Installation and setup
 
-You can install the development version of babeldown from
-[GitHub](https://github.com/) with:
+You can install the development version of babeldown from [rOpenSci
+R-universe](https://ropensci.r-universe.dev/):
+
+``` r
+install.packages('babeldown', repos = c('https://ropensci.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+Or from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
