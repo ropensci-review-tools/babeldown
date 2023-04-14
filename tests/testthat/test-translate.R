@@ -134,5 +134,22 @@ test_that("deepl_translate() protects+translate Hugo shortcodes", {
 
 })
 
+test_that("deepl_translate() doesn't remove backslashes", {
+  with_mock_dir("example-encoding", {
+    to_translate <- system.file("example-encoding.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
 
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = NULL
+    )
+
+    lines <- readLines(out_path)
+    expect_no_match(lines, " U00B7")
+  })
+})
 

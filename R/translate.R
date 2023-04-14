@@ -204,7 +204,7 @@ fakify_xml <- function(nodes_list) {
       collapse = "\n"
     )
   }
-  lines <- sub("FILLHERE", fill, lines)
+  lines <- sub("FILLHERE", fill, lines, fixed = TRUE)
   writeLines(lines, temp_file)
   xml2::read_xml(temp_file)
 }
