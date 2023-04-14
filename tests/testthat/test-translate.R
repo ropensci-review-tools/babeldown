@@ -169,7 +169,7 @@ test_that("deepl_translate() doesn't break footnotes", {
     )
 
     lines <- readLines(out_path)
-    expect_no_match(lines, " U00B7")
+    expect_equal(lines, " U00B7")
   })
 })
 

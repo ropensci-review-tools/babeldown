@@ -1,7 +1,5 @@
-## Package
+something[^1] nice
+anything[^ouch] good
 
-Cool[^1]
-Other[^lala]
-
-[^1]: Not cool.
-[^lala]: Another.
+[^1]: a thing
+[^ouch]: another thing
