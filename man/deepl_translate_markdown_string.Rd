@@ -2,7 +2,7 @@
 % Please edit documentation in R/translate.R
 \name{deepl_translate_markdown_string}
 \alias{deepl_translate_markdown_string}
-\title{Title}
+\title{Translate Markdown string}
 \usage{
 deepl_translate_markdown_string(
   markdown_string,
@@ -33,7 +33,7 @@ deepl_translate_markdown_string(
 Translated Markdown string
 }
 \description{
-Title
+Translate Markdown string
 }
 \examples{
 \dontrun{

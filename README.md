@@ -13,7 +13,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 **babeldown is an experimental package!**
 
 The goal of babeldown is to support workflows that include automatic
-translation of Markdown-based R content, through DeepL API.
+translation of Markdown-based R content, through [DeepL
+API](https://www.deepl.com/en/docs-api/).
 
 ## Installation and setup
 

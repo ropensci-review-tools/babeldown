@@ -61,7 +61,6 @@ deepl_translate <- function(path,
   shortcodes_no <- which(grepl("\\{\\{<", markdown_lines))
   shortcodes_present <- length(shortcodes_no > 0)
   if (shortcodes_present) {
-    # FIXME add translation
     shortcodes <- markdown_lines[shortcodes_no]
 
     ## translate shortcodes
@@ -82,7 +81,6 @@ deepl_translate <- function(path,
   }
 
   # translate some YAML fields ----
-
   yaml <- yaml::yaml.load(wool$yaml)
   if (!is.null(yaml_fields) && !is.null(yaml)) {
 
@@ -211,7 +209,7 @@ fakify_xml <- function(nodes_list) {
   xml2::read_xml(temp_file)
 }
 
-#' Title
+#' Translate Markdown string
 #'
 #' @param markdown_string Markdown string to translate
 #' @inheritParams deepl_translate
