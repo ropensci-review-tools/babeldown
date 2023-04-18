@@ -2,6 +2,7 @@
 
 export(deepl_translate)
 export(deepl_translate_markdown_string)
+export(deepl_translate_quarto)
 export(deepl_upsert_glossary)
 export(deepl_usage)
 importFrom(memoise,memoise)
