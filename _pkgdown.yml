@@ -1,0 +1,13 @@
+url: https://docs.ropensci.org/babeldown
+
+reference:
+- title: Setup and admin
+  contents:
+  - '`deepl_upsert_glossary`'
+  - '`deepl_usage`'
+- title: Translation
+  contents:
+  - '`deepl_translate`'
+  - '`deepl_translate_markdown_string`'
+  - '`deepl_translate_quarto`'
+
