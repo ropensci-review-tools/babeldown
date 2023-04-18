@@ -102,6 +102,50 @@ readLines(out_path)
 #> [9] ""
 ```
 
+You can also indicate YAML fields to translate, using the `yaml_fields`
+argument. By default, `title` and `description` are translated.
+
+``` r
+english_lines <- c(
+  "---",
+  "title: Nice document",
+  "description: An example for sure",
+  "---",
+  "## A cool section", "",
+  "This is the first paragraph. `system.file()` is cool, right?", "",
+  "Another paragraph. I really enjoy developing R packages.", "",
+  "Do you enjoy debugging?"
+)
+file <- withr::local_tempfile()
+writeLines(english_lines, file)
+
+out_path <- withr::local_tempfile()
+
+babeldown::deepl_translate(
+  path = file,
+  out_path = out_path,
+  source_lang = "EN",
+  target_lang = "ES",
+  formality = "less"
+)
+
+readLines(out_path)
+#>  [1] "---"                                                         
+#>  [2] "title: Buen documento"                                       
+#>  [3] "description: Un ejemplo seguro"                              
+#>  [4] "---"                                                         
+#>  [5] ""                                                            
+#>  [6] "## Una sección genial"                                       
+#>  [7] ""                                                            
+#>  [8] "Este es el primer párrafo. `system.file()` es guay, ¿verdad?"
+#>  [9] ""                                                            
+#> [10] "Otro párrafo. Me gusta mucho desarrollar paquetes de R."     
+#> [11] ""                                                            
+#> [12] "¿Disfrutas depurando?"                                       
+#> [13] ""                                                            
+#> [14] ""
+```
+
 ### Glossary creation or update
 
 ``` r
@@ -143,15 +187,20 @@ babeldown::deepl_translate(
 )
 
 readLines(out_path)
-#> [1] "## Una sección genial"                                       
-#> [2] ""                                                            
-#> [3] "Este es el primer párrafo. `system.file()` es guay, ¿verdad?"
-#> [4] ""                                                            
-#> [5] "Otro párrafo. Me gusta mucho desarrollar paquetes de R."     
-#> [6] ""                                                            
-#> [7] "¿Disfrutas depurando?"                                       
-#> [8] ""                                                            
-#> [9] ""
+#>  [1] "---"                                                         
+#>  [2] "title: Buen documento"                                       
+#>  [3] "description: Un ejemplo seguro"                              
+#>  [4] "---"                                                         
+#>  [5] ""                                                            
+#>  [6] "## Una sección genial"                                       
+#>  [7] ""                                                            
+#>  [8] "Este es el primer párrafo. `system.file()` es guay, ¿verdad?"
+#>  [9] ""                                                            
+#> [10] "Otro párrafo. Me gusta mucho desarrollar paquetes de R."     
+#> [11] ""                                                            
+#> [12] "¿Disfrutas depurando?"                                       
+#> [13] ""                                                            
+#> [14] ""
 ```
 
 ## Details
@@ -159,4 +208,4 @@ readLines(out_path)
 ### Hugo shortcodes
 
 Hugo shortcodes are supported but not very flexibly: you need to use
-`param="` value with no space, and double quotes.
+`param="value"` with no space, and double quotes.

@@ -100,6 +100,38 @@ babeldown::deepl_translate(
 readLines(out_path)
 ```
 
+You can also indicate YAML fields to translate, using the `yaml_fields` argument.
+By default, `title` and `description` are translated.
+
+
+```{r}
+english_lines <- c(
+  "---",
+  "title: Nice document",
+  "description: An example for sure",
+  "---",
+  "## A cool section", "",
+  "This is the first paragraph. `system.file()` is cool, right?", "",
+  "Another paragraph. I really enjoy developing R packages.", "",
+  "Do you enjoy debugging?"
+)
+file <- withr::local_tempfile()
+writeLines(english_lines, file)
+
+out_path <- withr::local_tempfile()
+
+babeldown::deepl_translate(
+  path = file,
+  out_path = out_path,
+  source_lang = "EN",
+  target_lang = "ES",
+  formality = "less"
+)
+
+readLines(out_path)
+```
+
+
 ### Glossary creation or update
 
 ```{r}
@@ -141,4 +173,4 @@ readLines(out_path)
 
 ### Hugo shortcodes
 
-Hugo shortcodes are supported but not very flexibly: you need to use `param="` value with no space, and double quotes.
+Hugo shortcodes are supported but not very flexibly: you need to use `param="value"` with no space, and double quotes.
