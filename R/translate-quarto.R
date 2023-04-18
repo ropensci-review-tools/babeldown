@@ -14,6 +14,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' temp_dir <- withr::local_tempdir()
 #' babelquarto::quarto_multilingual_book(
 #'   parent_dir = temp_dir,
@@ -34,6 +35,7 @@
 #' # have a look at the translation
 #' readLines(file.path(book_path, "intro.es.qmd"))
 #' # servr::httw(file.path(book_path, "_book"))
+#' }
 deepl_translate_quarto <- function(book_path,
                                    chapter,
                                    force = FALSE,

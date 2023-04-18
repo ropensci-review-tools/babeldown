@@ -48,6 +48,7 @@ None
 This assumes the book is set up à la \href{https://github.com/ropensci-review-tools/babelquarto}{babelquarto}.
 }
 \examples{
+\dontrun{
 temp_dir <- withr::local_tempdir()
 babelquarto::quarto_multilingual_book(
   parent_dir = temp_dir,
@@ -68,4 +69,5 @@ deepl_translate_quarto(
 # have a look at the translation
 readLines(file.path(book_path, "intro.es.qmd"))
 # servr::httw(file.path(book_path, "_book"))
+}
 }
