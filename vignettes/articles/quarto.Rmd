@@ -5,7 +5,8 @@ title: "Multilingual Quarto books with babeldown and babelquarto"
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  eval = FALSE
 )
 ```
 
