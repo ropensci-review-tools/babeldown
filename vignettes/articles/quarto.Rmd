@@ -92,3 +92,5 @@ babeldown::deepl_translate_quarto(
 ``` 
 
 ## Translate multilingual book metadata
+
+TODO: add helper function?
