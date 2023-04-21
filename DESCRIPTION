@@ -32,10 +32,12 @@ Imports:
 Suggests: 
     fs,
     httptest2,
+    knitr,
     quarto,
+    rmarkdown,
     sys,
     testthat (>= 3.0.0)
-Remotes:  
+Remotes: 
     ropensci/tinkr,
     ropensci-review-tools/babelquarto
 Config/testthat/edition: 3

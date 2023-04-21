@@ -1,0 +1,93 @@
+---
+title: "Multilingual Quarto books with babeldown and babelquarto"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(babeldown)
+```
+
+With babelquarto, you can create and render a book in multiple languages, where each page will link to the version in other languages.
+An example is [rOpenSci dev guide's dev version](https://devdevguide.netlify.app/).
+
+You might first write a whole book in a main language, English for instance.
+Then you add chapters in another language, Spanish for instance, one by one.
+`intro.qmd` is now accompanied by `intro.es.qmd`.
+
+babelquarto helps you render the book thanks to registering languages in the configuration:
+
+```yml
+babelquarto:
+  mainlanguage: en
+  languages: es
+```
+
+babeldown helps you translate each book chapter.
+An ideal workflow is to first register languages in the configuration, 
+after which you translate chapters one by one with babeldown before having a human review the translation.
+
+## Create and render a multilingual book
+
+Here we create a book with Quarto and then register languages.
+
+You could also create a babelquarto-like Quarto book directly by running `babelquarto::quarto_multilingual_book()` but that's perhaps less realistic: we imagine it's more likely you're starting from an existing book in a default language.
+
+```{r}
+parent_dir <- withr::local_tempdir()
+book_dir <- "babelbook"
+quarto_bin <- quarto::quarto_path()
+withr::with_dir(parent_dir, {
+  sys::exec_wait(
+    quarto_bin,
+    args = c("create-project", book_dir, "--type", "book")
+  )
+})
+```
+
+Now let's edit the Quarto configuration.
+
+```{r}
+config_path <- file.path(parent_dir, book_dir, "_quarto.yml")
+config_lines <- brio::read_lines(config_path)
+config_lines <- c(
+  config_lines, 
+  "babelquarto:",
+  "    mainlanguage: 'en'",
+  "    languages: 'es'"
+)
+brio::write_lines(config_lines, config_path)
+```
+
+From here, we can already render our book in the two languages.
+But at this point, since there's no Spanish chapter, the Spanish version will fall back on English chapters and the only difference will be the language of, say, "table of contents".
+
+```{r}
+babelquarto::render_book(file.path(parent_dir, book_dir))
+# servr::httw(file.path(parent_dir, book_dir, "_book"))
+```
+
+## Translate multilingual book chapters
+
+Now let's translate one of the chapters, automatically, to Spanish.
+
+Ideally you'd pair this with the creation of a git branch! This way the translation can be reviewed in a PR.
+
+
+```{r}
+babeldown::deepl_translate_quarto(
+  file.path(parent_dir, book_dir),
+  "intro.qmd",
+  render = TRUE,
+  source_lang = "EN",
+  target_lang = "ES",
+  formality = "less"
+)
+``` 
+
+## Translate multilingual book metadata
