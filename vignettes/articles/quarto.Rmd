@@ -83,8 +83,8 @@ babelquarto::render_book(book_path)
 
 Now let's translate one of the chapters, automatically, to Spanish.
 
-Ideally you'd pair this with the creation of a git branch! 
-This way, the translation can be reviewed in a PR.
+Ideally you'd pair this with the creation of a [git branch](https://usethis.r-lib.org/articles/pr-functions.html)! 
+This way, the translation can be [reviewed in a PR](https://code-review.tidyverse.org/).
 
 ```{r, eval = FALSE}
 babeldown::deepl_translate_quarto(
