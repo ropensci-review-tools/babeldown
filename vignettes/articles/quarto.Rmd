@@ -86,7 +86,20 @@ Now let's translate one of the chapters, automatically, to Spanish.
 Ideally you'd pair this with the creation of a [git branch](https://usethis.r-lib.org/articles/pr-functions.html)! 
 This way, the translation can be [reviewed in a PR](https://code-review.tidyverse.org/).
 
+
+- Initiate the PR.
+
 ```{r, eval = FALSE}
+# In practice you'd probably be inside the book project!
+usethis::local_project(book_path)
+usethis::pr_init("index-es")
+```
+
+- Translate `intro.qmd`.
+
+```{r, eval = FALSE}
+Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
+Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 babeldown::deepl_translate_quarto(
   book_path,
   "intro.qmd",
@@ -97,3 +110,16 @@ babeldown::deepl_translate_quarto(
 )
 ``` 
 
+- Commit and push
+
+
+```{r}
+gert::git_add("index.es.qmd")
+gert::git_commit(message = "Translate index.qmd to Spanish")
+usethis::pr_push()
+```
+
+[Example PR](https://github.com/maelle/book-example/pull/1/files)
+
+Actually this might be a not optimal PR: you might prefer to first create a Spanish file `index.es.qmd` with the content of the English file on the main branch, 
+then to create the branch and translation, so that the diff might contain the difference between the Spanish and English version, not between the Spanish version and nothing.
