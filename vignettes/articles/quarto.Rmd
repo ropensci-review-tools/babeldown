@@ -6,7 +6,7 @@ title: "Multilingual Quarto books with babeldown and babelquarto"
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  eval = FALSE
+  eval = TRUE
 )
 ```
 
@@ -14,24 +14,20 @@ knitr::opts_chunk$set(
 library(babeldown)
 ```
 
-With babelquarto, you can create and render a book in multiple languages, where each page will link to the version in other languages.
+With babelquarto, you can create and render an HTML book in multiple languages, where each book page will link to the version in other languages.
 An example is [rOpenSci dev guide's dev version](https://devdevguide.netlify.app/).
 
 You might first write a whole book in a main language, English for instance.
-Then you add chapters in another language, Spanish for instance, one by one.
-`intro.qmd` is now accompanied by `intro.es.qmd`.
+Then you add chapters in another language, say Spanish, one by one.
+The file `intro.qmd` is now accompanied by `intro.es.qmd`.
 
-babelquarto helps you render the book thanks to registering languages in the configuration:
+**babelquarto** helps you **render the book** thanks to registering languages in the configuration.
 
-```yml
-babelquarto:
-  mainlanguage: en
-  languages: es
-```
+**babeldown** helps you **translate each book chapter**.
+An ideal workflow is to 
 
-babeldown helps you translate each book chapter.
-An ideal workflow is to first register languages in the configuration, 
-after which you translate chapters one by one with babeldown before having a human review the translation.
+1. first register languages in the configuration, 
+2. after which you translate chapters one by one with babeldown before having a human review the translation.
 
 ## Create and render a multilingual book
 
@@ -54,22 +50,32 @@ withr::with_dir(parent_dir, {
 Now let's edit the Quarto configuration.
 
 ```{r}
-config_path <- file.path(parent_dir, book_dir, "_quarto.yml")
-config_lines <- brio::read_lines(config_path)
-config_lines <- c(
-  config_lines, 
-  "babelquarto:",
-  "    mainlanguage: 'en'",
-  "    languages: 'es'"
-)
-brio::write_lines(config_lines, config_path)
+book_path <- file.path(parent_dir, book_dir)
+babelquarto::register_main_language(main_language = "en", book_path = book_path)
+babelquarto::register_further_languages(further_languages = "es", book_path = book_path)
 ```
+
+This is how the config file now looks like:
+
+````{r, results='asis'}
+c(
+  "```yaml",
+  readLines(file.path(book_path, "_quarto.yml")),
+  "```"
+) |> 
+  paste(collapse = "\n") |> 
+  cat()
+````
+
+You can either fill in or delete the fields `title-es`, `description-es`, `author-es`:
+babelquarto will fall back to the English fields.
+The author string in particular, might be the same in all languages, unless some of it is "team members" instead of names.
 
 From here, we can already render our book in the two languages.
 But at this point, since there's no Spanish chapter, the Spanish version will fall back on English chapters and the only difference will be the language of, say, "table of contents".
 
-```{r}
-babelquarto::render_book(file.path(parent_dir, book_dir))
+```{r, eval = FALSE}
+babelquarto::render_book(book_path)
 # servr::httw(file.path(parent_dir, book_dir, "_book"))
 ```
 
@@ -77,12 +83,12 @@ babelquarto::render_book(file.path(parent_dir, book_dir))
 
 Now let's translate one of the chapters, automatically, to Spanish.
 
-Ideally you'd pair this with the creation of a git branch! This way the translation can be reviewed in a PR.
+Ideally you'd pair this with the creation of a git branch! 
+This way, the translation can be reviewed in a PR.
 
-
-```{r}
+```{r, eval = FALSE}
 babeldown::deepl_translate_quarto(
-  file.path(parent_dir, book_dir),
+  book_path,
   "intro.qmd",
   render = TRUE,
   source_lang = "EN",
@@ -91,6 +97,3 @@ babeldown::deepl_translate_quarto(
 )
 ``` 
 
-## Translate multilingual book metadata
-
-TODO: add helper function?
