@@ -114,7 +114,7 @@ babeldown::deepl_translate_quarto(
 - Commit and push
 
 
-```{r}
+```{r, eval = FALSE}
 gert::git_add("index.es.qmd")
 gert::git_commit(message = "Translate index.qmd to Spanish")
 usethis::pr_push()
@@ -164,7 +164,7 @@ babeldown::deepl_translate_quarto(
 - Commit and push
 
 
-```{r}
+```{r, eval = FALSE}
 gert::git_add("index.es.qmd")
 gert::git_commit(message = "Translate index.qmd to Spanish")
 usethis::pr_push()
