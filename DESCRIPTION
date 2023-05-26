@@ -31,6 +31,7 @@ Imports:
     xml2,
     yaml
 Suggests: 
+    blogdown,
     fs,
     httptest2,
     quarto,
