@@ -36,6 +36,7 @@ Suggests:
     fs,
     httptest2,
     quarto,
+    rmarkdown,
     sys,
     testthat (>= 3.0.0)
 Remotes: 
