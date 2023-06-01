@@ -75,4 +75,18 @@ deepl_translate_hugo <- function(post_path = NULL,
     formality = formality
   )
 
+  # translate slug
+  if ("title" %in% yaml_fields) {
+    wool <- tinkr::yarn$new(target_post_path)
+    yaml <- yaml::yaml.load(wool$yaml)
+    if (!is.null(yaml[["title"]])) {
+      yaml[["slug"]] <- snakecase::to_snake_case(yaml[["title"]])
+    }
+    yaml_file <- withr::local_tempfile()
+    yaml::write_yaml(yaml, yaml_file)
+    wool$yaml <- c("---", brio::read_lines(yaml_file), "---")
+
+    wool$write(target_post_path)
+  }
+
 }

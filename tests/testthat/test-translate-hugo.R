@@ -19,4 +19,7 @@ test_that("deepl_translate_quarto() works", {
   expect_true(fs::file_exists(target_path))
   # have a look at the translation
   expect_match(readLines(target_path), "syntaxe Markdown spéciale", all = FALSE)
+
+  yaml <- rmarkdown::yaml_front_matter(target_path)
+  expect_match(yaml[["slug"]], "billet")
 })

@@ -25,6 +25,7 @@ Imports:
     readr,
     rlang,
     rstudioapi,
+    snakecase,
     tibble,
     tinkr (>= 0.1.0.9000),
     withr,
