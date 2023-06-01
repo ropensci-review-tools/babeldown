@@ -24,18 +24,22 @@ Imports:
     purrr,
     readr,
     rlang,
+    rstudioapi,
+    snakecase,
     tibble,
     tinkr (>= 0.1.0.9000),
     withr,
     xml2,
     yaml
 Suggests: 
+    blogdown,
     fs,
     httptest2,
     quarto,
+    rmarkdown,
     sys,
     testthat (>= 3.0.0)
-Remotes:  
+Remotes: 
     ropensci/tinkr,
     ropensci-review-tools/babelquarto
 Config/testthat/edition: 3
