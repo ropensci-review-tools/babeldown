@@ -35,6 +35,7 @@ Suggests:
     blogdown,
     fs,
     httptest2,
+    knitr,
     quarto,
     rmarkdown,
     sys,

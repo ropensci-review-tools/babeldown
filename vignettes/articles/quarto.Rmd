@@ -1,0 +1,173 @@
+---
+title: "Multilingual Quarto books with babeldown and babelquarto"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = TRUE
+)
+```
+
+```{r setup}
+library(babeldown)
+```
+
+With babelquarto, you can create and render an HTML book in multiple languages, where each book page will link to the version in other languages.
+An example is [rOpenSci dev guide's dev version](https://devdevguide.netlify.app/).
+
+You might first write a whole book in a main language, English for instance.
+Then you add chapters in another language, say Spanish, one by one.
+The file `intro.qmd` is now accompanied by `intro.es.qmd`.
+
+**babelquarto** helps you **render the book** thanks to registering languages in the configuration.
+
+**babeldown** helps you **translate each book chapter**.
+An ideal workflow is to 
+
+1. first register languages in the configuration, 
+2. after which you translate chapters one by one with babeldown before having a human review the translation.
+
+## Create and render a multilingual book
+
+Here we create a book with Quarto and then register languages.
+
+You could also create a babelquarto-like Quarto book directly by running `babelquarto::quarto_multilingual_book()` but that's perhaps less realistic: we imagine it's more likely you're starting from an existing book in a default language.
+
+```{r}
+parent_dir <- withr::local_tempdir()
+book_dir <- "babelbook"
+quarto_bin <- quarto::quarto_path()
+withr::with_dir(parent_dir, {
+  sys::exec_wait(
+    quarto_bin,
+    args = c("create-project", book_dir, "--type", "book")
+  )
+})
+```
+
+Now let's edit the Quarto configuration.
+
+```{r}
+book_path <- file.path(parent_dir, book_dir)
+babelquarto::register_main_language(main_language = "en", book_path = book_path)
+babelquarto::register_further_languages(further_languages = "es", book_path = book_path)
+```
+
+This is how the config file now looks like:
+
+````{r, results='asis'}
+c(
+  "```yaml",
+  readLines(file.path(book_path, "_quarto.yml")),
+  "```"
+) |> 
+  paste(collapse = "\n") |> 
+  cat()
+````
+
+You can either fill in or delete the fields `title-es`, `description-es`, `author-es`:
+babelquarto will fall back to the English fields.
+The author string in particular, might be the same in all languages, unless some of it is "team members" instead of names.
+
+From here, we can already render our book in the two languages.
+But at this point, since there's no Spanish chapter, the Spanish version will fall back on English chapters and the only difference will be the language of, say, "table of contents".
+
+```{r, eval = FALSE}
+babelquarto::render_book(book_path)
+# servr::httw(file.path(parent_dir, book_dir, "_book"))
+```
+
+## Translate multilingual book chapters
+
+Now let's translate one of the chapters, automatically, to Spanish.
+
+Ideally you'd pair this with the creation of a [git branch](https://usethis.r-lib.org/articles/pr-functions.html)! 
+This way, the translation can be [reviewed in a PR](https://code-review.tidyverse.org/).
+
+## Workflow 1
+
+- Initiate the PR.
+
+```{r, eval = FALSE}
+# In practice you'd probably be inside the book project!
+usethis::local_project(book_path)
+usethis::pr_init("index-es")
+```
+
+- Translate `intro.qmd`.
+
+```{r, eval = FALSE}
+Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
+Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
+babeldown::deepl_translate_quarto(
+  book_path,
+  "intro.qmd",
+  render = TRUE,
+  source_lang = "EN",
+  target_lang = "ES",
+  formality = "less"
+)
+``` 
+
+- Commit and push
+
+
+```{r, eval = FALSE}
+gert::git_add("index.es.qmd")
+gert::git_commit(message = "Translate index.qmd to Spanish")
+usethis::pr_push()
+```
+
+[Example PR](https://github.com/maelle/book-example/pull/1/files)
+
+Actually this might be a not optimal PR: you might prefer to first create a Spanish file `index.es.qmd` with the content of the English file on the main branch, 
+then to create the branch and translation, so that the diff might contain the difference between the Spanish and English version, not between the Spanish version and nothing.
+
+## Workflow 2
+
+- Duplicate the file on the main branch.
+
+```{r, eval = FALSE}
+withr::local_dir(book_path)
+fs::file_copy("index.qmd", "index.es.qmd")
+gert::git_add("index.es.qmd")
+gert::git_commit("Add placeholder index.es.qmd")
+gert::git_push()
+```
+
+- Initiate the PR.
+
+```{r, eval = FALSE}
+# In practice you'd probably be inside the book project!
+usethis::local_project(book_path)
+usethis::pr_init("index-es2")
+```
+
+- Translate `intro.qmd`.
+
+```{r, eval = FALSE}
+Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
+Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
+babeldown::deepl_translate_quarto(
+  book_path,
+  "index.qmd",
+  render = TRUE,
+  source_lang = "EN",
+  target_lang = "ES",
+  formality = "less",
+  force = TRUE
+)
+``` 
+
+- Commit and push
+
+
+```{r, eval = FALSE}
+gert::git_add("index.es.qmd")
+gert::git_commit(message = "Translate index.qmd to Spanish")
+usethis::pr_push()
+```
+
+[Example PR](https://github.com/maelle/book-example/pull/2/files)
