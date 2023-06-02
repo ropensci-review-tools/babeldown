@@ -14,7 +14,12 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 
 The goal of babeldown is to support workflows that include automatic
 translation of Markdown-based R content, through [DeepL
-API](https://www.deepl.com/en/docs-api/).
+API](https://www.deepl.com/en/docs-api/). With babeldown you can
+translate: Markdown strings
+(`babeldown::deepl_translate_markdown_string()`) and Markdown files
+(`babeldown::deepl_translate()`) in general; Quarto book chapters
+(`babeldown::deepl_translate_quarto()`) and Hugo blog posts
+(`babeldown::deepl_translate_hugo()`) in particular.
 
 ## Installation and setup
 
