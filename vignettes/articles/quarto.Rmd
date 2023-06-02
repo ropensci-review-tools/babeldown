@@ -35,7 +35,7 @@ Here we create a book with Quarto and then register languages.
 
 You could also create a babelquarto-like Quarto book directly by running `babelquarto::quarto_multilingual_book()` but that's perhaps less realistic: we imagine it's more likely you're starting from an existing book in a default language.
 
-```{r, eval=FALSE}
+```{r}
 parent_dir <- withr::local_tempdir()
 book_dir <- "babelbook"
 quarto_bin <- quarto::quarto_path()
@@ -49,7 +49,7 @@ withr::with_dir(parent_dir, {
 
 Now let's edit the Quarto configuration.
 
-```{r, eval=FALSE}
+```{r}
 book_path <- file.path(parent_dir, book_dir)
 babelquarto::register_main_language(main_language = "en", book_path = book_path)
 babelquarto::register_further_languages(further_languages = "es", book_path = book_path)
@@ -57,7 +57,7 @@ babelquarto::register_further_languages(further_languages = "es", book_path = bo
 
 This is how the config file now looks like:
 
-````{r, results='asis', eval=FALSE, echo=FALSE}
+````{r, results='asis', echo=FALSE}
 c(
   "```yaml",
   readLines(file.path(book_path, "_quarto.yml")),
@@ -66,40 +66,6 @@ c(
   paste(collapse = "\n") |> 
   cat()
 ````
-
-```yaml
-project:
-  type: book
-
-book:
-  title: "babelbook"
-  author: "Jane Doe"
-  date: "6/2/2023"
-  chapters:
-    - index.qmd
-    - intro.qmd
-    - summary.qmd
-    - references.qmd
-
-bibliography: references.bib
-
-format:
-  html:
-    theme: cosmo
-  pdf:
-    documentclass: scrreprt
-
-
-
-
-babelquarto:
-  mainlanguage: 'en'
-  languages: ['es']
-title-es: title in es
-description-es: description in es
-author-es: author in es
-lang: en
-```
 
 You can either fill in or delete the fields `title-es`, `description-es`, `author-es`:
 babelquarto will fall back to the English fields.
