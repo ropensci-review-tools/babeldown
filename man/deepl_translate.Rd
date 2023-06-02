@@ -41,3 +41,24 @@ None
 \description{
 Translate a Markdown file
 }
+\examples{
+\dontrun{
+english_lines <- c(
+  "## A cool section", "",
+  "This is the first paragraph. `system.file()` is cool, right?", "",
+  "Another paragraph. I really enjoy developing R packages.", "",
+  "Do you enjoy debugging?"
+)
+file <- withr::local_tempfile()
+writeLines(english_lines, file)
+out_path <- withr::local_tempfile()
+babeldown::deepl_translate(
+  path = file,
+  out_path = out_path,
+  source_lang = "EN",
+  target_lang = "ES",
+  formality = "less"
+)
+readLines(out_path)
+}
+}

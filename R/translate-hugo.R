@@ -2,12 +2,14 @@
 #'
 #' @description
 #' This assumes the Hugo website uses
-#' - leaf bundles;
+#' - leaf bundles (each post in a folder, `leaf-bundle/index.md`);
 #' - multilingualism so that a post in say Spanish lives in `leaf-bundle/index.es.md`.
 #'
 #'
 #' @param post_path Path to post. If RStudio IDE is installed, it will default to the
 #' currently open document.
+#' If you use Quarto or R Markdown for Hugo, translate the source file (qmd or Rmd)
+#' and then render it to Markdown.
 #' @param force Whether to overwrite the post in the target language.
 #' @inheritParams deepl_translate
 #'

@@ -124,6 +124,7 @@ usethis::pr_push()
 
 Actually this might be a not optimal PR: you might prefer to first create a Spanish file `index.es.qmd` with the content of the English file on the main branch, 
 then to create the branch and translation, so that the diff might contain the difference between the Spanish and English version, not between the Spanish version and nothing.
+For this, see the workflow 2.
 
 ## Workflow 2
 
@@ -171,3 +172,7 @@ usethis::pr_push()
 ```
 
 [Example PR](https://github.com/maelle/book-example/pull/2/files)
+
+## Conclusion
+
+This article explained how you can use babelquarto to set up and render a multilingual Quarto book, and babeldown to translate each individual chapter automatically with DeepL API (before review and edits by human translators!).

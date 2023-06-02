@@ -16,7 +16,9 @@ deepl_translate_hugo(
 }
 \arguments{
 \item{post_path}{Path to post. If RStudio IDE is installed, it will default to the
-currently open document.}
+currently open document.
+If you use Quarto or R Markdown for Hugo, translate the source file (qmd or Rmd)
+and then render it to Markdown.}
 
 \item{force}{Whether to overwrite the post in the target language.}
 
@@ -42,7 +44,7 @@ None
 \description{
 This assumes the Hugo website uses
 \itemize{
-\item leaf bundles;
+\item leaf bundles (each post in a folder, \code{leaf-bundle/index.md});
 \item multilingualism so that a post in say Spanish lives in \code{leaf-bundle/index.es.md}.
 }
 }

@@ -28,8 +28,8 @@ install.packages('babeldown', repos = c('https://ropensci.r-universe.dev', 'http
 Or from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("ropensci-review-tools/babeldown")
+# install.packages("pak")
+pak::pak("ropensci-review-tools/babeldown")
 ```
 
 ### API URL
@@ -44,7 +44,8 @@ Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
 ### API key
 
 Set your API key via the environment variable `DEEPL_API_KEY`. You could
-store it with the keyring package and retrieve it like so:
+store it with the [keyring](https://r-lib.github.io/keyring/index.html)
+package and retrieve it like so:
 
 ``` r
 Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
@@ -53,7 +54,8 @@ Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 ## Troubleshooting
 
 Getting an HTTP error 456 means you’ve used up all your API credits. Use
-`deepl_usage()` (or the online interface) to get your usage data.
+`deepl_usage()` (or the online DeepL API interface) to get your usage
+data.
 
 ## Examples
 
@@ -203,9 +205,24 @@ readLines(out_path)
 #> [14] ""
 ```
 
-## Details
+### Quarto book chapters
 
-### Hugo shortcodes
+You can use babeldown to translate chapters of a Quarto multilingual
+book set up with babelquarto. See the article describing [the
+workflow](https://docs.ropensci.org/babeldown/articles/quarto.html)
+
+### Hugo posts
+
+You can also use babeldown to translate blog posts of a Hugo
+multilingual website using leaf bundles (posts as `index.md` inside a
+content subfolder) and saving translations along each other (for
+instance Spanish post as `index.es.md` inside the same subfolder). See
+`babeldown::deepl_translate_hugo()`.
+
+If your Hugo website is set up differently, either open an issue or use
+`babeldown::deepl_translate()`.
+
+#### Hugo shortcodes
 
 Hugo shortcodes are supported but not very flexibly: you need to use
 `param="value"` with no space, and double quotes.
