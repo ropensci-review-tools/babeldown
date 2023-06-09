@@ -85,7 +85,7 @@ english_lines <- c(
   "Do you enjoy debugging?"
 )
 file <- withr::local_tempfile()
-writeLines(english_lines, file)
+brio::write_lines(english_lines, file)
 
 out_path <- withr::local_tempfile()
 
@@ -124,7 +124,7 @@ english_lines <- c(
   "Do you enjoy debugging?"
 )
 file <- withr::local_tempfile()
-writeLines(english_lines, file)
+brio::write_lines(english_lines, file)
 
 out_path <- withr::local_tempfile()
 
@@ -180,7 +180,7 @@ babeldown::deepl_upsert_glossary(
 
 ``` r
 file <- withr::local_tempfile()
-writeLines(english_lines, file)
+brio::write_lines(english_lines, file)
 
 out_path <- withr::local_tempfile()
 
