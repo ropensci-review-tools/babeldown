@@ -224,7 +224,7 @@ fakify_xml <- function(nodes_list) {
     )
   }
   lines <- sub("FILLHERE", fill, lines, fixed = TRUE)
-  writeLines(lines, temp_file)
+  brio::write_lines(lines, temp_file)
   xml2::read_xml(temp_file)
 }
 
