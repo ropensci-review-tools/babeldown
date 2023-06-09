@@ -21,7 +21,6 @@
 #' }
 deepl_upsert_glossary <- function(filename, glossary_name = NULL,
                                   source_lang, target_lang) {
-
   # args checking and input preparation ---------------
 
   format <- tools::file_ext(filename)
@@ -47,8 +46,7 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
   )
 
   # prepare entries
-  entries <- switch(
-    format,
+  entries <- switch(format,
     csv = readr::read_csv(filename, show_col_types = FALSE),
     tsv = readr::read_tsv(filename, show_col_types = FALSE)
   )
@@ -70,15 +68,14 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
   } else {
     readr::write_tsv(entries, temp_file)
     entries <- glue::glue_collapse(brio::read_lines(temp_file)[-1], sep = "\t")
-
   }
 
   # delete existing glossary if necessary ------
   if (!is.null(glossary_id)) {
-  deepl_request(
-    path = sprintf("glossaries/%s", glossary_id),
-    method = "DELETE"
-  )
+    deepl_request(
+      path = sprintf("glossaries/%s", glossary_id),
+      method = "DELETE"
+    )
     message(sprintf("Updating glossary %s", glossary_name))
   } else {
     message(sprintf("Creating glossary %s", glossary_name))
@@ -94,7 +91,6 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
     entries_format = format
   )
   return(invisible(glossary[["glossary_id"]]))
-
 }
 
 get_glossary_id <- function(glossary_name,
@@ -116,7 +112,6 @@ get_glossary_id <- function(glossary_name,
   }
 
   if (sum(glossary_names == glossary_name) > 1) {
-
     rlang::abort(
       sprintf(
         "There are %s glossaries with the name %s, please fix.",
@@ -128,5 +123,4 @@ get_glossary_id <- function(glossary_name,
 
   glossary <- glossaries[glossary_names == glossary_name]
   return(glossary[[1]][["glossary_id"]])
-
 }

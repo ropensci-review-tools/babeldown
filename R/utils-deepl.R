@@ -35,7 +35,6 @@ deepl_request <- function(path, method = "GET", ...) {
   if (!is.na(httr2::resp_content_type(resp))) {
     httr2::resp_body_json(resp)
   }
-
 }
 
 deepl_form_request <- function(path, ...) {

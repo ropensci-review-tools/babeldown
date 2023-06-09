@@ -45,7 +45,6 @@ deepl_translate_quarto <- function(book_path,
                                    source_lang = NULL,
                                    target_lang = NULL,
                                    formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
-
   target_lang_code <- examine_target_lang(target_lang)
 
   chapter_path <- file.path(book_path, chapter)
@@ -64,8 +63,7 @@ deepl_translate_quarto <- function(book_path,
     cli::cli_abort(c(
       "Can't create {target_chapter_path} as it already exists",
       i = "Delete it or use {.code force=TRUE}."
-      )
-      )
+    ))
   }
 
   deepl_translate(

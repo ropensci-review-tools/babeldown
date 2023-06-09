@@ -1,7 +1,6 @@
 quarto_bilingual_book <- function(further_languages = c("es", "fr"),
                                   dir,
                                   subdir) {
-
   withr::local_dir(dir)
   quarto_bin <- quarto::quarto_path()
   sys::exec_wait(
@@ -20,5 +19,4 @@ quarto_bilingual_book <- function(further_languages = c("es", "fr"),
     further_languages,
     ~ purrr::walk(qmds, create_new_lang_file, language = .x)
   )
-
 }

@@ -41,7 +41,6 @@ deepl_translate <- function(path,
                             source_lang = NULL,
                             target_lang = NULL,
                             formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
-
   # check arguments ----
 
   if (!file.exists(path)) {
@@ -102,21 +101,20 @@ deepl_translate <- function(path,
   # translate some YAML fields ----
   yaml <- yaml::yaml.load(wool$yaml)
   if (!is.null(yaml_fields) && !is.null(yaml)) {
-
-  for (yaml_field in yaml_fields) {
-    if (is_non_empty_string(yaml[[yaml_field]])) {
-      yaml[[yaml_field]] <- deepl_translate_markdown_string(
-        yaml[[yaml_field]],
-        glossary_name = glossary_name,
-        source_lang = source_lang,
-        target_lang = target_lang,
-        formality = formality
-      )
+    for (yaml_field in yaml_fields) {
+      if (is_non_empty_string(yaml[[yaml_field]])) {
+        yaml[[yaml_field]] <- deepl_translate_markdown_string(
+          yaml[[yaml_field]],
+          glossary_name = glossary_name,
+          source_lang = source_lang,
+          target_lang = target_lang,
+          formality = formality
+        )
+      }
     }
-  }
-  yaml_file <- withr::local_tempfile()
-  yaml::write_yaml(yaml, yaml_file)
-  wool$yaml <- c("---", brio::read_lines(yaml_file), "---")
+    yaml_file <- withr::local_tempfile()
+    yaml::write_yaml(yaml, yaml_file)
+    wool$yaml <- c("---", brio::read_lines(yaml_file), "---")
   }
 
   # translate content ----
@@ -126,7 +124,7 @@ deepl_translate <- function(path,
 
   children_pods <- split(
     xml2::xml_children(wool[["body"]]),
-    ceiling(seq_along(xml2::xml_children(wool[["body"]]))/split_size)
+    ceiling(seq_along(xml2::xml_children(wool[["body"]])) / split_size)
   )
 
   translated_children_pods <- purrr::map(
@@ -146,13 +144,12 @@ deepl_translate <- function(path,
   markdown_lines <- brio::read_lines(temp_markdown_file)
   if (shortcodes_present) {
     for (shortcode in shortcodes) {
-        digested_shortcode <- sprintf("`%s`", digest::digest(shortcode))
-        markdown_lines[markdown_lines == digested_shortcode] <- shortcode
+      digested_shortcode <- sprintf("`%s`", digest::digest(shortcode))
+      markdown_lines[markdown_lines == digested_shortcode] <- shortcode
     }
   }
 
   brio::write_lines(markdown_lines, out_path)
-
 }
 
 translate_part <- function(xml, glossary_id, source_lang, target_lang, formality) {
@@ -171,17 +168,16 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
 
   ## translate ----
   .translate <- function(text, glossary_id, source_lang, target_lang, formality) {
-
     body_params <- list(
-        text = text,
-        source_lang = source_lang,
-        target_lang = target_lang,
-        tag_handling = "xml",
-        non_splitting_tags = "text,softbreak",
-        formality = formality,
-        glossary_id = glossary_id,
-        ignore_tags = "code,code_block,curly"
-      ) |>
+      text = text,
+      source_lang = source_lang,
+      target_lang = target_lang,
+      tag_handling = "xml",
+      non_splitting_tags = "text,softbreak",
+      formality = formality,
+      glossary_id = glossary_id,
+      ignore_tags = "code,code_block,curly"
+    ) |>
       purrr::compact()
 
     doc <- deepl_form_request("translate", !!!body_params)
@@ -219,7 +215,7 @@ fakify_xml <- function(nodes_list) {
     paste(as.character(nodes_list), collapse = "\n")
   } else {
     paste(
-      purrr::map_chr(nodes_list, ~paste(as.character(xml2::xml_children(.x)), collapse = "\n")),
+      purrr::map_chr(nodes_list, ~ paste(as.character(xml2::xml_children(.x)), collapse = "\n")),
       collapse = "\n"
     )
   }
@@ -246,10 +242,10 @@ fakify_xml <- function(nodes_list) {
 #' )
 #' }
 deepl_translate_markdown_string <- function(markdown_string,
-                                      glossary_name = NULL,
-                                      source_lang,
-                                      target_lang,
-                                      formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+                                            glossary_name = NULL,
+                                            source_lang,
+                                            target_lang,
+                                            formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
   file <- withr::local_tempfile()
   brio::write_lines(markdown_string, file)
   deepl_translate(
@@ -265,7 +261,7 @@ deepl_translate_markdown_string <- function(markdown_string,
   lines <- brio::read_lines(file)
 
   if (length(lines) > 1) {
-   lines <- paste(lines, collapse = "\n")
+    lines <- paste(lines, collapse = "\n")
   }
 
   lines <- gsub("\n*$", "", lines)
@@ -274,10 +270,10 @@ deepl_translate_markdown_string <- function(markdown_string,
 }
 
 translate_shortcode <- function(shortcode,
-                                      glossary_name = NULL,
-                                      source_lang,
-                                      target_lang,
-                                      formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+                                glossary_name = NULL,
+                                source_lang,
+                                target_lang,
+                                formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
   for (param in c("alt", "caption", "title")) {
     m <- regexpr(sprintf(' %s=".*?"', param), shortcode)
     param_value <- regmatches(shortcode, m)
@@ -299,7 +295,7 @@ translate_shortcode <- function(shortcode,
         param_value,
         sprintf(" %s ", translated_param_value),
         shortcode,
-        fixed=TRUE
+        fixed = TRUE
       )
     }
   }

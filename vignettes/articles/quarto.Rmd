@@ -62,8 +62,8 @@ c(
   "```yaml",
   readLines(file.path(book_path, "_quarto.yml")),
   "```"
-) |> 
-  paste(collapse = "\n") |> 
+) |>
+  paste(collapse = "\n") |>
   cat()
 ````
 

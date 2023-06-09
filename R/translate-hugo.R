@@ -25,7 +25,7 @@
 #'   source_lang = "en",
 #'   target_lang = "fr",
 #'   formality = "less"
-#')
+#' )
 #' readLines(file.path(dir, "content", "post", "2016-12-30-hello-markdown", "index.fr.md"))
 #' }
 deepl_translate_hugo <- function(post_path = NULL,
@@ -35,7 +35,6 @@ deepl_translate_hugo <- function(post_path = NULL,
                                  source_lang = NULL,
                                  target_lang = NULL,
                                  formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
-
   if (is.null(post_path)) {
     if (!rstudioapi::isAvailable()) {
       cli::cli_abort("Must provide a {.code post_path}.")
@@ -63,8 +62,7 @@ deepl_translate_hugo <- function(post_path = NULL,
     cli::cli_abort(c(
       "Can't create {target_post_path} as it already exists",
       i = "Delete it or use {.code force=TRUE}."
-      )
-      )
+    ))
   }
 
   deepl_translate(
@@ -90,5 +88,4 @@ deepl_translate_hugo <- function(post_path = NULL,
 
     wool$write(target_post_path)
   }
-
 }

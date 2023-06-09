@@ -8,15 +8,15 @@ test_that("deepl_translate_quarto() works", {
   )
   book_path <- file.path(temp_dir, "blop")
   with_mock_dir("quarto-intro", {
-  deepl_translate_quarto(
-    book_path = book_path,
-    chapter = "intro.qmd",
-    force = TRUE, # the existing chapter is a placeholder
-    render = FALSE,
-    source_lang = "EN",
-    target_lang = "ES",
-    formality = "less"
-  )
+    deepl_translate_quarto(
+      book_path = book_path,
+      chapter = "intro.qmd",
+      force = TRUE, # the existing chapter is a placeholder
+      render = FALSE,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less"
+    )
   })
   # have a look at the translation
   expect_match(readLines(file.path(book_path, "intro.es.qmd")), "libro", all = FALSE)

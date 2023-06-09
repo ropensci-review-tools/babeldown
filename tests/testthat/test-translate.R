@@ -15,7 +15,6 @@ test_that("deepl_translate() works well", {
     translated_lines <- readLines(out_path)
     expect_true(any(grepl("paquete", translated_lines)))
   })
-
 })
 
 test_that("deepl_translate() errors well", {
@@ -65,7 +64,6 @@ test_that("deepl_translate() does not translate Markdown blocks (#16)", {
     link_not_translated <- any(grepl("very nice", readLines(out_path)))
     expect_true(link_not_translated)
   })
-
 })
 
 test_that("deepl_translate() can translate YAML field (#16)", {
@@ -87,7 +85,6 @@ test_that("deepl_translate() can translate YAML field (#16)", {
     expect_false(any(grepl("Check", lines)))
     expect_false(any(grepl("universe", lines)))
   })
-
 })
 test_that("deepl_translate() can skip translation of YAML field (#16)", {
   with_mock_dir("example-yaml", {
@@ -108,7 +105,6 @@ test_that("deepl_translate() can skip translation of YAML field (#16)", {
     expect_true(any(grepl("Check", lines)))
     expect_true(any(grepl("universe", lines)))
   })
-
 })
 
 test_that("deepl_translate() protects+translate Hugo shortcodes", {
@@ -131,7 +127,6 @@ test_that("deepl_translate() protects+translate Hugo shortcodes", {
     expect_false(any(grepl("bad", lines)))
     expect_false(any(grepl("someone", lines)))
   })
-
 })
 
 test_that("deepl_translate() doesn't remove backslashes", {
@@ -152,4 +147,3 @@ test_that("deepl_translate() doesn't remove backslashes", {
     expect_no_match(lines, " U00B7")
   })
 })
-
