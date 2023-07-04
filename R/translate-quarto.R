@@ -54,7 +54,7 @@ deepl_translate_quarto <- function(book_path,
     sprintf(
       "%s.%s.%s",
       fs::path_ext_remove(fs::path_file(chapter_path)),
-      tolower(target_lang_code),
+      strsplit(tolower(target_lang_code), "-")[[1]][1],
       chapter_path_ext
     )
   )
