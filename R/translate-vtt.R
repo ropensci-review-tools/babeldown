@@ -1,5 +1,9 @@
 #' Translate a VTT subtitles file
 #'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#'
 #' @inheritParams deepl_translate
 #' @inheritParams deepl_upsert_glossary
 #'

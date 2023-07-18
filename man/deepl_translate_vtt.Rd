@@ -36,7 +36,7 @@ deepl_translate_vtt(
 None
 }
 \description{
-Translate a VTT subtitles file
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}
 }
 \examples{
 \dontrun{
