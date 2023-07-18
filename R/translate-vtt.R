@@ -86,7 +86,7 @@ deepl_translate_vtt <- function(path,
      lines2[index] <- paste(
        paste(
          new_df[["text"]][new_df[["index"]] == index],
-         collapse = "//"
+         collapse = " "
        ),
        sprintf("(%s)", lines2[index])
      )
@@ -152,8 +152,8 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
 
 treat_fragment <- function(fragment) {
   text <- sub(
-    "<.*", "",
-    sub(".*'>", "", fragment)
+    "<\\/text>", "",
+    sub("ind='[0-9]*'>", "", fragment)
   )
   index <- sub(
     ".*='", "",
@@ -161,6 +161,6 @@ treat_fragment <- function(fragment) {
   )
   tibble::tibble(
     index = index,
-    text = text
+    text = trimws(text)
   )
 }
