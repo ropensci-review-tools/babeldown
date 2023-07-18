@@ -7,12 +7,22 @@
 #' @export
 #'
 #' @examples
+#' vtt <- system.file("pecan.vtt", package = "babeldown")
+#' temp_dir <- withr::local_tempdir()
+#' deepl_translate_vtt(
+#'   vtt,
+#'   out_path = file.path(temp_dir, "pecan.es.vtt"),
+#'   source_lang = "EN",
+#'   target_lang = "ES",
+#'   formality = "less"
+#' )
+#' head(readLines(file.path(temp_dir, "pecan.es.vtt")))
 deepl_translate_vtt <- function(path,
-                            out_path,
-                            glossary_name = NULL,
-                            source_lang = NULL,
-                            target_lang = NULL,
-                            formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+                                out_path,
+                                glossary_name = NULL,
+                                source_lang = NULL,
+                                target_lang = NULL,
+                                formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
 
   # check arguments ----
 
@@ -47,7 +57,7 @@ deepl_translate_vtt <- function(path,
   )
 
   # translate content ----
-browser()
+
   lines <- brio::read_lines(path)
   first_text_index <- which(lines == "0") + 2
   text_indices <- seq(from = first_text_index, by = 4, to = length(lines))
@@ -68,9 +78,21 @@ browser()
 
   doc <- deepl_form_request("translate", !!!body_params)
   new_text <- doc$translations[[1]]$text
+  new_fragments <- strsplit(new_text, "<text")[[1]] |>
+    purrr::map(treat_fragment)
+  new_df <- do.call(rbind, new_fragments)
+  lines2 <- lines
+   for (index in text_indices) {
+     lines2[index] <- paste(
+       paste(
+         new_df[["text"]][new_df[["index"]] == index],
+         collapse = "//"
+       ),
+       sprintf("(%s)", lines2[index])
+     )
+   }
 
-
-  brio::write_lines(lines, out_path)
+  brio::write_lines(lines2, out_path)
 
 }
 
@@ -126,4 +148,19 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
   purrr::walk(curlies, replace_curly)
 
   woolish[["body"]]
+}
+
+treat_fragment <- function(fragment) {
+  text <- sub(
+    "<.*", "",
+    sub(".*'>", "", fragment)
+  )
+  index <- sub(
+    ".*='", "",
+    sub("'>.*", "", fragment)
+  )
+  tibble::tibble(
+    index = index,
+    text = text
+  )
 }
