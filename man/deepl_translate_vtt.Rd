@@ -39,6 +39,7 @@ None
 Translate a VTT subtitles file
 }
 \examples{
+\dontrun{
 vtt <- system.file("pecan.vtt", package = "babeldown")
 temp_dir <- withr::local_tempdir()
 deepl_translate_vtt(
@@ -49,4 +50,5 @@ deepl_translate_vtt(
   formality = "less"
 )
 head(readLines(file.path(temp_dir, "pecan.es.vtt")))
+}
 }

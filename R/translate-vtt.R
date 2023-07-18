@@ -7,6 +7,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' vtt <- system.file("pecan.vtt", package = "babeldown")
 #' temp_dir <- withr::local_tempdir()
 #' deepl_translate_vtt(
@@ -17,6 +18,7 @@
 #'   formality = "less"
 #' )
 #' head(readLines(file.path(temp_dir, "pecan.es.vtt")))
+#' }
 deepl_translate_vtt <- function(path,
                                 out_path,
                                 glossary_name = NULL,
