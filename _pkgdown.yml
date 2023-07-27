@@ -10,4 +10,6 @@ reference:
   - '`deepl_translate`'
   - '`deepl_translate_markdown_string`'
   - '`deepl_translate_quarto`'
+  - '`deepl_translate_hugo`'
+  - '`deepl_translate_vtt`'
 
