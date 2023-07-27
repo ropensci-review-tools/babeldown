@@ -90,12 +90,9 @@ deepl_translate_vtt <- function(path,
   lines2 <- lines
    for (index in text_indices) {
      lines2[index] <- paste(
-       paste(
          new_df[["text"]][new_df[["index"]] == index],
          collapse = " "
-       ),
-       sprintf("(%s)", lines2[index])
-     )
+       )
    }
 
   brio::write_lines(lines2, out_path)
