@@ -1,0 +1,8 @@
+{
+    "translations": [
+        {
+            "detected_source_language": "EN",
+            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <heading level=\"2\">\n   <text xml:space=\"preserve\">Nombre del paquete y metadatos<\/text>\n  <\/heading>\n  <non_code_block xml:space=\"preserve\" language=\"block\" name=\"\" type=\"&quot;summaryblock&quot;\">Este es el resumen del capítulo.\n<\/non_code_block>\n<\/document>\n"
+        }
+    ]
+}
