@@ -166,6 +166,16 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
   }
   purrr::walk(curlies, replace_curly)
 
+  ## handle blocks that are not actual code ----
+  non_code_blocks <- xml2::xml_find_all(
+    woolish$body,
+    "//d1:code_block[@language='block']"
+  )
+  replace_non_code_block <- function(non_code_block) {
+    xml2::xml_name(non_code_block) <- "non_code_block"
+  }
+  purrr::walk(non_code_blocks, replace_non_code_block)
+
   ## translate ----
   .translate <- function(text, glossary_id, source_lang, target_lang, formality) {
     body_params <- list(
@@ -201,6 +211,13 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
     xml2::xml_name(curly) <- "text"
   }
   purrr::walk(curlies, replace_curly)
+
+  ## Make non code blocks code blocks again ----
+  non_code_blocks <- xml2::xml_find_all(woolish$body, "//d1:non_code_block")
+  replace_non_code_block <- function(non_code_block) {
+    xml2::xml_name(non_code_block) <- "code_block"
+  }
+  purrr::walk(non_code_blocks, replace_non_code_block)
 
   woolish[["body"]]
 }

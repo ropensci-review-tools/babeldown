@@ -129,6 +129,26 @@ test_that("deepl_translate() protects+translate Hugo shortcodes", {
   })
 })
 
+test_that("deepl_translate() protects+translate summary blocks", {
+  with_mock_dir("example-summaryblock", {
+    to_translate <- system.file("example-summary-blocks.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
+
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = NULL
+    )
+
+    lines <- readLines(out_path)
+    expect_true(any(grepl('resumen', lines)))
+  })
+})
+
+
 test_that("deepl_translate() doesn't remove backslashes", {
   with_mock_dir("example-encoding", {
     to_translate <- system.file("example-encoding.md", package = "babeldown")
