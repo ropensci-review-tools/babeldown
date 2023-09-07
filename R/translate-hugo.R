@@ -53,7 +53,7 @@ deepl_translate_hugo <- function(post_path = NULL,
     sprintf(
       "%s.%s.%s",
       fs::path_ext_remove(post_file),
-      tolower(target_lang_code),
+      strsplit(tolower(target_lang_code), "-")[[1]][1],
       post_ext
     )
   )
