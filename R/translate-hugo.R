@@ -52,7 +52,7 @@ deepl_translate_hugo <- function(post_path = NULL,
     post_dir,
     sprintf(
       "%s.%s.%s",
-      sub(".[a-zA-Z][a-zA-Z]$", "", fs::path_ext_remove(post_file)),
+      sub("\\.[a-zA-Z][a-zA-Z]$", "", fs::path_ext_remove(post_file)),
       strsplit(tolower(target_lang_code), "-")[[1]][1],
       post_ext
     )
