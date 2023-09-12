@@ -103,8 +103,9 @@ deepl_translate <- function(path,
   if (!is.null(yaml_fields) && !is.null(yaml)) {
     for (yaml_field in yaml_fields) {
       if (is_non_empty_string(yaml[[yaml_field]])) {
-        yaml[[yaml_field]] <- deepl_translate_markdown_string(
+        yaml[[yaml_field]] <- purrr::map_chr(
           yaml[[yaml_field]],
+          deepl_translate_markdown_string,
           glossary_name = glossary_name,
           source_lang = source_lang,
           target_lang = target_lang,
