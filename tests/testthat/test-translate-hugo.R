@@ -6,6 +6,12 @@ test_that("deepl_translate_quarto() works", {
   }
   blogdown::new_site(dir = temp_dir)
   post_path <- file.path(temp_dir, "content", "post", "2016-12-30-hello-markdown", "index.md")
+
+  new_lines <- c("", '{{< figure src="blop.png" alt="very nice"}}', "")
+  lines <- brio::read_lines(post_path)
+  lines <- append(lines, new_lines, after = 7)
+  brio::write_lines(lines, post_path)
+
   with_mock_dir("hugo-intro", {
     deepl_translate_hugo(
       post_path = post_path,
@@ -22,4 +28,7 @@ test_that("deepl_translate_quarto() works", {
 
   yaml <- rmarkdown::yaml_front_matter(target_path)
   expect_match(yaml[["slug"]], "billet")
+
+  # no broken shortcodes
+  expect_snapshot(readLines(target_path)[9])
 })

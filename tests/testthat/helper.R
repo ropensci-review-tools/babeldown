@@ -4,8 +4,8 @@ with_mock_dir <- function(path, ...) {
 }
 
 httptest2::set_redactor(function(x) {
-  x <- gsub_response(x, "https\\://api-free.deepl.com/v2/", "api/")
-  x <- gsub_response(x, "https\\://api.deepl.com/v2/", "api/")
+  x <- httptest2::gsub_response(x, "https\\://api-free.deepl.com/v2/", "api/")
+  x <- httptest2::gsub_response(x, "https\\://api.deepl.com/v2/", "api/")
 })
 
 if (!nzchar(Sys.getenv("DEEPL_API_KEY"))) {
