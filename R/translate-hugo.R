@@ -1,7 +1,13 @@
 #' Translate a Hugo post
 #'
 #' @description
+#' This translates the Markdown content including the
+#' "alt", "caption", "title" fields of shortcodes.
+#'
+#' If it translates the title, it will update the slug.
+#'
 #' This assumes the Hugo website uses
+#' - YAML metadata at the top of posts;
 #' - leaf bundles (each post in a folder, `leaf-bundle/index.md`);
 #' - multilingualism so that a post in say Spanish lives in `leaf-bundle/index.es.md`.
 #'
