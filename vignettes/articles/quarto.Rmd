@@ -51,8 +51,8 @@ Now let's edit the Quarto configuration.
 
 ```{r}
 book_path <- file.path(parent_dir, book_dir)
-babelquarto::register_main_language(main_language = "en", book_path = book_path)
-babelquarto::register_further_languages(further_languages = "es", book_path = book_path)
+babelquarto::register_main_language(main_language = "en", project_path = book_path)
+babelquarto::register_further_languages(further_languages = "es", project_path = book_path)
 ```
 
 This is how the config file now looks like:

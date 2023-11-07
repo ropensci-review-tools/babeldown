@@ -2,7 +2,7 @@ test_that("deepl_translate_quarto() works", {
   temp_dir <- withr::local_tempdir()
   babelquarto::quarto_multilingual_book(
     parent_dir = temp_dir,
-    book_dir = "blop",
+    project_dir = "blop",
     main_language = "en",
     further_languages = "es"
   )
