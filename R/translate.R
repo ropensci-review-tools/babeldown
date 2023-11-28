@@ -222,7 +222,6 @@ translate_part <- function(xml,
   }
   purrr::walk(non_code_blocks, replace_non_code_block)
 
-
   woolish[["body"]]
 }
 
