@@ -168,3 +168,22 @@ test_that("deepl_translate() doesn't remove backslashes", {
     expect_no_match(lines, " U00B7")
   })
 })
+
+test_that("deepl_translate() translate fig-alt", {
+  with_mock_dir("example-alt", {
+    to_translate <- system.file("example-alt.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
+
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = NULL
+    )
+
+    lines <- readLines(out_path)
+    expect_no_match(lines, "circle")
+  })
+})
