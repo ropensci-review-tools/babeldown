@@ -64,13 +64,33 @@ Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 Getting an HTTP error 456 means you've used up all your API credits.
 Use `deepl_usage()` (or the online DeepL API interface) to get your usage data.
 
+The DeepL API might mix up some punctuation, for instance:
+
+```{r}
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful**](https://ropensci.org)!",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful**!](https://ropensci.org)",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful!**](https://ropensci.org)",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+```
+
 ## Examples
 
 ### Markdown string translation
 
 ```{r}
 babeldown::deepl_translate_markdown_string(
-  "[So _incredibly_ **wonderful**](https://ropensci.org)!",
+  "[So _incredibly_ **wonderful**](https://ropensci.org)",
   source_lang = "EN",
   target_lang = "ES"
 )

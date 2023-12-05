@@ -62,9 +62,7 @@ Getting an HTTP error 456 means you’ve used up all your API credits. Use
 `deepl_usage()` (or the online DeepL API interface) to get your usage
 data.
 
-## Examples
-
-### Markdown string translation
+The DeepL API might mix up some punctuation, for instance:
 
 ``` r
 babeldown::deepl_translate_markdown_string(
@@ -73,6 +71,31 @@ babeldown::deepl_translate_markdown_string(
   target_lang = "ES"
 )
 #> [1] "[Así que *increíblemente* **maravilloso**](https://ropensci.org) ¡!"
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful**!](https://ropensci.org)",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+#> [1] "[Así que *increíblemente* **maravilloso** ¡!](https://ropensci.org)"
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful!**](https://ropensci.org)",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+#> [1] "[Así que *increíblemente* **¡maravilloso!**](https://ropensci.org)"
+```
+
+## Examples
+
+### Markdown string translation
+
+``` r
+babeldown::deepl_translate_markdown_string(
+  "[So _incredibly_ **wonderful**](https://ropensci.org)",
+  source_lang = "EN",
+  target_lang = "ES"
+)
+#> [1] "[Así que *increíblemente* **maravilloso**](https://ropensci.org)"
 ```
 
 ### File translation
