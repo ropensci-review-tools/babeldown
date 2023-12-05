@@ -56,6 +56,22 @@ package and retrieve it like so:
 Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
 ```
 
+### Line wrapping
+
+We recommend to start a new line in your Markdown document after each
+sentence or sentence part (after a comma for instance), for more
+informative Git diffs.
+
+We also recommend not starting a new line in the middle of something
+that’s between square brackets (in particular references and in-line
+footnote) as it would break the way babeldown tries to protect those.
+
+#### RStudio Visual Editor
+
+If you use RStudio Visual Editor, you can choose [“sentence” as
+line-wrapping
+option](https://rstudio.github.io/visual-markdown-editing/markdown.html#line-wrapping).
+
 ## Troubleshooting
 
 Getting an HTTP error 456 means you’ve used up all your API credits. Use
