@@ -298,10 +298,10 @@ deepl_translate_markdown_string <- function(markdown_string,
 }
 
 translate_shortcode <- function(shortcode,
-  glossary_name = NULL,
-  source_lang,
-  target_lang,
-  formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+                                glossary_name = NULL,
+                                source_lang,
+                                target_lang,
+                                formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
   for (param in c("alt", "caption", "title")) {
     m <- regexpr(sprintf(' %s=".*?"', param), shortcode)
     param_value <- regmatches(shortcode, m)
