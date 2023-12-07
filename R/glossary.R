@@ -124,3 +124,30 @@ get_glossary_id <- function(glossary_name,
   glossary <- glossaries[glossary_names == glossary_name]
   return(glossary[[1]][["glossary_id"]])
 }
+
+examine_glossary <- function(glossary_name,
+                             source_lang_code,
+                             target_lang_code,
+                             call = rlang::caller_env()) {
+  if (is.null(glossary_name)) {
+    return(NULL)
+  }
+
+  glossary_id <- get_glossary_id(
+    glossary_name,
+    source_lang = source_lang_code,
+    target_lang = target_lang_code
+  )
+  if (is.null(glossary_id)) {
+    cli::cli_abort(
+      c(
+        "Can't find {.field glossary_name} {.val {glossary_name}}.",
+        i = "Check the spelling, or create it with {.fun upsert_glossary}."
+      ),
+      call = call
+    )
+  }
+
+  glossary_id
+
+}

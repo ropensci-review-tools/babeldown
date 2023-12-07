@@ -50,23 +50,11 @@ deepl_translate <- function(path,
   source_lang_code <- examine_source_lang(source_lang)
   target_lang_code <- examine_target_lang(target_lang)
 
-  if (!is.null(glossary_name)) {
-    glossary_id <- get_glossary_id(
-      glossary_name,
-      source_lang = source_lang_code,
-      target_lang = target_lang_code
-    )
-    if (is.null(glossary_id)) {
-      cli::cli_abort(
-        c(
-          "Can't find {.field glossary_name} {.val {glossary_name}}.",
-          i = "Check the spelling, or create it with {.fun upsert_glossary}."
-        )
-      )
-    }
-  } else {
-    glossary_id <- NULL
-  }
+  glossary_id <- examine_glossary(
+    glossary_name = glossary_name,
+    source_lang_code = source_lang_code,
+    target_lang_code = target_lang_code
+  )
 
   formality <- rlang::arg_match(
     formality,
