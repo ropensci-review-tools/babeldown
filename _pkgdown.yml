@@ -13,4 +13,5 @@ reference:
   - '`deepl_translate_quarto`'
   - '`deepl_translate_hugo`'
   - '`deepl_translate_vtt`'
+  - '`deepl_update`'
 
