@@ -77,6 +77,6 @@ deepl_translate_quarto <- function(book_path,
   )
 
   if (render) {
-    babelquarto::render_book(book_path = book_path)
+    babelquarto::render_book(project_path = book_path)
   }
 }
