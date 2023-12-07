@@ -217,9 +217,13 @@ fakify_xml <- function(nodes_list) {
     readLines(system.file("template.xml", package = "babeldown")),
     collapse = "\n"
   )
+
   fill <- if (inherits(nodes_list, "xml_nodeset")) {
     paste(as.character(nodes_list), collapse = "\n")
-  } else {
+  } else if (inherits(nodes_list, "xml_node")) {
+    as.character(nodes_list)
+  } else
+    {
     paste(
       purrr::map_chr(nodes_list, ~ paste(as.character(xml2::xml_children(.x)), collapse = "\n")),
       collapse = "\n"
