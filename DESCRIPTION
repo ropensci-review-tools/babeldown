@@ -35,10 +35,12 @@ Imports:
 Suggests: 
     blogdown,
     fs,
+    gert,
     httptest2,
     knitr,
     quarto,
     rmarkdown,
+    rprojroot,
     sys,
     testthat (>= 3.0.0)
 Remotes: 
