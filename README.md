@@ -62,7 +62,7 @@ informative Git diffs.
 
 We also recommend not starting a new line in the middle of something
 that’s between square brackets (in particular references and in-line
-footnote) as it would break the way babeldown tries to protect those.
+footnotes) as it would break the way babeldown tries to protect those.
 
 #### RStudio Visual Editor
 
