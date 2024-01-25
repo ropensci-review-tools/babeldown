@@ -102,7 +102,10 @@ deepl_translate <- function(path,
       }
     }
     yaml_file <- withr::local_tempfile()
-    yaml::write_yaml(yaml, yaml_file)
+    yaml::write_yaml(
+      x = yaml, file = yaml_file,
+      handlers = list(logical = yaml::verbatim_logical)
+    )
     wool$yaml <- c("---", brio::read_lines(yaml_file), "---")
   }
 
