@@ -79,16 +79,16 @@ test_that("deepl_translate() can translate YAML field (#16)", {
       formality = "less",
       yaml_fields = c("title", "description", "slug", "tags")
     )
-
-    lines <- readLines(out_path)
-    expect_false(any(grepl("Wonderful", lines)))
-    expect_false(any(grepl("Check", lines)))
-    expect_false(any(grepl("universe", lines)))
-    expect_equal(lines[6], "- paquete")
-    expect_equal(lines[8], "draft: true")
-    expect_equal(lines[9], "cool: false")
-    expect_equal(lines[11], "- bla.html")
   })
+
+  lines <- readLines(out_path)
+  expect_false(any(grepl("Wonderful", lines)))
+  expect_false(any(grepl("Check", lines)))
+  expect_false(any(grepl("universe", lines)))
+  expect_equal(lines[6], "- paquete")
+  expect_equal(lines[8], "draft: true")
+  expect_equal(lines[9], "cool: false")
+  expect_equal(lines[11], "- bla.html")
 })
 test_that("deepl_translate() can skip translation of YAML field (#16)", {
   with_mock_dir("example-yaml", {
