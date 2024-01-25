@@ -168,3 +168,17 @@ test_that("deepl_translate() doesn't remove backslashes", {
     expect_no_match(lines, " U00B7")
   })
 })
+
+test_that("deepl_translate() handles square brackets stuff well", {
+  with_mock_dir("example-square", {
+    lines <- deepl_translate_markdown_string(
+      "Wickham says blah [-@wickham2015] and he says other things[^footnote1].
+      Blah Blah [see @knuth1984, pp. 33-35; also @wickham2015, chap. 1]",
+      source_lang = "en",
+      target_lang = "es"
+    )
+    expect_match(lines, "\\[\\^footnote1\\]")
+    expect_match(lines, "\\[-@wickham2015]")
+    expect_match(lines, "también")
+  })
+})

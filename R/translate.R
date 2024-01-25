@@ -150,20 +150,27 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
   ## protect content inside curly braces ----
   woolish$body <- tinkr::protect_curly(woolish$body)
   curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
-  replace_curly <- function(curly) {
-    xml2::xml_name(curly) <- "curly"
+  purrr::walk(curlies, protect_curly)
+
+  ## protect content inside square brackets ----
+  contain_square_brackets <- xml2::xml_find_all(
+    woolish$body,
+    '//*[contains(text(), "[") and contains(text(), "]")]'
+  )
+  # for some reason purrr::discard does not work
+  contain_square_brackets <- contain_square_brackets[!xml2::xml_name(contain_square_brackets) %in% c("code", "code_block")]
+
+  if (length(contain_square_brackets) > 0) {
+    purrr::walk(contain_square_brackets, protect_squaries)
   }
-  purrr::walk(curlies, replace_curly)
 
   ## handle blocks that are not actual code ----
   non_code_blocks <- xml2::xml_find_all(
     woolish$body,
     "//d1:code_block[@language='block']"
   )
-  replace_non_code_block <- function(non_code_block) {
-    xml2::xml_name(non_code_block) <- "non_code_block"
-  }
-  purrr::walk(non_code_blocks, replace_non_code_block)
+
+  purrr::walk(non_code_blocks, protect_non_code_block)
 
   ## translate ----
   .translate <- function(text, glossary_id, source_lang, target_lang, formality) {
@@ -175,7 +182,7 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
       non_splitting_tags = "text,softbreak",
       formality = formality,
       glossary_id = glossary_id,
-      ignore_tags = "code,code_block,curly"
+      ignore_tags = "code,code_block,curly,notranslate"
     ) |>
       purrr::compact()
 
@@ -196,17 +203,28 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
 
   ## Make curly tags text tags again ----
   curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
-  replace_curly <- function(curly) {
-    xml2::xml_name(curly) <- "text"
-  }
-  purrr::walk(curlies, replace_curly)
+  purrr::walk(curlies, unprotect_curly)
+
+  ## Unprotect notranslate ----
+  notranslates <- xml2::xml_find_all(woolish$body, ".//d1:notranslate")
+  purrr::walk(notranslates, unprotect_notranslate)
+  nested_text_nodes <- xml2::xml_find_all(woolish$body, ".//d1:squary/d1:text")
+  nested_parents <- xml2::xml_parent(nested_text_nodes)
+  purrr::walk(nested_parents, untangle_text)
+
+  ## Unprotect square brackets ----
+  squaries <- c(
+    xml2::xml_find_all(woolish$body, ".//d1:squary"),
+    xml2::xml_find_all(woolish$body, ".//squary")
+  )
+  purrr::walk(squaries, unprotect_squary)
+  nested_text_nodes <- xml2::xml_find_all(woolish$body, ".//d1:text/d1:text")
+  nested_parents <- xml2::xml_parent(nested_text_nodes)
+  purrr::walk(nested_parents, untangle_text)
 
   ## Make non code blocks code blocks again ----
   non_code_blocks <- xml2::xml_find_all(woolish$body, "//d1:non_code_block")
-  replace_non_code_block <- function(non_code_block) {
-    xml2::xml_name(non_code_block) <- "code_block"
-  }
-  purrr::walk(non_code_blocks, replace_non_code_block)
+  purrr::walk(non_code_blocks, unprotect_non_code_block)
 
   woolish[["body"]]
 }
@@ -310,4 +328,60 @@ translate_shortcode <- function(shortcode,
     }
   }
   shortcode
+}
+
+protect_curly <- function(curly) {
+  xml2::xml_name(curly) <- "curly"
+}
+unprotect_curly <- function(curly) {
+  xml2::xml_name(curly) <- "text"
+}
+
+protect_squaries <- function(node) {
+  text <- xml2::xml_text(node)
+  text <- gsub("\\[", "</text><squary>", text)
+  text <- gsub("\\]", "</squary><text>", text)
+  text <- sprintf("<text>%s</text>", text)
+  text <- gsub("<text><\\/text>", "", text)
+  text <- sprintf("<text>%s</text>", text)
+
+  at_things <- regmatches(text, gregexpr("@[[:alnum:]]*", text))[[1]]
+  footnote_things <- regmatches(text, gregexpr("\\^[[:alnum:]]*", text))[[1]]
+  text <- purrr::reduce(
+    c(at_things, sub("\\^", "\\\\^", footnote_things)),
+    \(text, x) gsub(x, sprintf("<notranslate>%s</notranslate>", x), text),
+    .init = text
+  )
+  text <- xml2::read_xml(text)
+  xml2::xml_ns_strip(text)
+  text_node <- xml2::xml_find_first(text, "//text")
+  xml2::xml_replace(node, .value = text_node)
+}
+
+unprotect_squary <- function(node) {
+  xml2::xml_name(node) <- "text"
+  xml2::xml_text(node) <- sprintf("[%s]", trimws(xml2::xml_text(node)))
+}
+
+unprotect_notranslate <- function(node) {
+  xml2::xml_name(node) <- "text"
+}
+
+protect_non_code_block <- function(non_code_block) {
+  xml2::xml_name(non_code_block) <- "non_code_block"
+}
+
+unprotect_non_code_block <- function(non_code_block) {
+  xml2::xml_name(non_code_block) <- "code_block"
+}
+
+untangle_text <- function(node) {
+  text <- trimws(xml2::xml_text(node))
+  xml2::xml_remove(xml2::xml_children(node))
+  xml2::xml_replace(
+    node,
+    xml2::xml_name(node),
+    asis = 'true',
+    gsub("\\\n", "", text)
+  )
 }
