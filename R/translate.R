@@ -122,7 +122,8 @@ deepl_translate <- function(path,
     glossary_id = glossary_id,
     source_lang = source_lang,
     target_lang = target_lang,
-    formality = formality
+    formality = formality,
+    glossary_name = glossary_name
   )
 
   # write back, unprotect Hugo shortcodes ----
@@ -141,7 +142,12 @@ deepl_translate <- function(path,
   brio::write_lines(markdown_lines, out_path)
 }
 
-translate_part <- function(xml, glossary_id, source_lang, target_lang, formality) {
+translate_part <- function(xml,
+                           glossary_id,
+                           source_lang,
+                           target_lang,
+                           formality,
+                           glossary_name) {
   temp_file <- withr::local_tempfile()
   file.create(temp_file)
   woolish <- tinkr::yarn$new(path = temp_file)
@@ -203,6 +209,15 @@ translate_part <- function(xml, glossary_id, source_lang, target_lang, formality
 
   ## Make curly tags text tags again ----
   curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
+
+  ### special case for fig-alt
+  purrr::walk(
+    curlies, translate_alt_curly,
+    glossary_name = glossary_name,
+    source_lang = source_lang,
+    target_lang = target_lang,
+    formality = formality
+  )
   purrr::walk(curlies, unprotect_curly)
 
   ## Unprotect notranslate ----
@@ -328,6 +343,23 @@ translate_shortcode <- function(shortcode,
     }
   }
   shortcode
+}
+
+translate_alt_curly <- function(curly, glossary_name, source_lang, target_lang, formality) {
+  has_alt <- !is.na(xml2::xml_attr(curly, "alt"))
+  if (has_alt) {
+    translated_alt <- deepl_translate_markdown_string(
+      xml2::xml_attr(curly, "alt"),
+      glossary_name = glossary_name,
+      source_lang = source_lang,
+      target_lang = target_lang,
+      formality = formality
+    )
+    xml2::xml_text(curly) <- sprintf(
+      '{fig-alt="%s"}',
+      translated_alt
+    )
+  }
 }
 
 protect_curly <- function(curly) {
