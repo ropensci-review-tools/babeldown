@@ -360,6 +360,8 @@ translate_alt_curly <- function(curly, glossary_name, source_lang, target_lang, 
       translated_alt
     )
   }
+}
+
 protect_curly <- function(curly) {
   xml2::xml_name(curly) <- "curly"
 }
