@@ -209,10 +209,7 @@ translate_part <- function(xml,
 
   ## Make curly tags text tags again ----
   curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
-  replace_curly <- function(curly) {
-    xml2::xml_name(curly) <- "text"
-  }
-  purrr::walk(curlies, replace_curly)
+
   ### special case for fig-alt
   purrr::walk(
     curlies, translate_alt_curly,
