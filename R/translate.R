@@ -87,7 +87,7 @@ deepl_translate <- function(path,
   }
 
   # translate some YAML fields ----
-  yaml <- yaml::yaml.load(wool$yaml)
+  yaml <- yaml::yaml.load(wool$yaml, handlers = list(seq = function(x) x))
   if (!is.null(yaml_fields) && !is.null(yaml)) {
     for (yaml_field in yaml_fields) {
       if (is_non_empty_string(yaml[[yaml_field]])) {
