@@ -19,6 +19,8 @@ translate: Markdown strings
 (`babeldown::deepl_translate_quarto()`) and Hugo blog posts
 (`babeldown::deepl_translate_hugo()`) in particular.
 
+With babeldown you can also _update_ translations, see `babeldown::deepl_update()`.
+
 ## Installation and setup
 
 You can install the development version of babeldown from [rOpenSci

@@ -23,6 +23,8 @@ knitr::opts_chunk$set(
 The goal of babeldown is to support workflows that include automatic translation of Markdown-based R content, through [DeepL API](https://www.deepl.com/en/docs-api/).
 With babeldown you can translate: Markdown strings (`babeldown::deepl_translate_markdown_string()`) and Markdown files (`babeldown::deepl_translate()`) in general; Quarto book chapters (`babeldown::deepl_translate_quarto()`) and Hugo blog posts (`babeldown::deepl_translate_hugo()`) in particular.
 
+With babeldown you can also _update_ translations, see `babeldown::deepl_update()`.
+
 ## Installation and setup
 
 You can install the development version of babeldown from [rOpenSci R-universe](https://ropensci.r-universe.dev/):
