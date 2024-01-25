@@ -251,7 +251,7 @@ readLines(out_path)
 
 You can use babeldown to translate chapters of a Quarto multilingual
 book set up with babelquarto. See the article describing [the
-workflow](https://docs.ropensci.org/babeldown/articles/quarto.html)
+workflow](https://docs.ropensci.org/babeldown/articles/quarto.html).
 
 ### Hugo posts
 
