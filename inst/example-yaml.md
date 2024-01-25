@@ -5,6 +5,10 @@ slug: runiverse-discovering-es
 tags:
 - package
 - software
+draft: true
+cool: false
+aliases:
+- bla.html
 ---
 
 ## Package name and metadata

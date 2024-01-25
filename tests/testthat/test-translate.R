@@ -85,6 +85,9 @@ test_that("deepl_translate() can translate YAML field (#16)", {
     expect_false(any(grepl("Check", lines)))
     expect_false(any(grepl("universe", lines)))
     expect_equal(lines[6], "- paquete")
+    expect_equal(lines[8], "draft: true")
+    expect_equal(lines[9], "cool: false")
+    expect_equal(lines[11], "- bla.html")
   })
 })
 test_that("deepl_translate() can skip translation of YAML field (#16)", {
@@ -185,9 +188,9 @@ test_that("deepl_translate() translate fig-alt", {
 
     lines <- readLines(out_path)
     expect_no_match(lines, "circle")
-  })    
+  })
 })
-  
+
 test_that("deepl_translate() handles square brackets stuff well", {
   with_mock_dir("example-square", {
     lines <- deepl_translate_markdown_string(
