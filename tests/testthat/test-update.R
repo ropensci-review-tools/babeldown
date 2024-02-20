@@ -1,7 +1,7 @@
 test_that("deepl_update() works", {
 
   dir <- withr::local_tempdir()
-  print(dir)
+
   file <- file.path(dir, "bla.md")
   fs::file_create(file)
   out_file <- file.path(dir, "bla.es.md")

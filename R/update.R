@@ -53,10 +53,10 @@ deepl_update <- function(path,
 
   translated_lines <- brio::read_lines(out_path)
 
-  repo <- fs::path_expand(rprojroot::find_root(rprojroot::is_git_root, path))
-print(sprintf("repo: %s", repo))
-  path <- fs::path_rel(path, start = repo)
-  out_path <- fs::path_rel(out_path, start = repo)
+  repo <- fs::path_tidy(rprojroot::find_root(rprojroot::is_git_root, path))
+
+  path <- fs::path_rel(fs::path_tidy(path), start = repo)
+  out_path <- fs::path_rel(fs::path_tidy(out_path), start = repo)
 
   # determine whether out_path is out of date
   # TODO or not, make it work for over 100 commits?
