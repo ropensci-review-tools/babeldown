@@ -53,7 +53,7 @@ deepl_update <- function(path,
 
   translated_lines <- brio::read_lines(out_path)
 
-  repo <- rprojroot::find_root(rprojroot::is_git_root, path)
+  repo <- fs::path_expand(rprojroot::find_root(rprojroot::is_git_root, path))
 print(sprintf("repo: %s", repo))
   path <- fs::path_rel(path, start = repo)
   out_path <- fs::path_rel(out_path, start = repo)
