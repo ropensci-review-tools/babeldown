@@ -55,7 +55,6 @@ deepl_update <- function(path,
 
   repo <- fs::path_tidy(rprojroot::find_root(rprojroot::is_git_root, path))
 
-  print(sprintf("repo: %s, path: %s", repo, fs::path_expand(fs::path_tidy(path))))
   path <- fs::path_rel(fs::path_expand(fs::path_tidy(path)), start = repo)
   out_path <- fs::path_rel(fs::path_expand(fs::path_tidy(out_path)), start = repo)
 
