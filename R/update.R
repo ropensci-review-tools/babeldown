@@ -13,8 +13,6 @@
 #'
 #'
 #' @inheritParams deepl_translate
-#' @param root_dir Root of the Git repository. Use it only if you provide `path`
-#' and `out_path` as absolute paths.
 #'
 #' @return None
 #' @export
@@ -26,8 +24,7 @@ deepl_update <- function(path,
                          glossary_name = NULL,
                          source_lang = NULL,
                          target_lang = NULL,
-                         formality = c("default", "more", "less", "prefer_more", "prefer_less"),
-                         root_dir = NULL) {
+                         formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
 
   if (!fs::file_exists(path)) {
     cli::cli_abort("Can't find {.var path} {path}.")
@@ -56,13 +53,10 @@ deepl_update <- function(path,
 
   translated_lines <- brio::read_lines(out_path)
 
-  repo <- root_dir %||%
-    rprojroot::find_root(rprojroot::is_git_root, path)
+  repo <- rprojroot::find_root(rprojroot::is_git_root, path)
 
-  if (!is.null(root_dir)) {
-    path <- fs::path_rel(path, start = root_dir)
-    out_path <- fs::path_rel(out_path, start = root_dir)
-  }
+  path <- fs::path_rel(path, start = repo)
+  out_path <- fs::path_rel(out_path, start = repo)
 
   # determine whether out_path is out of date
   # TODO or not, make it work for over 100 commits?

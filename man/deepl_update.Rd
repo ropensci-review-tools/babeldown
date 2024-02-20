@@ -11,8 +11,7 @@ deepl_update(
   glossary_name = NULL,
   source_lang = NULL,
   target_lang = NULL,
-  formality = c("default", "more", "less", "prefer_more", "prefer_less"),
-  root_dir = NULL
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
 )
 }
 \arguments{
@@ -35,9 +34,6 @@ deepl_update(
 \item "prefer_more" -- for a more formal language if available, otherwise fallback to default formality
 \item "prefer_less" -- for a more informal language if available, otherwise fallback to default formality
 }}
-
-\item{root_dir}{Root of the Git repository. Use it only if you provide \code{path}
-and \code{out_path} as absolute paths.}
 }
 \value{
 None
