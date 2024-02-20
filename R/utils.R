@@ -3,5 +3,5 @@ is_non_empty_string <- function(x) {
 }
 
 is_path_in <- function(path, paths) {
-  normalizePath(path, winslash = '/') %in% paths
+  normalizePath(path, winslash = '/') %in% normalizePath(paths, winslash = '/')
 }
