@@ -57,6 +57,7 @@ deepl_update <- function(path,
 
   path <- fs::path_rel(fs::path_tidy(path), start = repo)
   out_path <- fs::path_rel(fs::path_tidy(out_path), start = repo)
+  print(sprintf("repo: %s, path: %s", repo, path))
 
   # determine whether out_path is out of date
   # TODO or not, make it work for over 100 commits?
