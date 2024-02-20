@@ -37,6 +37,8 @@ test_that("deepl_update() works", {
 
   original_translation <- brio::read_lines(out_file)
 
+  expect_snapshot(gert::git_ls(repo = dir)[,1])
+
   with_mock_dir("git2", {
     deepl_update(
       path = file,
