@@ -48,6 +48,11 @@ test_that("deepl_update() works", {
     )
   })
 
+  expect_snapshot({
+    fs::dir_tree(dir)
+    gert::git_diff(gert::git_log(repo = dir)[1, 1], repo = dir)
+  })
+
   new_translation <- brio::read_lines(out_file)
   expect_true(
     !all(new_translation %in% original_translation)
