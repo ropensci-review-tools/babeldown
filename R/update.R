@@ -68,7 +68,7 @@ deepl_update <- function(path,
     latest_source_commit_index <- latest_source_commit_index + 1
     diff_info <- gert::git_diff(log[["commit"]][[latest_source_commit_index]], repo = repo)
     # TODO or not, won't work if it was renamed in the important timeframe
-    found_source <- (path %in% diff_info[["new"]])
+    found_source <- is_path_in(path, diff_info[["new"]])
   }
 
   found_target <- FALSE
@@ -77,7 +77,7 @@ deepl_update <- function(path,
     latest_target_commit_index <- latest_target_commit_index + 1
     diff_info <- gert::git_diff(log[["commit"]][[latest_target_commit_index]], repo = repo)
     # TODO or not, won't work if it was renamed in the important timeframe
-    found_target <- (out_path %in% diff_info[["new"]])
+    found_target <- is_path_in(out_path, diff_info[["new"]])
   }
 
   if (latest_source_commit_index >= latest_target_commit_index) {
