@@ -7,5 +7,5 @@ is_path_in <- function(path, paths) {
 }
 
 really_normalize_path <- function(path) {
-  tolower(normalizePath(path, winslash = '/'))
+  tolower(normalizePath(path, winslash = '/', mustWork = FALSE))
 }
