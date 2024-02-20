@@ -1,6 +1,11 @@
 test_that("deepl_update() works", {
 
-  dir <- withr::local_tempdir()
+  tmpdir <- if (isTRUE(as.logical(Sys.getenv("CI", "false")))) {
+    ".."
+  } else {
+    tempdir()
+  }
+  dir <- withr::local_tempdir(tmpdir = tmpdir)
 
   file <- file.path(dir, "bla.md")
   fs::file_create(file)
