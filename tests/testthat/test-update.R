@@ -43,7 +43,8 @@ test_that("deepl_update() works", {
       source_lang = "EN",
       target_lang = "ES",
       formality = "less",
-      yaml_fields = NULL
+      yaml_fields = NULL,
+      root_dir = dir
     )
   })
 

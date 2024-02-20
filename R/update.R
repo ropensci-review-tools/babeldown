@@ -13,6 +13,8 @@
 #'
 #'
 #' @inheritParams deepl_translate
+#' @param root_dir Root of the Git repository. Use it only if you provide `path`
+#' and `out_path` as absolute paths.
 #'
 #' @return None
 #' @export
@@ -24,8 +26,16 @@ deepl_update <- function(path,
                          glossary_name = NULL,
                          source_lang = NULL,
                          target_lang = NULL,
-                         formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+                         formality = c("default", "more", "less", "prefer_more", "prefer_less"),
+                         root_dir = NULL) {
 
+  if (!fs::file_exists(path)) {
+    cli::cli_abort("Can't find {.var path} {path}.")
+  }
+
+  if (!fs::file_exists(out_path)) {
+    cli::cli_abort("Can't find {.var out_path} {out_path}.")
+  }
 
   rlang::check_installed("rprojroot")
   rlang::check_installed("gert")
@@ -46,7 +56,13 @@ deepl_update <- function(path,
 
   translated_lines <- brio::read_lines(out_path)
 
-  repo <- rprojroot::find_root(rprojroot::is_git_root, path)
+  repo <- root_dir %||%
+    rprojroot::find_root(rprojroot::is_git_root, path)
+
+  if (!is.null(root_dir)) {
+    path <- fs::path_rel(path, start = root_dir)
+    out_path <- fs::path_rel(out_path, start = root_dir)
+  }
 
   # determine whether out_path is out of date
   # TODO or not, make it work for over 100 commits?
@@ -58,7 +74,7 @@ deepl_update <- function(path,
     latest_source_commit_index <- latest_source_commit_index + 1
     diff_info <- gert::git_diff(log[["commit"]][[latest_source_commit_index]], repo = repo)
     # TODO or not, won't work if it was renamed in the important timeframe
-    found_source <- (fs::path_file(path) %in% diff_info[["new"]])
+    found_source <- (path %in% diff_info[["new"]])
   }
 
   found_target <- FALSE
@@ -67,7 +83,7 @@ deepl_update <- function(path,
     latest_target_commit_index <- latest_target_commit_index + 1
     diff_info <- gert::git_diff(log[["commit"]][[latest_target_commit_index]], repo = repo)
     # TODO or not, won't work if it was renamed in the important timeframe
-    found_target <- (fs::path_file(out_path) %in% diff_info[["new"]])
+    found_target <- (out_path %in% diff_info[["new"]])
   }
 
   if (latest_source_commit_index >= latest_target_commit_index) {
@@ -81,12 +97,12 @@ deepl_update <- function(path,
     repo = dir_at_target_latest_update
   )
   old_source <- tinkr::yarn$new(
-    file.path(dir_at_target_latest_update, fs::path_file(path))
+    file.path(dir_at_target_latest_update, path)
   )
 
-  new_source <- tinkr::yarn$new(file.path(repo, fs::path_file(path)))
+  new_source <- tinkr::yarn$new(file.path(repo, path))
 
-  old_target <- tinkr::yarn$new(file.path(out_path))
+  old_target <- tinkr::yarn$new(file.path(repo, out_path))
 
   same_structure <-
     (xml2::xml_length(old_source$body) == xml2::xml_length(old_target$body)) &&
@@ -130,7 +146,7 @@ deepl_update <- function(path,
     }
   }
 
-  new_target$write(out_path)
+  new_target$write(file.path(repo, out_path))
 }
 
 tags_the_same <- function(tag1, tag2) {
