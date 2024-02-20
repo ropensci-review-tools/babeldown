@@ -3,6 +3,7 @@ is_non_empty_string <- function(x) {
 }
 
 is_path_in <- function(path, paths) {
+  print(sprintf("path: %s; paths: %s", really_normalize_path(path), really_normalize_path(paths)))
   really_normalize_path(path) %in% really_normalize_path(paths)
 }
 
