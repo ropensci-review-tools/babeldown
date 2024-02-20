@@ -67,7 +67,12 @@ test_that("deepl_update() works", {
 
 test_that("deepl_update() works -- files in subdirectory", {
 
-  dir <- withr::local_tempdir()
+  tmpdir <- if (isTRUE(as.logical(Sys.getenv("CI", "false")))) {
+    ".."
+  } else {
+    tempdir()
+  }
+  dir <- withr::local_tempdir(tmpdir = tmpdir)
   fs::dir_create(file.path(dir, "pof"))
   file <- file.path(dir, "pof", "bla.md")
   fs::file_create(file)
