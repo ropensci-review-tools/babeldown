@@ -55,8 +55,8 @@ deepl_update <- function(path,
 
   repo <- rprojroot::find_root(rprojroot::is_git_root, path)
 
-  path <- fs::path_rel(path, start = repo)
-  out_path <- fs::path_rel(out_path, start = repo)
+  path <- path_rel(path, start = repo)
+  out_path <- path_rel(out_path, start = repo)
 
   # determine whether out_path is out of date
   # TODO or not, make it work for over 100 commits?
