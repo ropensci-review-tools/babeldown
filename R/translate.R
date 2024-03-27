@@ -61,9 +61,25 @@ deepl_translate <- function(path,
     values = c("default", "more", "less", "prefer_more", "prefer_less")
   )
 
-  # protect Hugo shortcodes ----
   temp_markdown_file <- withr::local_tempfile()
   markdown_lines <- brio::read_lines(path)
+
+  # protect $$ equations $$
+  dollars <- which(grepl("\\$\\$", markdown_lines))
+  dollars_present <- length(dollars > 0)
+  if (dollars_present) {
+    dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
+    undigested_equations <- character(0)
+    index <- 1
+    for(i in 1:nrow(dollars))
+      for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
+        undigested_equations[index] <- markdown_lines[j]
+        index <- index+1
+        markdown_lines[j] <- sprintf("`%s`", digest::digest(markdown_lines[j]))
+      }
+  }
+  # protect Hugo shortcodes ----
+
   shortcodes_no <- which(grepl("\\{\\{<", markdown_lines))
   shortcodes_present <- length(shortcodes_no > 0)
   if (shortcodes_present) {
@@ -80,11 +96,10 @@ deepl_translate <- function(path,
     )
 
     markdown_lines[shortcodes_no] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
-    brio::write_lines(markdown_lines, temp_markdown_file)
-    wool <- tinkr::yarn$new(path = temp_markdown_file)
-  } else {
-    wool <- tinkr::yarn$new(path = path)
   }
+
+  brio::write_lines(markdown_lines, temp_markdown_file)
+  wool <- tinkr::yarn$new(path = temp_markdown_file)
 
   # translate some YAML fields ----
   yaml <- yaml::yaml.load(wool$yaml, handlers = list(seq = function(x) x))
@@ -141,7 +156,15 @@ deepl_translate <- function(path,
       markdown_lines[markdown_lines == digested_shortcode] <- shortcode
     }
   }
+  if (dollars_present) {
+    index <- 1
+    for(i in 1:nrow(dollars))
+      for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
+        markdown_lines[j] <- undigested_equations[index]
+        index <- index+1
+      }
 
+  }
   brio::write_lines(markdown_lines, out_path)
 }
 
@@ -161,6 +184,10 @@ translate_part <- function(xml,
   curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
   purrr::walk(curlies, protect_curly)
 
+  ## protect math
+  woolish$body <- tinkr::protect_math(woolish$body)
+  maths <- xml2::xml_find_all(woolish$body, "//*[@math]")
+  purrr::walk(maths, tinkr::protect_math)
   ## protect content inside square brackets ----
   contain_square_brackets <- xml2::xml_find_all(
     woolish$body,
