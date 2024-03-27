@@ -1,0 +1,44 @@
+---
+title: "MEAPS : Modéliser les flux des navetteurs"
+author:
+  - name : "Maxime Parodi"
+    email: "maxime.parodi@sciencespo.fr"
+    affiliation: OFCE, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+    orcid: 0009-0008-2543-5234
+  - name: "Xavier Timbeau" 
+    email: "xavier.timbeau@sciencespo.fr"
+    affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
+    affiliation-url: "http://www.ofce.fr"
+    orcid: "0000-0002-6198-5953"
+    
+wp: 15
+annee: 2023
+date: 05/02/2023
+date-modified: today
+lang: fr
+format:
+  wp-html: default
+  wp-pdf:
+    output-file: "MEAPS aspects theoriques.pdf"  
+
+citation:
+  type: article-journal
+  container-title: "Document de travail de l'OFCE n°2023-14"
+  url: https://preview.meaps.fr
+
+abstract: "Le modèle gravitaire utilisé pour distribuer les trajets entre une origine et une destination représente mal l'influence de la distance sur les choix. En s'inspirant du modèle des 'intervening opportunities' de @stouffer1940 et du modèle radiatif de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques clairs et flexibles. Le modèle s'accommode de différentes formulations des processus stochastiques qui permettent d'estimer des paramètres fondamentaux et de leur donner une interprétation. Nous validons le modèle théorique sur des données synthétiques, puis dans deux documents associés [@meaps2024a; @meaps2024b], nous proposons une estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire une carte en haute résolution des émissions de CO~2~ à La Rochelle. <br>
+`r  wordcountaddin::word_count('theorie.qmd')` mots."
+  
+keywords: [ modèle gravitaire, modèle radiatif, mobilités ]
+bibliography: 
+  - references_meaps.bib
+---
+
+```{r, include=FALSE}
+source("R/rinit.r")
+```
+
+
+
+Tout d'abord, le paramètre de fuite peut être spécifique à chaque commune de résidents ou chaque type de résidents. Par exemple, le recensement nous permet de mesurer la proportion d'individu, par commune, qui ont un emploi à plus de 100km de leur domicile. Cette proportion est faible $\le5\%$ pour une région comme celle étudiée dans l'application à la Rochelle [@meaps2024a] mais peut varier d'une commune à l'autre pour diverses raisons : les communes ne sont pas toutes aussi bien desservies ; certaines se trouvent à la périphérie de la zone d'étude ; les caractéristiques moyennes des résidents varient d'une commune à l'autre... Le modèle peut sans difficulté prendre en compte une probabilité de fuite $p_{f,i}$ pour chaque individu.
