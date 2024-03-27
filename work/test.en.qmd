@@ -1,0 +1,26 @@
+---
+title: Untitled
+format: html
+---
+
+test of a document in French
+
+shortcode {{< figure src="https://placekitten.com/200/300" caption="A kitten  >}}
+
+$$
+E = m \times c^2
+$$ {#eq-gravity []}
+
+with an online equation $\alpha[{x_{1}}]=1$ which must not be modified
+
+Formally, the gravity model describes the strength of a relationship between two objects as a function of their respective distance and mass. By analogy, the gravity model consists here in evaluating the number of work trips between two locations by taking as the masses the number of inhabitants at the point of departure and the number of jobs at the point of arrival and, as the denominator, a function of f$ increasing with distance[^1]. Thus, if we denote the points of departure by $i$, we have and the end points by $j$ :
+
+[^1] The distance can be any metric that distinguishes points in space. The Euclidean distance comes to mind, but the model can also be adapted to take into account distances through transport networks, journey times to take account of different speeds by mode, by type of road used, by time of day, or to compare modes for which distance is of little significance (public transport, because of waiting times and specific lanes). We can also consider a full cost (including both the time and monetary cost of the mode of transport) or a generalised cost including the perceived comfort or safety associated with the mode of transport. Following @koenig1980, we can use logsum to take into account the variety of solutions for getting to a destination.
+
+$$
+T_{i,j} = \frac {N_{hab, i}\times N_{emp, j}} {f(d_{i,j})}
+$$ {#eq-gravity}
+
+The first gravity models borrowed the function  function from Newtonian physics ($f=d^2$).), but other formulations have since been proposed. For example, the function $f=e^{d/\delta}$$is used in the discrete choice models proposed by McFadden [@mcfadden1974d; @ben-akiva2018]. By replacing distance with the notion of generalised transport cost, this functional form can be linked to a choice model with a random utility function (*random utility model*). It is also possible to adjust more complex functional forms by adding parameters. The gravity model can then more or less reproduce the distance distributions observed in mobility surveys.
+
+

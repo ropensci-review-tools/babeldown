@@ -1,0 +1,54 @@
+---
+title: 'MEAPS: Modelling commuter flows'
+author:
+- name: Maxime Parodi
+  email: maxime.parodi@sciencespo.fr
+  affiliation: OFCE, Sciences Po Paris
+  affiliation-url: http://www.ofce.fr
+  orcid: 0009-0008-2543-5234
+- name: Xavier Timbeau
+  email: xavier.timbeau@sciencespo.fr
+  affiliation: OFCE, Ecole Urbaine, Sciences Po Paris
+  affiliation-url: http://www.ofce.fr
+  orcid: 0000-0002-6198-5953
+wp: 15
+annee: 2023
+date: 05/02/2023
+date-modified: today
+lang: fr
+format:
+  wp-html: default
+  wp-pdf:
+    output-file: MEAPS aspects theoriques.pdf
+citation:
+  type: article-journal
+  container-title: Document de travail de l'OFCE n°2023-14
+  url: https://preview.meaps.fr
+abstract: Le modèle gravitaire utilisé pour distribuer les trajets entre une origine
+  et une destination représente mal l'influence de la distance sur les choix. En s'inspirant
+  du modèle des 'intervening opportunities' de @stouffer1940 et du modèle radiatif
+  de @simini2012, nous construisons un modèle ergodique d'absorption avec priorité
+  et saturation (MEAPS) qui permet de construire ces choix sur des fondements microscopiques
+  clairs et flexibles. Le modèle s'accommode de différentes formulations des processus
+  stochastiques qui permettent d'estimer des paramètres fondamentaux et de leur donner
+  une interprétation. Nous validons le modèle théorique sur des données synthétiques,
+  puis dans deux documents associés [@meaps2024a; @meaps2024b], nous proposons une
+  estimation de MEAPS et une comparaison détaillée avec le modèle gravitaire et ses
+  variantes les plus communes. Nous utilisons ensuite cette modélisation pour construire
+  une carte en haute résolution des émissions de CO~2~ à La Rochelle. <br> `r  wordcountaddin::word_count('theorie.qmd')`
+  mots.
+keywords:
+- modèle gravitaire
+- modèle radiatif
+- mobilités
+bibliography:
+- references_meaps.bib
+---
+
+```{r, include=FALSE}
+source("R/rinit.r")
+```
+
+Firstly, the leakage parameter can be specific to each municipality or type of resident. For example, the census allows us to measure the proportion of individuals, by municipality, who have a job more than 100km from their home. This proportion is low for a region like the one studied in the La Rochelle application. [@meaps2024a] but can vary from one commune to another for a variety of reasons: not all communes are equally well served; some are on the outskirts of the study area; the average characteristics of residents vary from one commune to another, etc. The model can easily take into account a probability of leakage $p_.{f,i} for each individual.
+
+

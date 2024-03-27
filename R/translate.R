@@ -60,31 +60,31 @@ deepl_translate <- function(path,
     formality,
     values = c("default", "more", "less", "prefer_more", "prefer_less")
   )
-
-
-  # protect $$ equations $$
-  # dollars <- which(grepl("\\$\\$", markdown_lines))
-  # dollars_present <- length(dollars > 0)
-  # if (dollars_present) {
-  #   dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
-  #   undigested_equations <- character(0)
-  #   index <- 1
-  #   for(i in 1:nrow(dollars))
-  #     for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
-  #       undigested_equations[index] <- markdown_lines[j]
-  #       index <- index+1
-  #       markdown_lines[j] <- sprintf("`%s`", digest::digest(markdown_lines[j]))
-  #     }
-  # }
-  # protect Hugo shortcodes ----
   temp_markdown_file <- withr::local_tempfile()
   markdown_lines <- brio::read_lines(path)
-  shortcodes_no <- which(grepl("\\{\\{<", markdown_lines))
+  temp_markdown_file <- withr::local_tempfile()
+
+  # protect $$ equations $$
+  dollars <- which(grepl("\\$\\$", markdown_lines))
+  dollars_present <- length(dollars > 0)
+  if (dollars_present) {
+    dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
+    undigested_equations <- character(0)
+    index <- 1
+    for(i in 1:nrow(dollars))
+      for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
+        undigested_equations[index] <- markdown_lines[j]
+        index <- index+1
+        markdown_lines[j] <- sprintf("`%s`", digest::digest(markdown_lines[j]))
+      }
+  }
+
+  # protect Hugo shortcodes ----
 
   shortcodes_no <- which(grepl("\\{\\{<", markdown_lines))
   shortcodes_present <- length(shortcodes_no > 0)
   if (shortcodes_present) {
-    temp_markdown_file <- withr::local_tempfile()
+    shortcodes <- markdown_lines[shortcodes_no]
 
 
     ## translate shortcodes
@@ -98,13 +98,10 @@ deepl_translate <- function(path,
     )
 
     markdown_lines[shortcodes_no] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
-
-    brio::write_lines(markdown_lines, temp_markdown_file)
-    wool <- tinkr::yarn$new(path = temp_markdown_file)
-  } else {
-    wool <- tinkr::yarn$new(path = path)
   }
 
+  brio::write_lines(markdown_lines, temp_markdown_file)
+  wool <- tinkr::yarn$new(path = temp_markdown_file)
 
   # translate some YAML fields ----
   yaml <- yaml::yaml.load(wool$yaml, handlers = list(seq = function(x) x))
@@ -161,15 +158,14 @@ deepl_translate <- function(path,
       markdown_lines[markdown_lines == digested_shortcode] <- shortcode
     }
   }
-  # if (dollars_present) {
-  #   index <- 1
-  #   for(i in 1:nrow(dollars))
-  #     for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
-  #       markdown_lines[j] <- undigested_equations[index]
-  #       index <- index+1
-  #     }
-#
-#   }
+  if (dollars_present) {
+    index <- 1
+    for(i in 1:nrow(dollars))
+      for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
+        markdown_lines[j] <- undigested_equations[index]
+        index <- index+1
+      }
+   }
   brio::write_lines(markdown_lines, out_path)
 }
 
@@ -183,6 +179,9 @@ translate_part <- function(xml,
   file.create(temp_file)
   woolish <- tinkr::yarn$new(path = temp_file)
   woolish$body <- fakify_xml(xml)
+
+  # protect inline math
+  woolish$body <- tinkr::protect_math(woolish$body)
 
     ## protect content inside curly braces ----
   woolish$body <- tinkr::protect_curly(woolish$body)
