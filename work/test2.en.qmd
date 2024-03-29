@@ -49,6 +49,6 @@ bibliography:
 source("R/rinit.r")
 ```
 
-$i=1$
+Determining the coefficients $a_i$ and $b_j$ poses a number of problems. These coefficients must make it possible to respect the constraints at the margins: the sum of jobs for a row of residents must be equal to the number of residents employed in the zone and the sum of residents employed at a place of employment must, in column form, be equal to the number of jobs at that place. For  a_i$ noting that  sigma_j T_{ij} = N_{hab,i}$$ and that and that $Sigma_i T_{ij} = N_{emp,j}$$. :
 
 

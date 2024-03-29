@@ -39,5 +39,4 @@ bibliography:
 source("R/rinit.r")
 ```
 
-$i$ 
-
+La détermination des coefficients $a_i$ et $b_j$ pose de nombreux problèmes. Ces coefficients doivent permettre de respecter les contraintes aux marges : la somme des emplois pour une ligne de résidents doit être égale au nombre des résidents employés dans la zone et la somme des résidents employés sur un lieu d'emploi doit, en colonne donc, être égale au nombre d'emplois en ce lieu. On a pour $a_i$ en remarquant que $\Sigma_j T_{ij} = N_{hab,i}$ et que $\Sigma_i T_{ij} = N_{emp,j}$ :

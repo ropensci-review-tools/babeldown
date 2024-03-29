@@ -64,22 +64,9 @@ deepl_translate <- function(path,
   markdown_lines <- brio::read_lines(path)
   temp_markdown_file <- withr::local_tempfile()
 
-  # protect $$ equations $$
-  # dollars <- which(grepl("^\\$\\$", markdown_lines))
-  # dollars_present <- length(dollars > 0)
-  # if (dollars_present) {
-  #   dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
-  #   undigested_equations <- character(0)
-  #   index <- 1
-  #   for(i in 1:nrow(dollars))
-  #     for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
-  #       undigested_equations[index] <- markdown_lines[j]
-  #       index <- index+1
-  #       markdown_lines[j] <- sprintf("`%s`", digest::digest(markdown_lines[j]))
-  #     }
-  # }
-  #
-  # change
+  # change on char equation to something longer
+
+  markdown_lines <- gsub("\\$([:alnum:])\\$", "\\$xXx\\1\\$", markdown_lines)
 
   # protect Hugo shortcodes ----
 
@@ -87,7 +74,6 @@ deepl_translate <- function(path,
   shortcodes_present <- length(shortcodes_no > 0)
   if (shortcodes_present) {
     shortcodes <- markdown_lines[shortcodes_no]
-
 
     ## translate shortcodes
     shortcodes <- purrr::map_chr(
@@ -160,14 +146,9 @@ deepl_translate <- function(path,
       markdown_lines[markdown_lines == digested_shortcode] <- shortcode
     }
   }
-  # if (dollars_present) {
-  #   index <- 1
-  #   for(i in 1:nrow(dollars))
-  #     for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
-  #       markdown_lines[j] <- undigested_equations[index]
-  #       index <- index+1
-  #     }
-  #  }
+
+  # onechar back
+  markdown_lines <- gsub("\\$xXx([:alnum:])\\$", "\\$\\1\\$", markdown_lines)
   brio::write_lines(markdown_lines, out_path)
 }
 
@@ -184,8 +165,8 @@ translate_part <- function(xml,
 
   # protect inline math
   woolish$body <- tinkr::protect_math(woolish$body)
-  mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
-  purrr::walk(mathies, protect_math)
+  # mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
+  # purrr::walk(mathies, protect_math)
 
     ## protect content inside curly braces ----
   woolish$body <- tinkr::protect_curly(woolish$body)
@@ -254,8 +235,8 @@ translate_part <- function(xml,
   purrr::walk(curlies, unprotect_curly)
 
   ## Mathies back to math
-  mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
-  purrr::walk(mathies, unprotect_math)
+  # mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
+  # purrr::walk(mathies, unprotect_math)
 
 
   ## Unprotect notranslate ----
