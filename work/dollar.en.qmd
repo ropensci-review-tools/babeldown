@@ -1,0 +1,10 @@
+---
+title: Dollar
+description: a bug in babeldown?
+---
+
+an equation in line :  a = b + c$ is ok
+
+but $abc$ a one-character equation is not!
+
+

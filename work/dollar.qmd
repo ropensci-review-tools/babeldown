@@ -5,4 +5,4 @@ description: "un bug dans babeldown ?"
 
 une équation en ligne : $a = b + c$ est ok
 
-mais $a$ une équation à un caractère non !
+mais $abc$ une équation à un caractère non !

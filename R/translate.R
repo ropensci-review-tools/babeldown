@@ -65,19 +65,21 @@ deepl_translate <- function(path,
   temp_markdown_file <- withr::local_tempfile()
 
   # protect $$ equations $$
-  dollars <- which(grepl("^\\$\\$", markdown_lines))
-  dollars_present <- length(dollars > 0)
-  if (dollars_present) {
-    dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
-    undigested_equations <- character(0)
-    index <- 1
-    for(i in 1:nrow(dollars))
-      for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
-        undigested_equations[index] <- markdown_lines[j]
-        index <- index+1
-        markdown_lines[j] <- sprintf("`%s`", digest::digest(markdown_lines[j]))
-      }
-  }
+  # dollars <- which(grepl("^\\$\\$", markdown_lines))
+  # dollars_present <- length(dollars > 0)
+  # if (dollars_present) {
+  #   dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
+  #   undigested_equations <- character(0)
+  #   index <- 1
+  #   for(i in 1:nrow(dollars))
+  #     for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
+  #       undigested_equations[index] <- markdown_lines[j]
+  #       index <- index+1
+  #       markdown_lines[j] <- sprintf("`%s`", digest::digest(markdown_lines[j]))
+  #     }
+  # }
+  #
+  # change
 
   # protect Hugo shortcodes ----
 
@@ -158,14 +160,14 @@ deepl_translate <- function(path,
       markdown_lines[markdown_lines == digested_shortcode] <- shortcode
     }
   }
-  if (dollars_present) {
-    index <- 1
-    for(i in 1:nrow(dollars))
-      for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
-        markdown_lines[j] <- undigested_equations[index]
-        index <- index+1
-      }
-   }
+  # if (dollars_present) {
+  #   index <- 1
+  #   for(i in 1:nrow(dollars))
+  #     for(j in (dollars[i,1]+1):(dollars[i,2]-1)) {
+  #       markdown_lines[j] <- undigested_equations[index]
+  #       index <- index+1
+  #     }
+  #  }
   brio::write_lines(markdown_lines, out_path)
 }
 
