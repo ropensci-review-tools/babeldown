@@ -49,6 +49,6 @@ bibliography:
 source("R/rinit.r")
 ```
 
-Firstly, the leakage parameter can be specific to each municipality or type of resident. For example, the census allows us to measure the proportion of individuals, by municipality, who have a job more than 100km from their home. This proportion is low for a region like the one studied in the La Rochelle application. [@meaps2024a] but can vary from one commune to another for a variety of reasons: not all communes are equally well served; some are on the outskirts of the study area; the average characteristics of residents vary from one commune to another, etc. The model can easily take into account a probability of leakage $p_.{f,i} for each individual.
+$i=1$
 
 

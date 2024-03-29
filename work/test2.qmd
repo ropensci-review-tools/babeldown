@@ -39,6 +39,5 @@ bibliography:
 source("R/rinit.r")
 ```
 
+$i$ 
 
-
-Tout d'abord, le paramètre de fuite peut être spécifique à chaque commune de résidents ou chaque type de résidents. Par exemple, le recensement nous permet de mesurer la proportion d'individu, par commune, qui ont un emploi à plus de 100km de leur domicile. Cette proportion est faible $\le5\%$ pour une région comme celle étudiée dans l'application à la Rochelle [@meaps2024a] mais peut varier d'une commune à l'autre pour diverses raisons : les communes ne sont pas toutes aussi bien desservies ; certaines se trouvent à la périphérie de la zone d'étude ; les caractéristiques moyennes des résidents varient d'une commune à l'autre... Le modèle peut sans difficulté prendre en compte une probabilité de fuite $p_{f,i}$ pour chaque individu.

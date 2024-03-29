@@ -65,7 +65,7 @@ deepl_translate <- function(path,
   temp_markdown_file <- withr::local_tempfile()
 
   # protect $$ equations $$
-  dollars <- which(grepl("\\$\\$", markdown_lines))
+  dollars <- which(grepl("^\\$\\$", markdown_lines))
   dollars_present <- length(dollars > 0)
   if (dollars_present) {
     dollars <- matrix(dollars, ncol = 2, byrow = TRUE)
@@ -182,6 +182,8 @@ translate_part <- function(xml,
 
   # protect inline math
   woolish$body <- tinkr::protect_math(woolish$body)
+  mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
+  purrr::walk(mathies, protect_math)
 
     ## protect content inside curly braces ----
   woolish$body <- tinkr::protect_curly(woolish$body)
@@ -248,6 +250,11 @@ translate_part <- function(xml,
     formality = formality
   )
   purrr::walk(curlies, unprotect_curly)
+
+  ## Mathies back to math
+  mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
+  purrr::walk(mathies, unprotect_math)
+
 
   ## Unprotect notranslate ----
   notranslates <- xml2::xml_find_all(woolish$body, ".//d1:notranslate")
@@ -396,6 +403,13 @@ protect_curly <- function(curly) {
 }
 unprotect_curly <- function(curly) {
   xml2::xml_name(curly) <- "text"
+}
+
+protect_math <- function(math) {
+  xml2::xml_name(math) <- "math"
+}
+unprotect_math <- function(math) {
+  xml2::xml_name(math) <- "text"
 }
 
 protect_squaries <- function(node) {

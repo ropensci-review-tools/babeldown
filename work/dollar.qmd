@@ -1,0 +1,8 @@
+---
+title: "Dollar"
+description: "un bug dans babeldown ?"
+---
+
+une équation en ligne : $a = b + c$ est ok
+
+mais $a$ une équation à un caractère non !
