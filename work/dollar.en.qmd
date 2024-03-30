@@ -1,10 +1,19 @@
 ---
 title: Dollar
-description: a bug in babeldown?
+description: equations in babeldown
 ---
 
-an equation in line :  a = b + c$ is ok
+an online equation : $a = b + c$ is ok; or two for that matter $e_t = e_{t-1} + \varepsilon_t$
 
-but $a$ a one-character equation is not!
+but $a$ a one-character equation, no!
+
+a block equation :
+$$
+a = b + c
+$$
+
+{{< qrcode >}}
+
+By noting $s_i(d)=\sum _{j/d_{i,j}\lt d}1$ the cumulative number (i.e. the accessibility) of all the jobs that are at a distance strictly less than that of the tile under consideration for $i$ (and therefore excluding $k$ jobs on the tile $c_d$), we have :
 
 

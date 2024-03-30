@@ -1,8 +1,17 @@
 ---
 title: "Dollar"
-description: "un bug dans babeldown ?"
+description: "les équations dans babeldown"
 ---
 
-une équation en ligne : $a = b + c$ est ok
+une équation en ligne : $a = b + c$ est ok ; ou deux d'ailleurs $e_t = e_{t-1} + \varepsilon_t$
 
 mais $a$ une équation à un caractère non !
+
+une équation en bloc :
+$$
+a = b + c
+$$
+
+{{< qrcode >}}
+
+En notant $s_i(d)=\sum _{j/d_{i,j}\lt d}1$ le cumul (i.e. l'accessibilité) de tous les emplois qui sont à une distance strictement inférieure à celle du carreau considéré pour $i$ (et donc à l'exclusion des $k$ emplois du le carreau $c_d$), on a :

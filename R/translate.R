@@ -64,9 +64,12 @@ deepl_translate <- function(path,
   markdown_lines <- brio::read_lines(path)
   temp_markdown_file <- withr::local_tempfile()
 
-  # change on char equation to something longer
+  # change on char equation to something longer and
+  # _ (used in latex) to something that is not going to be <emphed>
 
-  markdown_lines <- gsub("\\$([:alnum:])\\$", "\\$xXx\\1\\$", markdown_lines)
+  markdown_lines <- gsub("\\$(.)\\$", "\\$xXx\\1\\$", markdown_lines)
+  # _ is a special character in markdown and in latex, we neutralize it
+  markdown_lines <- gsub("_", "°°", markdown_lines)
 
   # protect Hugo shortcodes ----
 
@@ -148,7 +151,9 @@ deepl_translate <- function(path,
   }
 
   # onechar back
-  markdown_lines <- gsub("\\$xXx([:alnum:])\\$", "\\$\\1\\$", markdown_lines)
+  markdown_lines <- gsub("\\$xXx(.)\\$", "\\$\\1\\$", markdown_lines)
+  # and _
+  markdown_lines <- gsub("°°", "_", markdown_lines)
   brio::write_lines(markdown_lines, out_path)
 }
 
@@ -163,10 +168,10 @@ translate_part <- function(xml,
   woolish <- tinkr::yarn$new(path = temp_file)
   woolish$body <- fakify_xml(xml)
 
-  # protect inline math
+  # protect inline and block math
   woolish$body <- tinkr::protect_math(woolish$body)
-  # mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
-  # purrr::walk(mathies, protect_math)
+  mathies <- xml2::xml_find_all(woolish$body, "//*[@asis='true']")
+  purrr::walk(mathies, protect_math)
 
     ## protect content inside curly braces ----
   woolish$body <- tinkr::protect_curly(woolish$body)
@@ -202,7 +207,7 @@ translate_part <- function(xml,
       non_splitting_tags = "text,softbreak",
       formality = formality,
       glossary_id = glossary_id,
-      ignore_tags = "code,code_block,curly,notranslate"
+      ignore_tags = "code,code_block,curly,notranslate,math"
     ) |>
       purrr::compact()
 
@@ -234,11 +239,6 @@ translate_part <- function(xml,
   )
   purrr::walk(curlies, unprotect_curly)
 
-  ## Mathies back to math
-  # mathies <- xml2::xml_find_all(woolish$body, "//*[@math]")
-  # purrr::walk(mathies, unprotect_math)
-
-
   ## Unprotect notranslate ----
   notranslates <- xml2::xml_find_all(woolish$body, ".//d1:notranslate")
   purrr::walk(notranslates, unprotect_notranslate)
@@ -259,6 +259,10 @@ translate_part <- function(xml,
   ## Make non code blocks code blocks again ----
   non_code_blocks <- xml2::xml_find_all(woolish$body, "//d1:non_code_block")
   purrr::walk(non_code_blocks, unprotect_non_code_block)
+
+  ## Mathies back to math
+  mathies <- xml2::xml_find_all(woolish$body, "//*[@asis='true']")
+  purrr::walk(mathies, unprotect_math)
 
   woolish[["body"]]
 }
