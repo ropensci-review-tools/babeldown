@@ -7,13 +7,21 @@ an online equation : $a = b + c$ is ok; or two for that matter $e_t = e_{t-1} + 
 
 but $a$ a one-character equation, no!
 
+
+
+[^11] it's corrected now footnotes and an equation$e_t = e_{t-1} + \varepsilon_t$
+
 a block equation :
+
 $$
 a = b + c
 $$
 
-{{< qrcode >}}
-
-By noting $s_i(d)=\sum _{j/d_{i,j}\lt d}1$ the cumulative number (i.e. the accessibility) of all the jobs that are at a distance strictly less than that of the tile under consideration for $i$ (and therefore excluding $k$ jobs on the tile $c_d$), we have :
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-reference
+#| fig-cap: Une figure
+library(tidyverse)
+ggplot(cars)+geom_point(aes(x=speed,y=dist))
+```
 
 

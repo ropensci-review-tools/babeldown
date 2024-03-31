@@ -7,11 +7,21 @@ une équation en ligne : $a = b + c$ est ok ; ou deux d'ailleurs $e_t = e_{t-1} 
 
 mais $a$ une équation à un caractère non !
 
+mais quand il y a un appel de note ca mange l'espace [^11]
+
+[^11]: c'est presque corrigé une équation $e_t = e_{t-1} + \varepsilon_t$
+
 une équation en bloc :
+
 $$
 a = b + c
 $$
 
-{{< qrcode >}}
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+#| label: fig-reference
+#| fig-cap: Une figure
+library(tidyverse)
+ggplot(cars)+geom_point(aes(x=speed,y=dist))
+```
 
-En notant $s_i(d)=\sum _{j/d_{i,j}\lt d}1$ le cumul (i.e. l'accessibilité) de tous les emplois qui sont à une distance strictement inférieure à celle du carreau considéré pour $i$ (et donc à l'exclusion des $k$ emplois du le carreau $c_d$), on a :
+

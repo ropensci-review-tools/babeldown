@@ -1,0 +1,15 @@
+---
+title: note de bas de page visuelle
+---
+
+insérons, en mode visuel, une note de bas de page[^1]
+
+[^1]: voici ce qu'il en est.  Nous voulons un saut de ligne
+
+```
+nice and clean inside the footnote
+
+another one
+```
+
+

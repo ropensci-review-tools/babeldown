@@ -1,0 +1,9 @@
+---
+title: "visual footnote"
+---
+
+let's insert, in visual mode a footnote[^1]
+
+[^1]: here it is. We want a line break\
+    nice and clean inside the footnote\
+    another one
