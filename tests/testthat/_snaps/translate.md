@@ -25,3 +25,17 @@
       Error in `deepl_translate()`:
       ! `formality` must be one of "default", "more", "less", "prefer_more", or "prefer_less", not "non-existing-formality".
 
+# deepl_translate() handles equations well
+
+    Code
+      math_lines[4]
+    Output
+      [1] "E = m \\times c^2"
+
+---
+
+    Code
+      sub(".*$", "$", math_lines[7])
+    Output
+      [1] "$"
+

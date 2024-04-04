@@ -204,3 +204,22 @@ test_that("deepl_translate() handles square brackets stuff well", {
     expect_match(lines, "también")
   })
 })
+
+
+test_that("deepl_translate() handles equations well", {
+  to_translate <- system.file("example-equations.md", package = "babeldown")
+  out_path <- withr::local_tempfile()
+  with_mock_dir("example-equations", {
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = NULL
+    )
+  })
+  math_lines <- brio::read_lines(out_path)
+  expect_snapshot(math_lines[4])
+  expect_snapshot(sub(".*$", "$", math_lines[7]))
+})

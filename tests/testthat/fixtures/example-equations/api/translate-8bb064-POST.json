@@ -1,0 +1,8 @@
+{
+    "translations": [
+        {
+            "detected_source_language": "EN",
+            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Algo de texto.<\/text>\n  <\/paragraph>\n  <paragraph>\n   <text xml:space=\"preserve\">$$<\/text>\n   <softbreak/>\n   <math xml:space=\"preserve\" asis=\"true\">E = m \\times c^2<\/math>\n   <softbreak/>\n   <text xml:space=\"preserve\">$$<\/text>\n  <\/paragraph>\n  <paragraph>\n   <text xml:space=\"preserve\">¿A que es bonita esta ecuación? Observa que <\/text>\n   <math asis=\"true\">$\\alpha=1$<\/math>\n   <text>.<\/text>\n  <\/paragraph>\n<\/document>\n"
+        }
+    ]
+}
