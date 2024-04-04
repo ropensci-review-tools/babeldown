@@ -85,9 +85,9 @@ deepl_translate_hugo <- function(post_path = NULL,
   if ("title" %in% yaml_fields) {
     lines <- brio::read_lines(target_post_path)
     # ... only when the yaml starts right away
-    if (which(grepl("---", lines))[1] == 1) {
+    if (grepl("^---", lines[1])) {
       yaml_start <- 1
-      yaml_end <- which(grepl("---", lines))[2]
+      yaml_end <- grep("^---", lines)[2]
       yaml <- yaml::yaml.load(paste(lines[yaml_start:yaml_end], collapse = "\n"))
       if (!is.null(yaml[["title"]])) {
         yaml[["slug"]] <- snakecase::to_snake_case(yaml[["title"]])

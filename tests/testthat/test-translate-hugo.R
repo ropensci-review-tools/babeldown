@@ -7,7 +7,7 @@ test_that("deepl_translate_quarto() works", {
   blogdown::new_site(dir = temp_dir)
   post_path <- file.path(temp_dir, "content", "post", "2016-12-30-hello-markdown", "index.md")
 
-  new_lines <- c("", '{{< figure src="blop.png" alt="very nice"}}', "")
+  new_lines <- c("", '{{< figure src="blop.png" alt="very nice">}}', "")
   lines <- brio::read_lines(post_path)
   lines <- append(lines, new_lines, after = 7)
   brio::write_lines(lines, post_path)
