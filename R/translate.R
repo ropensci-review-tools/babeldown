@@ -64,10 +64,10 @@ deepl_translate <- function(path,
   # protect Hugo shortcodes ----
   temp_markdown_file <- withr::local_tempfile()
   markdown_lines <- brio::read_lines(path)
-  shortcodes_no <- which(grepl("\\{\\{<", markdown_lines))
-  shortcodes_present <- length(shortcodes_no > 0)
+  shortcodes_indices <- grep("^\\{\\{<.*>\\}\\}", markdown_lines)
+  shortcodes_present <- length(shortcodes_indices) > 0
   if (shortcodes_present) {
-    shortcodes <- markdown_lines[shortcodes_no]
+    shortcodes <- markdown_lines[shortcodes_indices]
 
     ## translate shortcodes
     shortcodes <- purrr::map_chr(
@@ -79,7 +79,7 @@ deepl_translate <- function(path,
       formality = formality
     )
 
-    markdown_lines[shortcodes_no] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
+    markdown_lines[shortcodes_indices] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
     brio::write_lines(markdown_lines, temp_markdown_file)
     wool <- tinkr::yarn$new(path = temp_markdown_file)
   } else {

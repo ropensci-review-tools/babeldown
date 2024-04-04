@@ -3,5 +3,5 @@
     Code
       readLines(target_path)[9]
     Output
-      [1] "{{< figure src=\"blop.png\" alt=\"very nice\" }}"
+      [1] "{{< figure src=\"blop.png\" alt=\"very nice\" >}}"
 
