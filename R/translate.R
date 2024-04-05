@@ -90,7 +90,9 @@ deepl_translate <- function(path,
 
     markdown_lines[shortcodes_no] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
   }
-
+  # as markdown_lines is probably modified by gsub, we write it to a temp file and read it again
+  # possibly unmodified
+  # (as long as one char equations don't work and mulitple _ in latex generate emph)
   brio::write_lines(markdown_lines, temp_markdown_file)
   wool <- tinkr::yarn$new(path = temp_markdown_file)
 
@@ -150,9 +152,9 @@ deepl_translate <- function(path,
     }
   }
 
-  # onechar back
+  # onechar back (not always the case, but in case)
   markdown_lines <- gsub("\\$xXx(.)\\$", "\\$\\1\\$", markdown_lines)
-  # and _
+  # and _ (same)
   markdown_lines <- gsub("°°", "_", markdown_lines)
   brio::write_lines(markdown_lines, out_path)
 }
