@@ -46,6 +46,6 @@ Suggests:
     sys,
     testthat (>= 3.0.0)
 Remotes: 
-    ropensci/tinkr,
+    ropensci/tinkr@one-char-math,
     ropensci-review-tools/babelquarto
 Config/testthat/edition: 3
