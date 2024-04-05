@@ -394,7 +394,9 @@ protect_squaries <- function(node) {
   # hack to preserve colon that DeepL API kills
   text <- gsub("</squary><text>:", ":</squary><text>", text)
 
-  at_things <- regmatches(text, gregexpr("@[[:alnum:]]*", text))[[1]]
+  # https://rstudio.github.io/visual-markdown-editing/citations.html#inserting-citations
+  at_things <- regmatches(text, gregexpr("@[[:alnum:]\\-\\_\\:\\.\\#\\$\\%\\&\\-\\+\\?\\<\\>\\~\\/]*", text))[[1]]
+
   footnote_things <- regmatches(text, gregexpr("\\^[[:alnum:]]*", text))[[1]]
   text <- purrr::reduce(
     c(at_things, sub("\\^", "\\\\^", footnote_things)),
