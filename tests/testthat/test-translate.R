@@ -240,3 +240,21 @@ test_that("deepl_translate() handles equations+footnote well", {
   expect_snapshot(foot_math_lines)
 })
 
+
+test_that("deepl_translate() handles equations with curly well", {
+  to_translate <- system.file("example-equations-curly.md", package = "babeldown")
+  out_path <- withr::local_tempfile()
+  with_mock_dir("example-equations-curly", {
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "FR",
+      target_lang = "EN-US",
+      yaml_fields = NULL
+    )
+  })
+  foot_curly_lines <- brio::read_lines(out_path)
+  expect_snapshot(foot_curly_lines[5])
+})
+
+

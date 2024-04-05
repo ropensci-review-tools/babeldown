@@ -157,8 +157,8 @@ translate_part <- function(xml,
   woolish$body <- fakify_xml(xml)
 
   ## protect content inside curly braces and math ----
-  woolish$body <- tinkr::protect_curly(woolish$body)
   woolish$body <- tinkr::protect_math(woolish$body)
+  woolish$body <- tinkr::protect_curly(woolish$body)
   curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
   purrr::walk(curlies, protect_curly)
   maths <- xml2::xml_find_all(woolish$body, "//*[@asis='true']")
