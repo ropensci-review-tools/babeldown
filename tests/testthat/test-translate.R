@@ -222,4 +222,5 @@ test_that("deepl_translate() handles equations well", {
   math_lines <- brio::read_lines(out_path)
   expect_snapshot(math_lines[4])
   expect_snapshot(sub(".*$", "$", math_lines[7]))
+  expect_snapshot(math_lines[9])
 })

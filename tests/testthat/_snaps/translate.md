@@ -39,3 +39,10 @@
     Output
       [1] "$"
 
+---
+
+    Code
+      math_lines[9]
+    Output
+      [1] "$i_t = j_t$"
+
