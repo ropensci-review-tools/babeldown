@@ -57,3 +57,10 @@
       [4] ""                                                 
       [5] ""                                                 
 
+# deepl_translate() handles equations with curly well
+
+    Code
+      foot_curly_lines[5]
+    Output
+      [1] "$a_{ij}$"
+
