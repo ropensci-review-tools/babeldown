@@ -1,0 +1,8 @@
+{
+    "translations": [
+        {
+            "detected_source_language": "FR",
+            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">See <\/text>\n   <math asis=\"true\">$a$<\/math>\n   <text xml:space=\"preserve\">\n      <text xml:space=\"preserve\"> an equation with a note afterwards <\/text>\n     <squary>\n        <notranslate>^1<\/notranslate>\n      <\/squary>\n     <text>.<\/text>\n   <\/text>\n  <\/paragraph>\n  <paragraph>\n   <text xml:space=\"preserve\">\n     <squary><notranslate>^1<\/notranslate>:<\/squary>\n      <text> a footnote.<\/text>\n   <\/text>\n  <\/paragraph>\n<\/document>\n"
+        }
+    ]
+}

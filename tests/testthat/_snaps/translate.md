@@ -46,3 +46,14 @@
     Output
       [1] "$i_t = j_t$"
 
+# deepl_translate() handles equations+footnote well
+
+    Code
+      foot_math_lines
+    Output
+      [1] "See $a$ an equation with a note afterwards [^1] ."
+      [2] ""                                                 
+      [3] "[^1]: a footnote."                                
+      [4] ""                                                 
+      [5] ""                                                 
+

@@ -386,11 +386,13 @@ unprotect_math <- function(math) {
 }
 protect_squaries <- function(node) {
   text <- xml2::xml_text(node)
-  text <- gsub("\\[", "</text><squary>", text)
-  text <- gsub("\\]", "</squary><text>", text)
-  text <- sprintf("<text>%s</text>", text)
-  text <- gsub("<text><\\/text>", "", text)
-  text <- sprintf("<text>%s</text>", text)
+  text <- gsub('\\[', '</text><squary>', text)
+  text <- gsub('\\]', '</squary><text>', text)
+  text <- sprintf('<text xml:space="preserve">%s</text>', text)
+  text <- gsub('<text xml:space="preserve"><\\/text>', '', text)
+  text <- sprintf('<text xml:space="preserve">%s</text>', text)
+  # hack to preserve colon that DeepL API kills
+  text <- gsub("</squary><text>:", ":</squary><text>", text)
 
   at_things <- regmatches(text, gregexpr("@[[:alnum:]]*", text))[[1]]
   footnote_things <- regmatches(text, gregexpr("\\^[[:alnum:]]*", text))[[1]]
@@ -407,7 +409,13 @@ protect_squaries <- function(node) {
 
 unprotect_squary <- function(node) {
   xml2::xml_name(node) <- "text"
-  xml2::xml_text(node) <- sprintf("[%s]", trimws(xml2::xml_text(node)))
+  node_text <- trimws(xml2::xml_text(node))
+  if (!grepl(":$", node_text)) {
+    xml2::xml_text(node) <- sprintf("[%s]", node_text)
+  } else {
+    node_text <- sub(":$", "", node_text)
+    xml2::xml_text(node) <- sprintf("[%s]:", node_text)
+  }
 }
 
 unprotect_notranslate <- function(node) {
@@ -423,11 +431,21 @@ unprotect_non_code_block <- function(non_code_block) {
 }
 
 untangle_text <- function(node) {
-  text <- trimws(xml2::xml_text(node))
+  text <- xml2::xml_text(node)
+  text <- gsub("\\s+", " ", text) # like str_squish w/o str_trim
+  # trying to only leave space where needed
+  no_left_sibling <- (length(xml2::xml_find_first(node, "preceding-sibling::*")) == 0)
+  which <- if (no_left_sibling) {
+    "both"
+  } else {
+    "right"
+  }
+  text <- trimws(text, which = which)
   xml2::xml_remove(xml2::xml_children(node))
   xml2::xml_replace(
     node,
     xml2::xml_name(node),
+    `xml:space`="preserve",
     asis = 'true',
     gsub("\\\n", "", text)
   )
