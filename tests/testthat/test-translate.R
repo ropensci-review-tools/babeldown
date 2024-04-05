@@ -205,7 +205,6 @@ test_that("deepl_translate() handles square brackets stuff well", {
   })
 })
 
-
 test_that("deepl_translate() handles equations well", {
   to_translate <- system.file("example-equations.md", package = "babeldown")
   out_path <- withr::local_tempfile()
@@ -224,3 +223,20 @@ test_that("deepl_translate() handles equations well", {
   expect_snapshot(sub(".*que ", "", math_lines[7]))
   expect_snapshot(math_lines[9])
 })
+
+test_that("deepl_translate() handles equations+footnote well", {
+  to_translate <- system.file("example-equations-footnote.md", package = "babeldown")
+  out_path <- withr::local_tempfile()
+  with_mock_dir("example-equations-footnote", {
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "FR",
+      target_lang = "EN-US",
+      yaml_fields = NULL
+    )
+  })
+  foot_math_lines <- brio::read_lines(out_path)
+  expect_snapshot(foot_math_lines)
+})
+
