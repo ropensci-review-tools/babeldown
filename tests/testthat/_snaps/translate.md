@@ -35,9 +35,9 @@
 ---
 
     Code
-      sub(".*$", "$", math_lines[7])
+      sub(".*que ", "", math_lines[7])
     Output
-      [1] "$"
+      [1] "$\\alpha=1$ y $b$ no está definida."
 
 ---
 
