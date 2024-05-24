@@ -381,10 +381,19 @@ unprotect_curly <- function(curly) {
 }
 
 protect_math <- function(math) {
+  if (xml2::xml_name(math) == "softbreak") {
+    xml2::xml_attr(math, "softbreak") <- "yes"
+  }
+
   xml2::xml_name(math) <- "math"
+
 }
 unprotect_math <- function(math) {
-  xml2::xml_name(math) <- "text"
+  if (xml2::xml_has_attr(math, "softbreak")) {
+    xml2::xml_name(math) <- "softbreak"
+  } else {
+    xml2::xml_name(math) <- "text"
+  }
 }
 protect_squaries <- function(node) {
   text <- xml2::xml_text(node)

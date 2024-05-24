@@ -1,8 +1,0 @@
-{
-    "translations": [
-        {
-            "detected_source_language": "EN",
-            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Algo de texto.<\/text>\n  <\/paragraph>\n  <paragraph>\n    <math xml:space=\"preserve\" asis=\"true\" math=\"true\">$$<\/math>\n    <math asis=\"true\" math=\"true\"/>\n    <math xml:space=\"preserve\" asis=\"true\" math=\"true\">E = m \\times c^2<\/math>\n    <math asis=\"true\" math=\"true\"/>\n    <math xml:space=\"preserve\" asis=\"true\" math=\"true\">$$<\/math>\n  <\/paragraph>\n  <paragraph>\n   <text xml:space=\"preserve\">¿Te parece bonita esta ecuación? Observa que <\/text>\n   <math asis=\"true\" math=\"true\">$\\alpha=1$<\/math>\n    <text> y <\/text>\n   <math asis=\"true\" math=\"true\">$b$<\/math>\n    <text> no está definida.<\/text>\n  <\/paragraph>\n  <paragraph>\n    <text xml:space=\"preserve\"/>\n    <math asis=\"true\" math=\"true\">$i_t = j_t$<\/math>\n    <text/>\n  <\/paragraph>\n<\/document>\n"
-        }
-    ]
-}
