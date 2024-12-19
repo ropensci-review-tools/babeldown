@@ -19,7 +19,8 @@ translate: Markdown strings
 (`babeldown::deepl_translate_quarto()`) and Hugo blog posts
 (`babeldown::deepl_translate_hugo()`) in particular.
 
-With babeldown you can also _update_ translations, see `babeldown::deepl_update()`.
+With babeldown you can also *update* translations, see
+`babeldown::deepl_update()`.
 
 ## Installation and setup
 
@@ -48,9 +49,17 @@ Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
 
 ### API key
 
-Set your API key via the environment variable `DEEPL_API_KEY`. You could
-store it with the [keyring](https://r-lib.github.io/keyring/index.html)
-package and retrieve it like so:
+Set your API key via the environment variable `DEEPL_API_KEY`.
+
+You could store it with the
+[keyring](https://r-lib.github.io/keyring/index.html) package, once per
+user/machine.
+
+``` r
+keyring::key_set("deepl") # will prompt you to enter the key interactively
+```
+
+In any script you use babeldown, you’d retrieve the key like so:
 
 ``` r
 Sys.setenv(DEEPL_API_KEY = keyring::key_get("deepl"))
