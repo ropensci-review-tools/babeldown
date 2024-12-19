@@ -75,6 +75,9 @@ We also recommend not starting a new line in the middle of something
 that’s between square brackets (in particular references and in-line
 footnotes) as it would break the way babeldown tries to protect those.
 
+You might be interested in the [aeolus
+package](https://docs.ropensci.org/aeolus/) for fixing line breaks.
+
 #### RStudio Visual Editor
 
 If you use RStudio Visual Editor, you can choose [“sentence” as
