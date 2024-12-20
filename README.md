@@ -53,10 +53,11 @@ Set your API key via the environment variable `DEEPL_API_KEY`.
 
 You could store it with the
 [keyring](https://r-lib.github.io/keyring/index.html) package, once per
-user/machine.
+user/machine. The code below will prompt you to enter your API key
+interactively.
 
 ``` r
-keyring::key_set("deepl") # will prompt you to enter the key interactively
+keyring::key_set("deepl", prompt = "API key:") 
 ```
 
 In any script you use babeldown, you’d retrieve the key like so:
