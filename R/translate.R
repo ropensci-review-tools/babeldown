@@ -407,6 +407,8 @@ protect_squaries <- function(node) {
 
   # https://rstudio.github.io/visual-markdown-editing/citations.html#inserting-citations
   at_things <- regmatches(text, gregexpr("@[[:alnum:]\\-\\_\\:\\.\\#\\$\\%\\&\\-\\+\\?\\<\\>\\~\\/]*", text))[[1]]
+  # https://github.com/ropensci-review-tools/babeldown/issues/78
+  at_things <- sub("</squary><text>", "", at_things)
 
   footnote_things <- regmatches(text, gregexpr("\\^[[:alnum:]]*", text))[[1]]
   text <- purrr::reduce(
