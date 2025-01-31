@@ -203,6 +203,14 @@ test_that("deepl_translate() handles square brackets stuff well", {
     expect_match(lines, "\\[-@wickham\\+2015\\#]")
     expect_match(lines, "también")
   })
+  with_mock_dir("example-square2", {
+    lines <- deepl_translate_markdown_string(
+      "Wickham says blah [@wickham24].",
+      source_lang = "en",
+      target_lang = "es"
+    )
+    expect_match(lines, "\\[@wickham24]")
+  })
 })
 
 test_that("deepl_translate() handles equations well", {
