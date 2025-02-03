@@ -13,6 +13,9 @@
 #'
 #'
 #' @inheritParams deepl_translate
+#' @param max_commits Maximal number of commits to go back to to find
+#' when the target and source files were updated.
+#' You might need to increase it if your project is very active.
 #'
 #' @return None
 #' @export
@@ -24,7 +27,8 @@ deepl_update <- function(path,
                          glossary_name = NULL,
                          source_lang = NULL,
                          target_lang = NULL,
-                         formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+                         formality = c("default", "more", "less", "prefer_more", "prefer_less"),
+                         max_commits = 100L) {
 
   if (!fs::file_exists(path)) {
     cli::cli_abort("Can't find {.var path} {path}.")
@@ -59,9 +63,7 @@ deepl_update <- function(path,
   out_path <- fs::path_rel(fs::path_expand(fs::path_tidy(out_path)), start = repo)
 
   # determine whether out_path is out of date
-  # TODO or not, make it work for over 100 commits?
-  log <- gert::git_log(repo = repo)
-
+  log <- gert::git_log(repo = repo, max = max_commits)
   found_source <- FALSE
   latest_source_commit_index <- 0
   while (!found_source) {

@@ -11,7 +11,8 @@ deepl_update(
   glossary_name = NULL,
   source_lang = NULL,
   target_lang = NULL,
-  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+  formality = c("default", "more", "less", "prefer_more", "prefer_less"),
+  max_commits = 100L
 )
 }
 \arguments{
@@ -34,6 +35,10 @@ deepl_update(
 \item "prefer_more" -- for a more formal language if available, otherwise fallback to default formality
 \item "prefer_less" -- for a more informal language if available, otherwise fallback to default formality
 }}
+
+\item{max_commits}{Maximal number of commits to go back to to find
+when the target and source files were updated.
+You might need to increase it if your project is very active.}
 }
 \value{
 None
