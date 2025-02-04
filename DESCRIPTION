@@ -4,7 +4,9 @@ Version: 0.0.0.9000
 Authors@R: c(
     person("Maëlle", "Salmon", , "msmaellesalmon@gmail.com", role = c("cre", "aut"),
            comment = c(ORCID = "0000-0002-2815-0399")),
-    person("Xavier", "Timbeau", role = "ctb")
+    person("Xavier", "Timbeau", role = "ctb"),
+    person("rOpenSci", role = "fnd",
+           comment = c(ROR = "019jywm96"))
   )
 Description: Provide workflows and guidance for automatic translation of Markdown-based R content
   using DeepL API.
