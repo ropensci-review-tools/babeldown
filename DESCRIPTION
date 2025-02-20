@@ -32,7 +32,7 @@ Imports:
     rstudioapi,
     snakecase,
     tibble,
-    tinkr (>= 0.2.0.9000),
+    tinkr (>= 0.2.0.9001),
     withr,
     xml2,
     yaml (>= 2.3.8)

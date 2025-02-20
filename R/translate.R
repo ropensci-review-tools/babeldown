@@ -87,26 +87,29 @@ deepl_translate <- function(path,
   }
 
   # translate some YAML fields ----
-  yaml <- yaml::yaml.load(wool$yaml, handlers = list(seq = function(x) x))
-  if (!is.null(yaml_fields) && !is.null(yaml)) {
-    for (yaml_field in yaml_fields) {
-      if (is_non_empty_string(yaml[[yaml_field]])) {
-        yaml[[yaml_field]] <- purrr::map_chr(
-          yaml[[yaml_field]],
-          deepl_translate_markdown_string,
-          glossary_name = glossary_name,
-          source_lang = source_lang,
-          target_lang = target_lang,
-          formality = formality
-        )
+  uses_yaml <- (!is.na(wool$frontmatter_format) && wool$frontmatter_format == "YAML")
+  if (!is.null(yaml_fields) && uses_yaml) {
+    yaml <- yaml::yaml.load(wool$frontmatter, handlers = list(seq = function(x) x))
+    if (!is.null(yaml)) {
+      for (yaml_field in yaml_fields) {
+        if (is_non_empty_string(yaml[[yaml_field]])) {
+          yaml[[yaml_field]] <- purrr::map_chr(
+            yaml[[yaml_field]],
+            deepl_translate_markdown_string,
+            glossary_name = glossary_name,
+            source_lang = source_lang,
+            target_lang = target_lang,
+            formality = formality
+          )
+        }
       }
-    }
     yaml_file <- withr::local_tempfile()
     yaml::write_yaml(
       x = yaml, file = yaml_file,
       handlers = list(logical = yaml::verbatim_logical)
     )
-    wool$yaml <- c("---", brio::read_lines(yaml_file), "---")
+    wool$frontmatter <- c("---", brio::read_lines(yaml_file), "---")
+  }
   }
 
   # translate content ----
