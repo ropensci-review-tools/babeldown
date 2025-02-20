@@ -1,6 +1,6 @@
 library(httptest2)
 with_mock_dir <- function(path, ...) {
-  httptest2::with_mock_dir(file.path("fixtures", path), ...)
+  httptest2::with_mock_dir(testthat::test_path("fixtures", path), ...)
 }
 
 httptest2::set_redactor(function(x) {

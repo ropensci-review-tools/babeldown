@@ -43,6 +43,7 @@ Useful links:
 Other contributors:
 \itemize{
   \item Xavier Timbeau [contributor]
+  \item rOpenSci (\href{https://ror.org/019jywm96}{ROR}) [funder]
 }
 
 }
