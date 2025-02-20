@@ -25,6 +25,14 @@
       Error in `deepl_translate()`:
       ! `formality` must be one of "default", "more", "less", "prefer_more", or "prefer_less", not "non-existing-formality".
 
+# deepl_translate() does not break TOML
+
+    Code
+      lines[1:3]
+    Output
+      [1] "+++"                         "title = \"Community Calls\""
+      [3] "+++"                        
+
 # deepl_translate() handles equations well
 
     Code
