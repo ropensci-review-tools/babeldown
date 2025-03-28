@@ -1,13 +1,22 @@
 {
     "glossaries": [
         {
-            "glossary_id": "42",
+            "glossary_id": "dd812f0e-a597-43d5-b661-52f5f4de19c9",
             "name": "glosario",
             "ready": true,
             "source_lang": "en",
             "target_lang": "es",
             "creation_time": "2022-10-18T13:20:13.807055Z",
             "entry_count": 46
+        },
+        {
+            "glossary_id": "6ac8d7a5-fd53-4a83-a166-c399196c3665",
+            "name": "rstats-glosario",
+            "ready": true,
+            "source_lang": "en",
+            "target_lang": "es",
+            "creation_time": "2024-12-20T08:27:42.848414Z",
+            "entry_count": 2
         }
     ]
 }

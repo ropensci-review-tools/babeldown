@@ -1,8 +1,0 @@
-{
-    "translations": [
-        {
-            "detected_source_language": "EN",
-            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <heading level=\"1\">\n   <text xml:space=\"preserve\">Introducción<\/text>\n  <\/heading>\n  <paragraph>\n   <text xml:space=\"preserve\">Este es un libro creado a partir de markdown y código ejecutable.<\/text>\n  <\/paragraph>\n  <paragraph>\n   <text xml:space=\"preserve\">Consulta @knuth84 para más información sobre la programación alfabetizada.<\/text>\n  <\/paragraph>\n<\/document>\n"
-        }
-    ]
-}

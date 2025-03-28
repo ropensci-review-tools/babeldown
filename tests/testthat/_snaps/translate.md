@@ -72,3 +72,16 @@
     Output
       [1] "$a_{ij}$"
 
+# deepl_translate() protects fenced divs
+
+    Code
+      brio::read_lines(out_path)
+    Output
+      [1] "Algo de texto."                                 
+      [2] ""                                               
+      [3] "::: footer"                                     
+      [4] " [¡Eres astuto!]{style=\"color: transparent;\"}"
+      [5] ":::"                                            
+      [6] ""                                               
+      [7] ""                                               
+
