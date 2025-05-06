@@ -25,10 +25,13 @@ test_that("deepl_translate() errors well", {
 
   file <- withr::local_tempfile()
   file.create(file)
+  out_file <- withr::local_tempfile()
+  file.create(out_file)
   with_mock_dir("get-glossary-ok", {
     expect_snapshot(
       deepl_translate(
         file,
+        out_path = out_file,
         glossary_name = "non-existing-glossary",
         source_lang = "en",
         target_lang = "es"
@@ -40,7 +43,18 @@ test_that("deepl_translate() errors well", {
   expect_snapshot(
     deepl_translate(
       file,
+      out_path = out_file,
       formality = "non-existing-formality",
+      source_lang = "en",
+      target_lang = "es"
+    ),
+    error = TRUE
+  )
+
+  expect_snapshot(
+    deepl_translate(
+      file,
+      out_path = "this/path/does/not/exist",
       source_lang = "en",
       target_lang = "es"
     ),
