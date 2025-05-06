@@ -9,8 +9,8 @@
 ---
 
     Code
-      deepl_translate(file, glossary_name = "non-existing-glossary", source_lang = "en",
-        target_lang = "es")
+      deepl_translate(file, out_path = outfile, glossary_name = "non-existing-glossary",
+        source_lang = "en", target_lang = "es")
     Condition
       Error in `deepl_translate()`:
       ! Can't find glossary_name "non-existing-glossary".
@@ -19,11 +19,20 @@
 ---
 
     Code
-      deepl_translate(file, formality = "non-existing-formality", source_lang = "en",
-        target_lang = "es")
+      deepl_translate(file, out_path = outfile, formality = "non-existing-formality",
+        source_lang = "en", target_lang = "es")
     Condition
       Error in `deepl_translate()`:
       ! `formality` must be one of "default", "more", "less", "prefer_more", or "prefer_less", not "non-existing-formality".
+
+---
+
+    Code
+      deepl_translate(file, out_path = "this/path/does/not/exist", source_lang = "en",
+        target_lang = "es")
+    Condition
+      Error in `deepl_translate()`:
+      ! The folder to save out_path ("this/path/does/not") does not exist. Did you mistype it or do you need to create it?
 
 # deepl_translate() does not break TOML
 
