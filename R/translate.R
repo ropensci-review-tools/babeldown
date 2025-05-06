@@ -51,7 +51,7 @@ deepl_translate <- function(path,
   if (!dir.exists(out_dir)) {
     cli::cli_abort(
       "The folder to save {.field out_path} ({.val {out_dir}}) does not exist.
-      Did you mistype it or do you need to create it?"
+      You might have mistyped it, or it needs to be created."
     )
   }
 
