@@ -9,7 +9,7 @@
 ---
 
     Code
-      deepl_translate(file, out_path = outfile, glossary_name = "non-existing-glossary",
+      deepl_translate(file, out_path = out_file, glossary_name = "non-existing-glossary",
         source_lang = "en", target_lang = "es")
     Condition
       Error in `deepl_translate()`:
@@ -19,7 +19,7 @@
 ---
 
     Code
-      deepl_translate(file, out_path = outfile, formality = "non-existing-formality",
+      deepl_translate(file, out_path = out_file, formality = "non-existing-formality",
         source_lang = "en", target_lang = "es")
     Condition
       Error in `deepl_translate()`:
@@ -32,7 +32,7 @@
         target_lang = "es")
     Condition
       Error in `deepl_translate()`:
-      ! The folder to save out_path ("this/path/does/not") does not exist. Did you mistype it or do you need to create it?
+      ! The folder to save out_path ("this/path/does/not") does not exist. You might have mistyped it, or it needs to be created.
 
 # deepl_translate() does not break TOML
 
