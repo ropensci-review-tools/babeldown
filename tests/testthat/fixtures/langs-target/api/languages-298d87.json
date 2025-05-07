@@ -153,5 +153,15 @@
         "language": "ZH",
         "name": "Chinese (simplified)",
         "supports_formality": false
+    },
+    {
+        "language": "ZH-HANS",
+        "name": "Chinese (simplified)",
+        "supports_formality": false
+    },
+    {
+        "language": "AR",
+        "name": "Arabic",
+        "supports_formality": false
     }
 ]
