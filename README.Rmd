@@ -47,6 +47,7 @@ babeldown uses the DeepL _free_ API URL by default.
 If you use a Pro plan, set the API URL via
 
 ```{r, eval=FALSE}
+# Only for Pro plan users
 Sys.setenv("DEEPL_API_URL" = "https://api.deepl.com")
 ```
 
