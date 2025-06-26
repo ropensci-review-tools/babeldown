@@ -114,5 +114,9 @@
     {
         "language": "ZH",
         "name": "Chinese"
+    },
+    {
+        "language": "AR",
+        "name": "arabic"
     }
 ]

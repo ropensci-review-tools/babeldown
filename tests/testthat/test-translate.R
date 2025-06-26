@@ -298,3 +298,24 @@ test_that("deepl_translate() handles equations with curly well", {
 })
 
 
+test_that("deepl_translate() protects fenced divs", {
+  with_mock_dir("example-fences", {
+    to_translate <- system.file("example-fences.md", package = "babeldown")
+    out_path <- withr::local_tempfile()
+
+    deepl_translate(
+      path = to_translate,
+      out_path = out_path,
+      source_lang = "EN",
+      target_lang = "ES",
+      formality = "less",
+      yaml_fields = NULL
+    )
+
+    lines <- readLines(out_path)
+    expect_true(any(grepl('footer', lines)))
+    expect_snapshot(brio::read_lines(out_path))
+  })
+})
+
+

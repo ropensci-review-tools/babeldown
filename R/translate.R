@@ -167,15 +167,18 @@ translate_part <- function(xml,
   woolish <- tinkr::yarn$new(path = temp_file)
   woolish$body <- fakify_xml(xml)
 
+  ## protect content inside curly braces and math ---c-
   ## protect content inside curly braces and math ----
-  ## protect content inside curly braces and math ----
-  woolish$protect_math()$protect_curly()
+  woolish$protect_math()$protect_curly()$protect_fences()
 
   curlies <- woolish$get_protected("curly")
   purrr::walk(curlies, protect_curly)
 
   maths <- woolish$get_protected("math")
   purrr::walk(maths, protect_math)
+
+  fences <- woolish$get_protected("fence")
+  purrr::walk(fences, protect_fence)
 
   ## protect content inside square brackets ----
   contain_square_brackets <- xml2::xml_find_all(
@@ -207,7 +210,7 @@ translate_part <- function(xml,
       non_splitting_tags = "text,softbreak",
       formality = formality,
       glossary_id = glossary_id,
-      ignore_tags = "code,code_block,curly,math,notranslate"
+      ignore_tags = "code,code_block,curly,math,notranslate,fence"
     ) |>
       purrr::compact()
 
@@ -241,6 +244,9 @@ translate_part <- function(xml,
   ## Make math tags text tags again ----
   maths <- xml2::xml_find_all(woolish$body, "//d1:math")
   purrr::walk(maths, unprotect_math)
+  ## Make fence tags text tags again ---- 
+  fences <- xml2::xml_find_all(woolish$body, "//d1:fence")
+  purrr::walk(fences, unprotect_fence)
 
   ## Unprotect notranslate ----
   notranslates <- xml2::xml_find_all(woolish$body, ".//d1:notranslate")
@@ -389,6 +395,15 @@ protect_curly <- function(curly) {
 }
 unprotect_curly <- function(curly) {
   xml2::xml_name(curly) <- "text"
+}
+
+protect_fence <- function(fence) {
+  xml2::xml_name(fence) <- "fence"
+}
+unprotect_fence <- function(fence) {
+  xml2::xml_name(fence) <- "text"
+  # remove superfluous new line
+  xml2::xml_text(fence) <- sub("\\\n$", "", xml2::xml_text(fence))
 }
 
 protect_math <- function(math) {
