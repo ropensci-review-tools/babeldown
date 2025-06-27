@@ -46,7 +46,6 @@ deepl_request <- function(path, method = "GET", ...) {
 deepl_form_request <- function(path, ...) {
   deepl_request_basic(path, method = "POST") |>
     httr2::req_body_form(...) |>
-    httr2::req_dry_run() |>
     httr2::req_perform() |>
     httr2::resp_body_json()
 }
