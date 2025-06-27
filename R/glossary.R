@@ -55,11 +55,11 @@ deepl_upsert_glossary <- function(
     tsv = readr::read_tsv(filename, show_col_types = FALSE)
   )
 
-  if (!source_lang %in% names(entries)) {
+  if (!is.element(source_lang, names(entries))) {
     rlang::abort(sprintf("Can't find %s in glossary variables.", source_lang))
   }
 
-  if (!target_lang %in% names(entries)) {
+  if (!is.element(target_lang, names(entries))) {
     rlang::abort(sprintf("Can't find %s in glossary variables.", target_lang))
   }
 
