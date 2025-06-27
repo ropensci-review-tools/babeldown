@@ -19,8 +19,12 @@
 #'   source_lang = "English"
 #' )
 #' }
-deepl_upsert_glossary <- function(filename, glossary_name = NULL,
-                                  source_lang, target_lang) {
+deepl_upsert_glossary <- function(
+  filename,
+  glossary_name = NULL,
+  source_lang,
+  target_lang
+) {
   # args checking and input preparation ---------------
 
   format <- tools::file_ext(filename)
