@@ -111,11 +111,11 @@ get_glossary_id <- function(glossary_name,
 
   glossary_names <- purrr::map_chr(glossaries, "name")
 
-  if (sum(glossary_names == glossary_name) == 0) {
+  if (!is.element(glossary_name, glossaries[["name"]])) {
     return(NULL)
   }
 
-  if (sum(glossary_names == glossary_name) > 1) {
+  if (length(intersect(glossary_names, glossary_name)) > 1) {
     rlang::abort(
       sprintf(
         "There are %s glossaries with the name %s, please fix.",
