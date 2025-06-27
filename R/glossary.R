@@ -86,30 +86,36 @@ deepl_upsert_glossary <- function(
   }
 
   # create glossary ---------------------
+
+  browser()
   glossary <- deepl_form_request(
     path = "glossaries",
     name = glossary_name,
-    source_lang = source_lang_code,
-    target_lang = target_lang_code,
-    entries = entries,
-    entries_format = format
+    dictionaries = jsonlite::toJSON(
+      list(list(
+        source_lang = tolower(source_lang_code),
+        target_lang = tolower(target_lang_code),
+        entries = entries,
+        entries_format = format
+      )),
+      auto_unbox = TRUE,
+      pretty = TRUE
+    )
   )
   return(invisible(glossary[["glossary_id"]]))
 }
 
-get_glossary_id <- function(glossary_name,
-                            source_lang, target_lang) {
-  glossaries <- deepl_request("glossaries")
-  glossaries <- purrr::pluck(glossaries, "glossaries")
-
-  glossaries <- glossaries[tolower(purrr::map_chr(glossaries, "source_lang")) == tolower(source_lang)]
-  glossaries <- glossaries[tolower(purrr::map_chr(glossaries, "target_lang")) == tolower(target_lang)]
+get_glossary_id <- function(glossary_name, source_lang, target_lang) {
+  glossaries <- deepl_request("glossaries")[["glossaries"]]
 
   if (length(glossaries) == 0) {
     return(NULL)
   }
 
-  glossary_names <- purrr::map_chr(glossaries, "name")
+  glossaries <- do.call(
+    rbind,
+    purrr::map(glossaries, tibblify_glossary)
+  )
 
   if (!is.element(glossary_name, glossaries[["name"]])) {
     return(NULL)
@@ -129,10 +135,30 @@ get_glossary_id <- function(glossary_name,
   return(glossary[[1]][["glossary_id"]])
 }
 
-examine_glossary <- function(glossary_name,
-                             source_lang_code,
-                             target_lang_code,
-                             call = rlang::caller_env()) {
+tibblify_glossary <- function(glossary_list) {
+  info <- do.call(
+    rbind,
+    purrr::map(glossary_list[["dictionaries"]], tibblify_dictionary)
+  )
+  info[["id"]] <- glossary_list[["glossary_id"]]
+  info[["name"]] <- glossary_list[["name"]]
+
+  info
+}
+
+tibblify_dictionary <- function(dictionary_list) {
+  tibble::tibble(
+    source_lang = dictionary_list[["source_lang"]],
+    target_lang = dictionary_list[["target_lang"]]
+  )
+}
+
+examine_glossary <- function(
+  glossary_name,
+  source_lang_code,
+  target_lang_code,
+  call = rlang::caller_env()
+) {
   if (is.null(glossary_name)) {
     return(NULL)
   }
@@ -153,5 +179,4 @@ examine_glossary <- function(glossary_name,
   }
 
   glossary_id
-
 }
