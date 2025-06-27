@@ -117,6 +117,9 @@ get_glossary_id <- function(glossary_name, source_lang, target_lang) {
     purrr::map(glossaries, tibblify_glossary)
   )
 
+  glossaries <- glossaries[glossaries[["source_lang"]] == source_lang, ]
+  glossaries <- glossaries[glossaries[["target_lang"]] == target_lang, ]
+
   if (!is.element(glossary_name, glossaries[["name"]])) {
     return(NULL)
   }
