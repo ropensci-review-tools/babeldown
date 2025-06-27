@@ -28,7 +28,7 @@ deepl_upsert_glossary <- function(
   # args checking and input preparation ---------------
 
   format <- tools::file_ext(filename)
-  if (!(format %in% c("tsv", "csv"))) {
+  if (!is.element(format, c("tsv", "csv"))) {
     rlang::abort(sprintf("Can't use file format %s, only csv or tsv.", format))
   }
 
@@ -36,9 +36,8 @@ deepl_upsert_glossary <- function(
     rlang::abort(sprintf("Can't find file %s.", filename))
   }
 
-  if (is.null(glossary_name)) {
-    glossary_name <- tools::file_path_sans_ext(basename(filename))
-  }
+  glossary_name <- glossary_name %||%
+    tools::file_path_sans_ext(basename(filename))
 
   source_lang_code <- examine_source_lang(source_lang)
   target_lang_code <- examine_target_lang(target_lang)
