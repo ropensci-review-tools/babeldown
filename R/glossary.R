@@ -49,7 +49,8 @@ deepl_upsert_glossary <- function(
   )
 
   # prepare entries
-  entries <- switch(format,
+  entries <- switch(
+    format,
     csv = readr::read_csv(filename, show_col_types = FALSE),
     tsv = readr::read_tsv(filename, show_col_types = FALSE)
   )
