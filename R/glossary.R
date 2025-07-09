@@ -87,19 +87,16 @@ deepl_upsert_glossary <- function(
 
   # create glossary ---------------------
 
-  browser()
-  glossary <- deepl_form_request(
+  glossary <- deepl_json_request(
     path = "glossaries",
-    name = glossary_name,
-    dictionaries = jsonlite::toJSON(
-      list(list(
+    data = list(
+      name = glossary_name,
+      dictionaries = list(list(
         source_lang = tolower(source_lang_code),
         target_lang = tolower(target_lang_code),
         entries = entries,
         entries_format = format
-      )),
-      auto_unbox = TRUE,
-      pretty = TRUE
+      ))
     )
   )
   return(invisible(glossary[["glossary_id"]]))
