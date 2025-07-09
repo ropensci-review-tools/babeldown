@@ -170,7 +170,7 @@ examine_glossary <- function(
   if (is.null(glossary_id)) {
     cli::cli_abort(
       c(
-        "Can't find {.field glossary_name} {.val {glossary_name}}.",
+        "Can't find glossary called {.val {glossary_name}} ({.field glossary_name} argument).",
         i = "Check the spelling, or create it with {.fun upsert_glossary}."
       ),
       call = call
