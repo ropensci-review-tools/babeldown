@@ -63,15 +63,38 @@ deepl_upsert_glossary <- function(
     rlang::abort(sprintf("Can't find %s in glossary variables.", target_lang))
   }
 
-  entries <- entries[, c(source_lang, target_lang)]
+  source_target_entries <- entries[, c(source_lang, target_lang)]
   temp_file <- withr::local_tempfile()
 
   if (format == "csv") {
-    readr::write_csv(entries, temp_file)
-    entries <- glue::glue_collapse(brio::read_lines(temp_file)[-1], sep = "\n")
+    readr::write_csv(source_target_entries, temp_file)
+    source_target_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\n"
+    )
   } else {
-    readr::write_tsv(entries, temp_file)
-    entries <- glue::glue_collapse(brio::read_lines(temp_file)[-1], sep = "\t")
+    readr::write_tsv(source_target_entries, temp_file)
+    source_target_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\t"
+    )
+  }
+
+  target_source_entries <- entries[, c(target_lang, source_lang)]
+  temp_file <- withr::local_tempfile()
+
+  if (format == "csv") {
+    readr::write_csv(target_source_entries, temp_file)
+    target_source_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\n"
+    )
+  } else {
+    readr::write_tsv(target_source_entries, temp_file)
+    target_source_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\t"
+    )
   }
 
   # delete existing glossary if necessary ------
@@ -86,17 +109,24 @@ deepl_upsert_glossary <- function(
   }
 
   # create glossary ---------------------
-
   glossary <- deepl_json_request(
     path = "glossaries",
     data = list(
       name = glossary_name,
-      dictionaries = list(list(
-        source_lang = tolower(source_lang_code),
-        target_lang = tolower(target_lang_code),
-        entries = entries,
-        entries_format = format
-      ))
+      dictionaries = list(
+        list(
+          source_lang = tolower(source_lang_code),
+          target_lang = tolower(target_lang_code),
+          entries = source_target_entries,
+          entries_format = format
+        ),
+        list(
+          source_lang = tolower(target_lang_code),
+          target_lang = tolower(source_lang_code),
+          entries = target_source_entries,
+          entries_format = format
+        )
+      )
     )
   )
   return(invisible(glossary[["glossary_id"]]))
