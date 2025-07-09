@@ -121,18 +121,17 @@ get_glossary_id <- function(glossary_name, source_lang, target_lang) {
     return(NULL)
   }
 
-  if (length(intersect(glossary_names, glossary_name)) > 1) {
+  if (length(intersect(glossary_name, glossaries[["name"]])) > 1) {
     rlang::abort(
       sprintf(
         "There are %s glossaries with the name %s, please fix.",
-        sum(glossary_names == glossary_name),
+        length(intersect(glossary_name, glossaries[["name"]])) > 1,
         glossary_name
       )
     )
   }
 
-  glossary <- glossaries[glossary_names == glossary_name]
-  return(glossary[[1]][["glossary_id"]])
+  glossaries[["id"]][glossaries[["name"]] == glossary_name]
 }
 
 tibblify_glossary <- function(glossary_list) {
