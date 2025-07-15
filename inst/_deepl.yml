@@ -1,0 +1,19 @@
+preferences:
+  - source: en
+    target: es
+    formality: less
+    glossary: "glosario"
+    yaml_fields: ["title"]
+  - source: en
+    target: fr
+    formality: more
+    yaml_fields: ["title", "description"]
+
+excludes: ["*.md"]
+
+targets:
+  - extension: es
+    language: es-419
+  - extension: en
+    language: en-us
+  - extension: fr

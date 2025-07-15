@@ -34,3 +34,8 @@ read_excludes <- function(path = ".") {
   read_config(path) |>
     purrr::pluck("excludes")
 }
+
+read_excludes <- function(path = ".") {
+  read_config(path) |>
+    purrr::pluck("targets")
+}

@@ -201,4 +201,57 @@ deepl_part_translate <- function(
   new_target$write(file.path(repo, out_path))
 }
 
-deepl_branch_update <- function() {}
+deepl_branch_update <- function(path = ".", max = 100) {
+  current_branch <- gert::git_branch(repo = path)
+  tip_commit <- gert::git_commit_id(current_branch, repo = path)
+  tail_commit <- git_merge_find_base(
+    current_branch,
+    target = .git_default_branch(),
+    repo = path
+  )
+  excludes <- read_excludes(path) |>
+    purrr::map(\(x) fs::dir_ls(glob = x)) |>
+    unlist()
+
+  log <- gert::git_log(ref = tip_commit, max = max, repo = repo)
+
+  # commit after the merge base
+  first_branch_commit_index <- which(log[["commit"]] == tail_commit) - 1
+  updated_files <- log[["commit"]][seq_len(first_branch_commit_index)] |>
+    purrr::map(\(x) commit_files(x, repo = repo)) |>
+    unlist() |>
+    purrr::keep(\(x) fs::path_ext(x) %in% c("md", "Rmd", "qmd")) |>
+    setdiff(excludes)
+
+  if (length(updated_files) == 0) {
+    return(TRUE)
+  }
+
+  targets <- read_targets(path)
+
+  purrr::walk(
+    updated_files,
+    deepl_part_translate()
+  )
+}
+
+file_targets <- function(updated_files) {
+  commit_files <- function(commit, repo) {
+    gert::git_diff(commit, repo = repo)[["new"]]
+  }
+}
+
+.git_default_branch <- function(path = ".") {
+  if (gert::git_branch_exists("main", repo = path)) {
+    return("main")
+  }
+
+  if (gert::git_branch_exists("master", repo = path)) {
+    return("master")
+  }
+
+  cli::cli_abort(
+    "Can't guess default branch in {.path {path}}, 
+  not main, not master."
+  )
+}
