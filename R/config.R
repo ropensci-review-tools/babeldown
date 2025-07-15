@@ -2,7 +2,7 @@ read_config <- function(path) {
   config_path <- file.path(path, "_deepl.yml")
 
   if (!file.exists(config_path)) {
-    cli::cli_abort("Can't find {.path config_path}")
+    cli::cli_abort("Can't find {.path {config_path}}")
   }
 
   yaml::read_yaml(config_path)

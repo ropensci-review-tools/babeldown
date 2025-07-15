@@ -213,12 +213,12 @@ deepl_branch_update <- function(path = ".", max = 100) {
     purrr::map(\(x) fs::dir_ls(glob = x)) |>
     unlist()
 
-  log <- gert::git_log(ref = tip_commit, max = max, repo = repo)
+  log <- gert::git_log(ref = tip_commit, max = max, repo = path)
 
   # commit after the merge base
   first_branch_commit_index <- which(log[["commit"]] == tail_commit) - 1
   updated_files <- log[["commit"]][seq_len(first_branch_commit_index)] |>
-    purrr::map(\(x) commit_files(x, repo = repo)) |>
+    purrr::map(\(x) commit_files(x, repo = path)) |>
     unlist() |>
     purrr::keep(\(x) fs::path_ext(x) %in% c("md", "Rmd", "qmd")) |>
     setdiff(excludes)
@@ -275,6 +275,7 @@ guess_translate <- function(
   deepl_part_translate(
     path = file.path(path, file),
     out_path = file.path(path, target),
+    repo = path,
     source_lang = source_language,
     target_lang = target_language,
     tail_commit = tail_commit,
@@ -285,7 +286,6 @@ guess_translate <- function(
 }
 
 file_targets <- function(file, path) {
-  targets <- read_targets(path)
   setdiff(
     fs::dir_ls(path = path, regex = fs::path_ext_remove(fs::path_file(file))),
     file
