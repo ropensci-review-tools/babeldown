@@ -2,14 +2,23 @@
 #'
 #' Re-use existing translation where possible
 #' (at the node level: paragraph, heading, etc.)
+#' `deepl_update()` is based on the commit history in a single branch,
+#' `deepl_branch_update()` is based on the commit history in a branch
+#' against another (in a GitHub PR for instance).
 #'
 #' @details
-#' The function looks for the latest commit that updated the source file,
+#' `deepl_update()` looks for the latest commit that updated the source file,
 #' and for the latest commit that updated the target file.
 #' If the target file was updated later than the source file,
 #' or at the same time,
 #' nothing happens: you might need to
-#' reorder the Git history with rebase for instance.
+#' fix up the Git history with rebase for instance.
+#' Also note that if there were some commits irrelevant to the translation
+#' but containing edits to the source file, like typo fixes,
+#' too much of the target file will be translated automatically again.
+#'
+#' `deepl_branch_update()` is more automatic.
+#' It will run `deepl_update()`
 #'
 #'
 #' @inheritParams deepl_translate
@@ -21,15 +30,16 @@
 #' @export
 #'
 #'
-deepl_update <- function(path,
-                         out_path,
-                         yaml_fields = c("title", "description"),
-                         glossary_name = NULL,
-                         source_lang = NULL,
-                         target_lang = NULL,
-                         formality = c("default", "more", "less", "prefer_more", "prefer_less"),
-                         max_commits = 100L) {
-
+deepl_update <- function(
+  path,
+  out_path,
+  yaml_fields = c("title", "description"),
+  glossary_name = NULL,
+  source_lang = NULL,
+  target_lang = NULL,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less"),
+  max_commits = 100L
+) {
   if (!fs::file_exists(path)) {
     cli::cli_abort("Can't find {.var path} {path}.")
   }
@@ -50,9 +60,9 @@ deepl_update <- function(path,
   target_lang_code <- examine_target_lang(target_lang)
 
   glossary_id <- examine_glossary(
-      glossary_name,
-      source_lang_code = source_lang_code,
-      target_lang_code = target_lang_code
+    glossary_name,
+    source_lang_code = source_lang_code,
+    target_lang_code = target_lang_code
   )
 
   translated_lines <- brio::read_lines(out_path)
@@ -60,7 +70,10 @@ deepl_update <- function(path,
   repo <- fs::path_tidy(rprojroot::find_root(rprojroot::is_git_root, path))
 
   path <- fs::path_rel(fs::path_expand(fs::path_tidy(path)), start = repo)
-  out_path <- fs::path_rel(fs::path_expand(fs::path_tidy(out_path)), start = repo)
+  out_path <- fs::path_rel(
+    fs::path_expand(fs::path_tidy(out_path)),
+    start = repo
+  )
 
   # determine whether out_path is out of date
   log <- gert::git_log(repo = repo, max = max_commits)
@@ -68,7 +81,10 @@ deepl_update <- function(path,
   latest_source_commit_index <- 0
   while (!found_source) {
     latest_source_commit_index <- latest_source_commit_index + 1
-    diff_info <- gert::git_diff(log[["commit"]][[latest_source_commit_index]], repo = repo)
+    diff_info <- gert::git_diff(
+      log[["commit"]][[latest_source_commit_index]],
+      repo = repo
+    )
     # TODO or not, won't work if it was renamed in the important timeframe
     found_source <- is_path_in(path, diff_info[["new"]])
   }
@@ -77,7 +93,10 @@ deepl_update <- function(path,
   latest_target_commit_index <- 0
   while (!found_target) {
     latest_target_commit_index <- latest_target_commit_index + 1
-    diff_info <- gert::git_diff(log[["commit"]][[latest_target_commit_index]], repo = repo)
+    diff_info <- gert::git_diff(
+      log[["commit"]][[latest_target_commit_index]],
+      repo = repo
+    )
     # TODO or not, won't work if it was renamed in the important timeframe
     found_target <- is_path_in(out_path, diff_info[["new"]])
   }
@@ -86,10 +105,45 @@ deepl_update <- function(path,
     return(NULL)
   }
 
+  deepl_part_translate(
+    path = path,
+    out_path = out_path,
+    repo = repo,
+    yaml_fields = yaml_fields,
+    glossary_id = glossary_id,
+    source_lang = source_lang,
+    target_lang = target_lang,
+    formality = formality,
+    tail_commit = log[["commit"]][[latest_target_commit_index]],
+    tip_commit = log[["commit"]][[latest_source_commit_index]]
+  )
+}
+
+tags_the_same <- function(tag1, tag2) {
+  # TODO: or just compare as.character() of tags??
+  xml2::xml_text(tag1) == xml2::xml_text(tag2) &&
+    all(
+      purrr::map_chr(xml2::xml_children(tag1), xml2::xml_name) ==
+        purrr::map_chr(xml2::xml_children(tag2), xml2::xml_name)
+    )
+}
+
+deepl_part_translate <- function(
+  path,
+  out_path,
+  repo,
+  yaml_fields,
+  glossary_id,
+  source_lang,
+  target_lang,
+  formality,
+  tip_commit,
+  tail_commit
+) {
   dir_at_target_latest_update <- withr::local_tempdir()
   fs::dir_copy(repo, dir_at_target_latest_update, overwrite = TRUE)
   gert::git_reset_hard(
-    ref = log[["commit"]][[latest_target_commit_index]],
+    ref = tail_commit,
     repo = dir_at_target_latest_update
   )
   old_source <- tinkr::yarn$new(
@@ -108,7 +162,9 @@ deepl_update <- function(path,
     )
 
   if (!same_structure) {
-    cli::cli_abort("Old version of {path}, and current {out_path}, do not have an equivalent XML structure.")
+    cli::cli_abort(
+      "Old version of {path}, and current {out_path}, do not have an equivalent XML structure."
+    )
   }
 
   new_target <- new_source
@@ -145,11 +201,4 @@ deepl_update <- function(path,
   new_target$write(file.path(repo, out_path))
 }
 
-tags_the_same <- function(tag1, tag2) {
-  # TODO: or just compare as.character() of tags??
-  xml2::xml_text(tag1) == xml2::xml_text(tag2) &&
-    all(
-      purrr::map_chr(xml2::xml_children(tag1), xml2::xml_name) ==
-        purrr::map_chr(xml2::xml_children(tag2), xml2::xml_name)
-    )
-}
+deepl_branch_update <- function() {}
