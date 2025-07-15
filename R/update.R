@@ -272,9 +272,18 @@ guess_translate <- function(
     source_lang = source_language,
     target_lang = target_language
   )
-
+  browser()
+  if (!is.null()) {
+    glossary_id <- babeldown:::get_glossary_id(
+      preferences[["glossary"]],
+      source_lang = source_language,
+      target_lang = target_language
+    )
+  } else {
+    glossary_id <- NULL
+  }
   deepl_part_translate(
-    path = file.path(path, file),
+    path = file.path(path, source),
     out_path = file.path(path, target),
     repo = path,
     source_lang = source_language,
@@ -282,7 +291,8 @@ guess_translate <- function(
     tail_commit = tail_commit,
     tip_commit = tip_commit,
     formality = preferences[["formality"]],
-    yaml_fields = preferences[["yaml_fields"]]
+    yaml_fields = preferences[["yaml_fields"]],
+    glossary_id = glossary_id
   )
 }
 
