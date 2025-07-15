@@ -210,7 +210,7 @@ deepl_branch_update <- function(path = ".", max = 100) {
     repo = path
   )
   excludes <- read_excludes(path) |>
-    purrr::map(\(x) fs::dir_ls(glob = x)) |>
+    purrr::map(\(x) fs::dir_ls(path = path, glob = x)) |>
     unlist()
 
   log <- gert::git_log(ref = tip_commit, max = max, repo = path)
@@ -241,6 +241,7 @@ update_file_translations <- function(file, path, tip_commit, tail_commit) {
   purrr::walk(
     file_targets,
     guess_translate,
+    path = path,
     source = file,
     tip_commit = tip_commit,
     tail_commit = tail_commit
@@ -263,14 +264,14 @@ guess_translate <- function(
   tip_commit,
   tail_commit
 ) {
-  preferences <- read_preferences(
-    path = path,
-    source_lang = get_extension(source),
-    target_lang = get_extension(target)
-  )
-
   target_language <- read_extension(path, get_extension(target))[["target"]]
   source_language <- read_extension(path, get_extension(source))[["source"]]
+
+  preferences <- read_preferences(
+    path = path,
+    source_lang = source_language,
+    target_lang = target_language
+  )
 
   deepl_part_translate(
     path = file.path(path, file),
