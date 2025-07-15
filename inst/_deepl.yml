@@ -1,6 +1,6 @@
 preferences:
   - source: en
-    target: es
+    target: es-419
     formality: less
     glossary: "glosario"
     yaml_fields: ["title"]
@@ -11,9 +11,13 @@ preferences:
 
 excludes: ["*.md"]
 
-targets:
+languages:
   - extension: es
-    language: es-419
-  - extension: en
-    language: en-us
+    target: es-419
+    source: es
+  - extension: ''
+    target: en-us
+    source: en
   - extension: fr
+    target: fr
+    source: fr

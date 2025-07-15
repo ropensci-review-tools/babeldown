@@ -39,3 +39,22 @@ read_excludes <- function(path = ".") {
   read_config(path) |>
     purrr::pluck("targets")
 }
+
+read_extension <- function(path = ".", extension) {
+  config <- read_config(path) |>
+    purrr::pluck("languages") |>
+    purrr::keep(\(x) x$extension == extension)
+  if (length(config) == 0) {
+    cli::cli_abort(
+      "Can't find settings for extension {.val {extension}}."
+    )
+  }
+
+  if (length(config) > 1) {
+    cli::cli_abort(
+      "More than one list of settings for extension {.val {extension}}."
+    )
+  }
+
+  unlist(config, recursive = FALSE)
+}

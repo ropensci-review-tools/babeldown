@@ -227,19 +227,75 @@ deepl_branch_update <- function(path = ".", max = 100) {
     return(TRUE)
   }
 
-  targets <- read_targets(path)
-
   purrr::walk(
     updated_files,
-    deepl_part_translate()
+    update_file_translations,
+    path = path,
+    tip_commit = tip_commit,
+    tail_commit = tail_commit
   )
 }
 
-file_targets <- function(updated_files) {
-  commit_files <- function(commit, repo) {
-    gert::git_diff(commit, repo = repo)[["new"]]
+update_file_translations <- function(file, path, tip_commit, tail_commit) {
+  file_targets <- file_targets(file, path)
+  purrr::walk(
+    file_targets,
+    guess_translate,
+    source = file,
+    tip_commit = tip_commit,
+    tail_commit = tail_commit
+  )
+}
+
+get_extension <- function(file) {
+  no_ext_file <- fs::path_ext_remove(file)
+  if (grepl("\\.", no_ext_file)) {
+    sub(".*\\.", "", no_ext_file)
+  } else {
+    ""
   }
 }
+
+guess_translate <- function(
+  target,
+  source,
+  path,
+  tip_commit,
+  tail_commit
+) {
+  preferences <- read_preferences(
+    path = path,
+    source_lang = get_extension(source),
+    target_lang = get_extension(target)
+  )
+
+  target_language <- read_extension(path, get_extension(target))[["target"]]
+  source_language <- read_extension(path, get_extension(source))[["source"]]
+
+  deepl_part_translate(
+    path = file.path(path, file),
+    out_path = file.path(path, target),
+    source_lang = source_language,
+    target_lang = target_language,
+    tail_commit = tail_commit,
+    tip_commit = tip_commit,
+    formality = preferences[["formality"]],
+    yaml_fields = preferences[["yaml_fields"]]
+  )
+}
+
+file_targets <- function(file, path) {
+  targets <- read_targets(path)
+  setdiff(
+    fs::dir_ls(path = path, regex = fs::path_ext_remove(fs::path_file(file))),
+    file
+  )
+}
+
+commit_files <- function(commit, repo) {
+  gert::git_diff(commit, repo = repo)[["new"]]
+}
+
 
 .git_default_branch <- function(path = ".") {
   if (gert::git_branch_exists("main", repo = path)) {
