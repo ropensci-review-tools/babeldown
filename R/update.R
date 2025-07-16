@@ -273,14 +273,11 @@ guess_translate <- function(
     target_lang = target_language
   )
   browser()
-  if (!is.null()) {
-    glossary_id <- babeldown:::get_glossary_id(
+  glossary_id <- babeldown:::get_glossary_id(
       preferences[["glossary"]],
       source_lang = source_language,
       target_lang = target_language
     )
-  } else {
-    glossary_id <- NULL
   }
   deepl_part_translate(
     path = file.path(path, source),
