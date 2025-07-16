@@ -4,9 +4,18 @@
 #' (at the node level: paragraph, heading, etc.)
 #' `deepl_update()` is based on the commit history in a single branch,
 #' `deepl_branch_update()` is based on the commit history in a branch
-#' against another (in a GitHub PR for instance).
+#' against another (in a GitHub PR for instance), and requires a
+#' configuration file (see "Configuration" section).
 #'
-#' @details
+#' @section Markdown formatting, both `deepl_update()` and `deepl_branch_update()`:
+#' The update functions will re-use translations as much as possible, at the node level.
+#' If the files diverged a bit from the tinkr Markdown formatting, you might notice other
+#' edits that change the Markdown formatting.
+#' You could choose not to stage them, or you could do a roundtrip with tinkrin all files
+#' (all language versions) prior to
+#' any other edits. `tinkr::yarn$new(<filename>)$write(<filename>)`.
+#'
+#' @section Limitations of `deepl_update()`:
 #' `deepl_update()` looks for the latest commit that updated the source file,
 #' and for the latest commit that updated the target file.
 #' If the target file was updated later than the source file,
@@ -17,14 +26,41 @@
 #' but containing edits to the source file, like typo fixes,
 #' too much of the target file will be translated automatically again.
 #'
-#' `deepl_branch_update()` is more automatic.
-#' It will run `deepl_update()`
+#' @section Configuration for `deepl_branch_update()`:
+#' `deepl_branch_update()` is more automatic but needs configuration.
+#' In a branch, for any edits made to any Rmd/qmd/md file, it will update
+#' the translations of the Rmd/qmd/md file with the same name and a language code.
+#' For instance if a branch had commits updating `pkg_building.Rmd`,
+#' `deepl_branch_update()` will update `pkg_building.es.Rmd`.
+#' Do not run it if your PR updated both `pkg_building.Rmd` and
+#' `pkg_building.es.Rmd`.
+#' Make sure to read the section about Markdown formatting.
+#'
+#' The configuration needed must live under `_deepl.yml` at the root of the Git repo.
+#' It must contains those fields:
+#' - "preferences" that for any source-target pair, indicates the preference for the
+#' `formality`, `glossary` and `yaml_fields` arguments of `deepl_translate()`.
+#' - "excludes" that indicates which files to exclude from the automatic detection
+#' (all Rmd/qmd/md files are otherwise considered). It is used as `glob` arguments in
+#' calls to `fs::dir_ls()`.
+#' - "languages" that for any language code used in file names, indicates what
+#' DeepL API code to use when it is a source or target language.
+#'
+#' Example (`_deepl.yml`):
+#' `````{r, echo=FALSE,results = 'asis', warning=FALSE}
+#' cat("\n\n```yaml\n")
+#' cat(paste(
+#' readLines(system.file("_deepl.yml", package = "babeldown"))), sep = "\n"
+#' )
+#' cat("\n```\n")
+#' `````
 #'
 #'
 #' @inheritParams deepl_translate
 #' @param max_commits Maximal number of commits to go back to to find
 #' when the target and source files were updated.
 #' You might need to increase it if your project is very active.
+#' @param repo path to the Git repository.
 #'
 #' @return None
 #' @export
@@ -201,24 +237,28 @@ deepl_part_translate <- function(
   new_target$write(file.path(repo, out_path))
 }
 
-deepl_branch_update <- function(path = ".", max = 100) {
-  current_branch <- gert::git_branch(repo = path)
-  tip_commit <- gert::git_commit_id(current_branch, repo = path)
+#' @rdname deepl_update
+#'
+#'
+#' @export
+deepl_branch_update <- function(repo = ".", max = 100) {
+  current_branch <- gert::git_branch(repo = repo)
+  tip_commit <- gert::git_commit_id(current_branch, repo = repo)
   tail_commit <- git_merge_find_base(
     current_branch,
     target = .git_default_branch(),
-    repo = path
+    repo = repo
   )
-  excludes <- read_excludes(path) |>
-    purrr::map(\(x) fs::dir_ls(path = path, glob = x)) |>
+  excludes <- read_excludes(repo) |>
+    purrr::map(\(x) fs::dir_ls(path = repo, glob = x)) |>
     unlist()
 
-  log <- gert::git_log(ref = tip_commit, max = max, repo = path)
+  log <- gert::git_log(ref = tip_commit, max = max, repo = repo)
 
   # commit after the merge base
   first_branch_commit_index <- which(log[["commit"]] == tail_commit) - 1
   updated_files <- log[["commit"]][seq_len(first_branch_commit_index)] |>
-    purrr::map(\(x) commit_files(x, repo = path)) |>
+    purrr::map(\(x) commit_files(x, repo = repo)) |>
     unlist() |>
     purrr::keep(\(x) fs::path_ext(x) %in% c("md", "Rmd", "qmd")) |>
     setdiff(excludes)
@@ -230,18 +270,18 @@ deepl_branch_update <- function(path = ".", max = 100) {
   purrr::walk(
     updated_files,
     update_file_translations,
-    path = path,
+    repo = repo,
     tip_commit = tip_commit,
     tail_commit = tail_commit
   )
 }
 
-update_file_translations <- function(file, path, tip_commit, tail_commit) {
-  file_targets <- file_targets(file, path)
+update_file_translations <- function(file, repo, tip_commit, tail_commit) {
+  file_targets <- file_targets(file, repo)
   purrr::walk(
     file_targets,
     guess_translate,
-    path = path,
+    repo = repo,
     source = file,
     tip_commit = tip_commit,
     tail_commit = tail_commit
@@ -260,15 +300,15 @@ get_extension <- function(file) {
 guess_translate <- function(
   target,
   source,
-  path,
+  repo,
   tip_commit,
   tail_commit
 ) {
-  target_language <- read_extension(path, get_extension(target))[["target"]]
-  source_language <- read_extension(path, get_extension(source))[["source"]]
+  target_language <- read_extension(repo, get_extension(target))[["target"]]
+  source_language <- read_extension(repo, get_extension(source))[["source"]]
 
   preferences <- read_preferences(
-    path = path,
+    repo = repo,
     source_lang = source_language,
     target_lang = target_language
   )
@@ -280,9 +320,9 @@ guess_translate <- function(
   )
 
   deepl_part_translate(
-    path = file.path(path, source),
-    out_path = file.path(path, target),
-    repo = path,
+    path = file.path(repo, source),
+    out_path = file.path(repo, target),
+    repo = repo,
     source_lang = source_language,
     target_lang = target_language,
     tail_commit = tail_commit,
@@ -293,9 +333,9 @@ guess_translate <- function(
   )
 }
 
-file_targets <- function(file, path) {
+file_targets <- function(file, repo) {
   setdiff(
-    fs::dir_ls(path = path, regex = fs::path_ext_remove(fs::path_file(file))),
+    fs::dir_ls(path = repo, regex = fs::path_ext_remove(fs::path_file(file))),
     file
   )
 }
@@ -305,17 +345,17 @@ commit_files <- function(commit, repo) {
 }
 
 
-.git_default_branch <- function(path = ".") {
-  if (gert::git_branch_exists("main", repo = path)) {
+.git_default_branch <- function(repo = ".") {
+  if (gert::git_branch_exists("main", repo = repo)) {
     return("main")
   }
 
-  if (gert::git_branch_exists("master", repo = path)) {
+  if (gert::git_branch_exists("master", repo = repo)) {
     return("master")
   }
 
   cli::cli_abort(
-    "Can't guess default branch in {.path {path}}, 
+    "Can't guess default branch in {.path {repo}}, 
   not main, not master."
   )
 }

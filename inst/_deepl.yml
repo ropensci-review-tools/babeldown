@@ -5,8 +5,16 @@ preferences:
     glossary: "glosario"
     yaml_fields: ["title"]
   - source: en
-    target: fr
-    formality: more
+    target: pt-br
+    formality: less
+    yaml_fields: ["title", "description"]
+  - source: pt
+    target: en-us
+    formality: prefer_less
+    yaml_fields: ["title", "description"]
+  - source: es
+    target: en-us
+    formality: prefer_less
     yaml_fields: ["title", "description"]
 
 excludes: ["*.md"]
@@ -18,6 +26,7 @@ languages:
   - extension: ''
     target: en-us
     source: en
-  - extension: fr
-    target: fr
-    source: fr
+  - extension: pt
+    target: pt-br
+    source: pt
+    

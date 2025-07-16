@@ -1,15 +1,15 @@
-read_config <- function(path) {
-  config_path <- file.path(path, "_deepl.yml")
+read_config <- function(repo) {
+  config_repo <- file.repo(repo, "_deepl.yml")
 
-  if (!file.exists(config_path)) {
-    cli::cli_abort("Can't find {.path {config_path}}")
+  if (!file.exists(config_repo)) {
+    cli::cli_abort("Can't find {.repo {config_repo}}")
   }
 
-  yaml::read_yaml(config_path)
+  yaml::read_yaml(config_repo)
 }
 
-read_preferences <- function(path = ".", source_lang, target_lang) {
-  config <- read_config(path) |>
+read_preferences <- function(repo = ".", source_lang, target_lang) {
+  config <- read_config(repo) |>
     purrr::pluck("preferences") |>
     purrr::keep(\(x) x$source == source_lang) |>
     purrr::keep(\(x) x$target == target_lang)
@@ -30,18 +30,18 @@ read_preferences <- function(path = ".", source_lang, target_lang) {
   unlist(config, recursive = FALSE)
 }
 
-read_excludes <- function(path = ".") {
-  read_config(path) |>
+read_excludes <- function(repo = ".") {
+  read_config(repo) |>
     purrr::pluck("excludes")
 }
 
-read_excludes <- function(path = ".") {
-  read_config(path) |>
+read_excludes <- function(repo = ".") {
+  read_config(repo) |>
     purrr::pluck("targets")
 }
 
-read_extension <- function(path = ".", extension) {
-  config <- read_config(path) |>
+read_extension <- function(repo = ".", extension) {
+  config <- read_config(repo) |>
     purrr::pluck("languages") |>
     purrr::keep(\(x) x$extension == extension)
   if (length(config) == 0) {
