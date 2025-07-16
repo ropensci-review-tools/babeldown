@@ -1,5 +1,5 @@
 read_config <- function(repo) {
-  config_repo <- file.repo(repo, "_deepl.yml")
+  config_repo <- file.path(repo, "_deepl.yml")
 
   if (!file.exists(config_repo)) {
     cli::cli_abort("Can't find {.repo {config_repo}}")
