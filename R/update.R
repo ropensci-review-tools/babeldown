@@ -189,15 +189,27 @@ deepl_part_translate <- function(
   new_source <- tinkr::yarn$new(file.path(repo, path))
 
   old_target <- tinkr::yarn$new(file.path(repo, out_path))
-
+  old_source_nodes <- purrr::map_chr(
+    xml2::xml_children(old_source$body),
+    xml2::xml_name
+  )
+  old_target_nodes <- purrr::map_chr(
+    xml2::xml_children(old_target$body),
+    xml2::xml_name
+  )
   same_structure <-
     (xml2::xml_length(old_source$body) == xml2::xml_length(old_target$body)) &&
-    all(
-      purrr::map_chr(xml2::xml_children(old_source$body), xml2::xml_name) ==
-        purrr::map_chr(xml2::xml_children(old_target$body), xml2::xml_name)
-    )
+    all(old_source_nodes == old_target_nodes)
 
   if (!same_structure) {
+    present_node <- function(node) {
+      cli::cli_alert_info(
+        "{xml2::xml_name(node)} ({substr(xml2::xml_text(node), 1, 50)})"
+      )
+    }
+    first_bad <- min(which(old_source_nodes != old_target_nodes))
+    present_node(xml2::xml_children(old_source$body)[[first_bad]])
+    present_node(xml2::xml_children(old_target$body)[[first_bad]])
     cli::cli_abort(
       "Old version of {path}, and current {out_path}, do not have an equivalent XML structure."
     )
