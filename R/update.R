@@ -256,7 +256,7 @@ deepl_part_translate <- function(
 deepl_branch_update <- function(repo = ".", max = 100) {
   current_branch <- gert::git_branch(repo = repo)
   tip_commit <- gert::git_commit_id(current_branch, repo = repo)
-  tail_commit <- git_merge_find_base(
+  tail_commit <- gert::git_merge_find_base(
     current_branch,
     target = .git_default_branch(),
     repo = repo
