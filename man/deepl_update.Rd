@@ -16,7 +16,7 @@ deepl_update(
   max_commits = 100L
 )
 
-deepl_branch_update(repo = ".", max = 100)
+deepl_branch_update(repo = ".", max_commits = 100)
 }
 \arguments{
 \item{path}{Path to the Markdown file to be translated (character).}

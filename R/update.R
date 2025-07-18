@@ -253,7 +253,7 @@ deepl_part_translate <- function(
 #'
 #'
 #' @export
-deepl_branch_update <- function(repo = ".", max = 100) {
+deepl_branch_update <- function(repo = ".", max_commits = 100) {
   current_branch <- gert::git_branch(repo = repo)
   tip_commit <- gert::git_commit_id(current_branch, repo = repo)
   tail_commit <- gert::git_merge_find_base(
@@ -265,7 +265,7 @@ deepl_branch_update <- function(repo = ".", max = 100) {
     purrr::map(\(x) fs::dir_ls(path = repo, glob = x)) |>
     unlist()
 
-  log <- gert::git_log(ref = tip_commit, max = max, repo = repo)
+  log <- gert::git_log(ref = tip_commit, max = max_commits, repo = repo)
 
   # commit after the merge base
   first_branch_commit_index <- which(log[["commit"]] == tail_commit) - 1
