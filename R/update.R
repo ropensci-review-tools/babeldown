@@ -263,7 +263,7 @@ deepl_part_translate <- function(
   ) |>
     unlist()
 
-  new_lines <- c(old_target$frontmatter, new_lines) # todo: dev tinkr! metadata not yaml!
+  new_lines <- c(old_target$frontmatter, new_lines)
   brio::write_lines(new_lines, out_path)
 }
 
