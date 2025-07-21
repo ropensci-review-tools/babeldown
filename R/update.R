@@ -146,7 +146,7 @@ deepl_update <- function(
     out_path = out_path,
     repo = repo,
     yaml_fields = yaml_fields,
-    glossary_id = glossary_id,
+    glossary = glossary,
     source_lang = source_lang,
     target_lang = target_lang,
     formality = formality,
@@ -169,7 +169,7 @@ deepl_part_translate <- function(
   out_path,
   repo,
   yaml_fields,
-  glossary_id,
+  glossary,
   source_lang,
   target_lang,
   formality,
@@ -183,24 +183,25 @@ deepl_part_translate <- function(
     repo = dir_at_target_latest_update
   )
   old_source <- tinkr::yarn$new(
-    file.path(dir_at_target_latest_update, path)
+    file.path(dir_at_target_latest_update, path),
+    sourcepos = TRUE
   )
 
-  new_source <- tinkr::yarn$new(file.path(repo, path))
+  new_source <- tinkr::yarn$new(file.path(repo, path), sourcepos = TRUE)
 
-  old_target <- tinkr::yarn$new(file.path(repo, out_path))
+  old_target <- tinkr::yarn$new(file.path(repo, out_path), sourcepos = TRUE)
   old_source_nodes <- purrr::map_chr(
-    xml2::xml_children(old_source$body),
+    xml_kiddos(old_source$body),
     xml2::xml_name
   )
   old_target_nodes <- purrr::map_chr(
-    xml2::xml_children(old_target$body),
+    xml_kiddos(old_target$body),
     xml2::xml_name
   )
   same_structure <-
-    (xml2::xml_length(old_source$body) == xml2::xml_length(old_target$body)) &&
+    (xml_kiddos_length(old_source$body) ==
+      xml_kiddos_length(old_target$body)) &&
     all(old_source_nodes == old_target_nodes)
-
   if (!same_structure) {
     present_node <- function(node) {
       cli::cli_alert_info(
@@ -208,45 +209,84 @@ deepl_part_translate <- function(
       )
     }
     first_bad <- min(which(old_source_nodes != old_target_nodes))
-    present_node(xml2::xml_children(old_source$body)[[first_bad]])
-    present_node(xml2::xml_children(old_target$body)[[first_bad]])
+    present_node(xml_kiddos(old_source$body)[[first_bad]])
+    present_node(xml_kiddos(old_target$body)[[first_bad]])
     cli::cli_abort(
       "Old version of {path}, and current {out_path}, do not have an equivalent XML structure."
     )
   }
 
   new_target <- new_source
-  tags_seq <- seq_len(length(xml2::xml_children(new_target$body)))
-  for (tag_index in tags_seq) {
+  for (tag in xml_kiddos(new_target$body)) {
     same_tag <- purrr::map_lgl(
-      xml2::xml_children(old_source$body),
+      xml_kiddos(old_source$body),
       tags_the_same,
-      xml2::xml_children(new_target$body)[[tag_index]]
+      tag
     )
     existing_translation <- any(same_tag)
     if (existing_translation) {
       same_index <- which(same_tag)[1]
       xml2::xml_replace(
-        xml2::xml_children(new_target$body)[[tag_index]],
-        xml2::xml_children(old_target$body)[[same_index]]
+        tag,
+        xml_kiddos(old_target$body)[[same_index]]
       )
     } else {
-      translation <- translate_part(
-        xml2::xml_children(new_target$body)[[tag_index]],
-        glossary_id = glossary_id,
+      # get translation
+      markdown_lines <- if (first_line(tag) == last_line(tag)) {
+        brio::read_lines(path)[first_line(tag)]
+      } else {
+        brio::read_lines(path)[first_line(tag):last_line(tag)]
+      }
+
+      translation <- deepl_translate_markdown_string(
+        paste(markdown_lines, collapse = "\n"),
+        glossary = glossary,
         source_lang = source_lang,
         target_lang = target_lang,
         formality = formality
       )
-      translation_kiddo <- xml2::xml_child(translation)
-      xml2::xml_replace(
-        xml2::xml_children(new_target$body)[[tag_index]],
-        translation_kiddo
+      xml2::xml_set_attr(tag, "translation", translation)
+
+      # update sourcepos for ordering
+      preceding_siblings <- xml2::xml_find_all(tag, "preceding-sibling::*")
+      just_before_sibling <- preceding_siblings[length(preceding_siblings)]
+      xml2::xml_set_attr(
+        tag,
+        "sourcepos",
+        increment_sourcepos(just_before_sibling)
       )
     }
   }
 
-  new_target$write(file.path(repo, out_path))
+  current_lines <- brio::read_lines(out_path)
+
+  kiddos <- xml_kiddos(new_target$body)
+  transformed <- which(purrr::map_lgl(kiddos, \(x) {
+    xml2::xml_has_attr(x, "translation")
+  }))
+  counter <- 0
+  for (node_index in transformed) {
+    if (node_index == 1) {
+      after_index <- 0
+    } else {
+      after_index <- last_line(kiddos[node_index - 1][[1]]) +
+        counter
+    }
+    new_lines <- strsplit(
+      xml2::xml_attr(kiddos[node_index][[1]], "translation"),
+      "\n"
+    )[[
+      1
+    ]]
+    current_lines <- append(
+      current_lines,
+      new_lines,
+      after = after_index
+    )
+
+    counter <- counter + length(new_lines)
+  }
+  brio::write_lines(current_lines, out_path)
 }
 
 #' @rdname deepl_update
@@ -325,11 +365,7 @@ guess_translate <- function(
     target_lang = target_language
   )
 
-  glossary_id <- get_glossary_id(
-    preferences[["glossary"]],
-    source_lang = source_language,
-    target_lang = target_language
-  )
+  glossary <- preferences[["glossary"]]
 
   deepl_part_translate(
     path = file.path(repo, source),
@@ -341,7 +377,7 @@ guess_translate <- function(
     tip_commit = tip_commit,
     formality = preferences[["formality"]],
     yaml_fields = preferences[["yaml_fields"]],
-    glossary_id = glossary_id
+    glossary = glossary
   )
 }
 
@@ -370,4 +406,28 @@ commit_files <- function(commit, repo) {
     "Can't guess default branch in {.path {repo}}, 
   not main, not master."
   )
+}
+
+xml_kiddos <- function(xml) {
+  kiddos <- xml2::xml_children(xml)
+  kiddos <- purrr::discard(kiddos, \(x) xml2::xml_name(x) == "list")
+
+  list_items <- xml2::xml_find_all(xml, "//d1:item")
+
+  kiddos <- c(kiddos, list_items)
+  kiddos[order(purrr::map_dbl(kiddos, first_line))]
+}
+
+xml_kiddos_length <- function(xml) length(xml_kiddos(xml))
+
+first_line <- function(node) {
+  as.numeric(sub(":.*", "", xml2::xml_attr(node, "sourcepos")))
+}
+
+last_line <- function(node) {
+  as.numeric(sub(":.*", "", sub(".*-", "", xml2::xml_attr(node, "sourcepos"))))
+}
+
+increment_sourcepos <- function(node) {
+  sprintf("%s:1-%s:2", last_line(node) + 1, last_line(node) + 1)
 }
