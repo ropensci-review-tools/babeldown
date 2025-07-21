@@ -64,7 +64,10 @@ test_that("deepl_translate() errors well", {
 
 test_that("deepl_translate() does not translate Markdown blocks (#16)", {
   with_mock_dir("example-markdown-blocks", {
-    to_translate <- system.file("example-markdown-blocks.md", package = "babeldown")
+    to_translate <- system.file(
+      "example-markdown-blocks.md",
+      package = "babeldown"
+    )
     out_path <- withr::local_tempfile()
 
     deepl_translate(
@@ -144,7 +147,6 @@ test_that("deepl_translate() does not break TOML", {
 })
 
 test_that("deepl_translate() protects+translate Hugo shortcodes", {
-
   to_translate <- system.file("example-shortcode.md", package = "babeldown")
   out_path <- withr::local_tempfile()
   with_mock_dir("example-shortcode", {
@@ -162,12 +164,14 @@ test_that("deepl_translate() protects+translate Hugo shortcodes", {
   expect_false(any(grepl("crying", lines)))
   expect_false(any(grepl("bad", lines)))
   expect_false(any(grepl("someone", lines)))
-
 })
 
 test_that("deepl_translate() protects+translate summary blocks", {
   with_mock_dir("example-summaryblock", {
-    to_translate <- system.file("example-summary-blocks.md", package = "babeldown")
+    to_translate <- system.file(
+      "example-summary-blocks.md",
+      package = "babeldown"
+    )
     out_path <- withr::local_tempfile()
 
     deepl_translate(
@@ -265,7 +269,10 @@ test_that("deepl_translate() handles equations well", {
 })
 
 test_that("deepl_translate() handles equations+footnote well", {
-  to_translate <- system.file("example-equations-footnote.md", package = "babeldown")
+  to_translate <- system.file(
+    "example-equations-footnote.md",
+    package = "babeldown"
+  )
   out_path <- withr::local_tempfile()
   with_mock_dir("example-equations-footnote", {
     deepl_translate(
@@ -282,7 +289,10 @@ test_that("deepl_translate() handles equations+footnote well", {
 
 
 test_that("deepl_translate() handles equations with curly well", {
-  to_translate <- system.file("example-equations-curly.md", package = "babeldown")
+  to_translate <- system.file(
+    "example-equations-curly.md",
+    package = "babeldown"
+  )
   out_path <- withr::local_tempfile()
   with_mock_dir("example-equations-curly", {
     deepl_translate(
@@ -318,4 +328,24 @@ test_that("deepl_translate() protects fenced divs", {
   })
 })
 
+test_that("deepl_translate_clipboard() errors", {
+  skip_on_cran()
 
+  withr::local_envvar(CLIPR_ALLOW = TRUE)
+
+  expect_snapshot(error = TRUE, {
+    clipr::write_clip("h")
+    deepl_translate_clipboard(target_lang = "EN-US")
+  })
+})
+
+test_that("deepl_translate_clipboard() works", {
+  withr::local_options(babeldown.quiet = TRUE)
+  with_mock_dir("example-clip", {
+    clipr::write_clip("Je suis en vacances, en fait.")
+    deepl_translate_clipboard(target_lang = "EN-US")
+  })
+
+  lines <- clipr::read_clip()
+  expect_true(any(grepl('vacation', lines)))
+})

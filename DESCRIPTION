@@ -38,6 +38,8 @@ Imports:
     yaml (>= 2.3.8)
 Suggests: 
     blogdown,
+    cld3,
+    clipr,
     fs,
     gert,
     httptest2,

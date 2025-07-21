@@ -94,3 +94,15 @@
       [6] ""                                               
       [7] ""                                               
 
+# deepl_translate_clipboard() errors
+
+    Code
+      clipr::write_clip("h")
+      deepl_translate_clipboard(target_lang = "EN-US")
+    Message
+      v Read Markdown string from the clibpoard!
+    Condition
+      Error in `deepl_translate_clipboard()`:
+      ! Can't identify `source_lang` using the cld3 package
+      i Provide the argument explicitly.
+
