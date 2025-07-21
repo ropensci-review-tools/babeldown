@@ -233,9 +233,11 @@ deepl_part_translate <- function(
     } else {
       # get translation
       markdown_lines <- if (first_line(tag) == last_line(tag)) {
-        brio::read_lines(path)[first_line(tag)]
+        brio::read_lines(path)[first_line(tag) + length(new_target$yaml)]
       } else {
-        brio::read_lines(path)[first_line(tag):last_line(tag)]
+        brio::read_lines(path)[
+          (first_line(tag):last_line(tag) + length(new_target$yaml))
+        ]
       }
 
       translation <- deepl_translate_markdown_string(
@@ -261,32 +263,50 @@ deepl_part_translate <- function(
   current_lines <- brio::read_lines(out_path)
 
   kiddos <- xml_kiddos(new_target$body)
-  transformed <- which(purrr::map_lgl(kiddos, \(x) {
-    xml2::xml_has_attr(x, "translation")
-  }))
-  counter <- 0
-  for (node_index in transformed) {
-    if (node_index == 1) {
-      after_index <- 0
-    } else {
-      after_index <- last_line(kiddos[node_index - 1][[1]]) +
-        counter
-    }
-    new_lines <- strsplit(
-      xml2::xml_attr(kiddos[node_index][[1]], "translation"),
-      "\n"
-    )[[
-      1
-    ]]
-    current_lines <- append(
-      current_lines,
-      new_lines,
-      after = after_index
-    )
 
-    counter <- counter + length(new_lines)
+  new_lines <- purrr::map(
+    kiddos,
+    tackle_node,
+    current_lines = current_lines
+  ) |>
+    unlist()
+
+  new_lines <- c(old_target$yaml, new_lines) # todo: dev tinkr! metadata not yaml!
+  brio::write_lines(new_lines, out_path)
+}
+
+tackle_node <- function(node, current_lines) {
+  if (xml2::xml_has_attr(node, "translation")) {
+    return(xml2::xml_attr(node, "translation"))
   }
-  brio::write_lines(current_lines, out_path)
+
+  current_lines <- current_lines[first_line(node):last_line(node)]
+
+  # check whether we need to add an empty line
+  # assuming one at most is needed
+  next_sibling <- xml2::xml_find_first(node, "following-sibling::*")
+
+  last_node <- length(next_sibling) == 0
+  if (last_node) {
+    return(current_lines)
+  }
+
+  missing_empty_line <- (first_line(next_sibling) > (last_line(node) + 1))
+  if (missing_empty_line) {
+    current_lines <- c(current_lines, "")
+  }
+
+  if (xml2::xml_name(node) == "heading" && nzchar(tail(current_lines, n = 1))) {
+    current_lines <- c(current_lines, "")
+  }
+
+  if (
+    xml2::xml_name(next_sibling) == "list" && nzchar(tail(current_lines, n = 1))
+  ) {
+    current_lines <- c(current_lines, "")
+  }
+
+  current_lines
 }
 
 #' @rdname deepl_update
@@ -411,8 +431,8 @@ commit_files <- function(commit, repo) {
 xml_kiddos <- function(xml) {
   kiddos <- xml2::xml_children(xml)
   kiddos <- purrr::discard(kiddos, \(x) xml2::xml_name(x) == "list")
-
-  list_items <- xml2::xml_find_all(xml, "//d1:item")
+  # this avoids the items that are in nested lists.
+  list_items <- xml2::xml_find_all(xml, "d1:list/d1:item")
 
   kiddos <- c(kiddos, list_items)
   kiddos[order(purrr::map_dbl(kiddos, first_line))]
