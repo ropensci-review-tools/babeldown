@@ -1,19 +1,11 @@
 #' Update a translation of a file in a Git repo
 #'
 #' Re-use existing translation where possible
-#' (at the node level: paragraph, heading, etc.)
+#' (at the node level: paragraph, heading, item of list at the first level, etc.)
 #' `deepl_update()` is based on the commit history in a single branch,
 #' `deepl_branch_update()` is based on the commit history in a branch
 #' against another (in a GitHub PR for instance), and requires a
 #' configuration file (see "Configuration" section).
-#'
-#' @section Markdown formatting, both `deepl_update()` and `deepl_branch_update()`:
-#' The update functions will re-use translations as much as possible, at the node level.
-#' If the files diverged a bit from the tinkr Markdown formatting, you might notice other
-#' edits that change the Markdown formatting.
-#' You could choose not to stage them, or you could do a roundtrip with tinkrin all files
-#' (all language versions) prior to
-#' any other edits. `tinkr::yarn$new(<filename>)$write(<filename>)`.
 #'
 #' @section Limitations of `deepl_update()`:
 #' `deepl_update()` looks for the latest commit that updated the source file,
