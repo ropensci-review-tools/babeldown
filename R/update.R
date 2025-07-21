@@ -225,10 +225,10 @@ deepl_part_translate <- function(
     } else {
       # get translation
       markdown_lines <- if (first_line(tag) == last_line(tag)) {
-        brio::read_lines(path)[first_line(tag) + length(new_target$yaml)]
+        brio::read_lines(path)[first_line(tag) + length(new_target$frontmatter)]
       } else {
         brio::read_lines(path)[
-          (first_line(tag):last_line(tag) + length(new_target$yaml))
+          (first_line(tag):last_line(tag) + length(new_target$frontmatter))
         ]
       }
 
@@ -263,7 +263,7 @@ deepl_part_translate <- function(
   ) |>
     unlist()
 
-  new_lines <- c(old_target$yaml, new_lines) # todo: dev tinkr! metadata not yaml!
+  new_lines <- c(old_target$frontmatter, new_lines) # todo: dev tinkr! metadata not yaml!
   brio::write_lines(new_lines, out_path)
 }
 
