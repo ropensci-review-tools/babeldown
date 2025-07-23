@@ -398,13 +398,12 @@ deepl_translate_clipboard <- function(
   formality = c("default", "more", "less", "prefer_more", "prefer_less")
 ) {
   rlang::check_installed("clipr")
-  markdown_string <- clipr::read_clip()
+  markdown_string <- paste(clipr::read_clip(), collapse = "\n")
   cli::cli_alert_success("Read Markdown string from the clibpoard!")
 
   if (is.null(source_lang)) {
     rlang::check_installed("cld3")
     source_lang <- cld3::detect_language(markdown_string)
-
     if (is.na(source_lang)) {
       cli::cli_abort(c(
         "Can't identify {.arg source_lang} using the cld3 package",
