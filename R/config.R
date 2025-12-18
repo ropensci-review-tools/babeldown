@@ -35,11 +35,6 @@ read_excludes <- function(repo = ".") {
     purrr::pluck("excludes")
 }
 
-read_excludes <- function(repo = ".") {
-  read_config(repo) |>
-    purrr::pluck("targets")
-}
-
 read_extension <- function(repo = ".", extension) {
   config <- read_config(repo) |>
     purrr::pluck("languages") |>
