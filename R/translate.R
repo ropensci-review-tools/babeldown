@@ -34,13 +34,15 @@
 #' )
 #' readLines(out_path)
 #' }
-deepl_translate <- function(path,
-                            out_path,
-                            yaml_fields = c("title", "description"),
-                            glossary_name = NULL,
-                            source_lang = NULL,
-                            target_lang = NULL,
-                            formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+deepl_translate <- function(
+  path,
+  out_path,
+  yaml_fields = c("title", "description"),
+  glossary_name = NULL,
+  source_lang = NULL,
+  target_lang = NULL,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+) {
   # check arguments ----
 
   if (!file.exists(path)) {
@@ -87,7 +89,10 @@ deepl_translate <- function(path,
       formality = formality
     )
 
-    markdown_lines[shortcodes_indices] <- sprintf("`%s`", purrr::map_chr(shortcodes, digest::digest))
+    markdown_lines[shortcodes_indices] <- sprintf(
+      "`%s`",
+      purrr::map_chr(shortcodes, digest::digest)
+    )
     brio::write_lines(markdown_lines, temp_markdown_file)
     wool <- tinkr::yarn$new(path = temp_markdown_file)
   } else {
@@ -95,9 +100,13 @@ deepl_translate <- function(path,
   }
 
   # translate some YAML fields ----
-  uses_yaml <- (!is.na(wool$frontmatter_format) && wool$frontmatter_format == "YAML")
+  uses_yaml <- (!is.na(wool$frontmatter_format) &&
+    wool$frontmatter_format == "YAML")
   if (!is.null(yaml_fields) && uses_yaml) {
-    yaml <- yaml::yaml.load(wool$frontmatter, handlers = list(seq = function(x) x))
+    yaml <- yaml::yaml.load(
+      wool$frontmatter,
+      handlers = list(seq = function(x) x)
+    )
     if (!is.null(yaml)) {
       for (yaml_field in yaml_fields) {
         if (is_non_empty_string(yaml[[yaml_field]])) {
@@ -111,13 +120,14 @@ deepl_translate <- function(path,
           )
         }
       }
-    yaml_file <- withr::local_tempfile()
-    yaml::write_yaml(
-      x = yaml, file = yaml_file,
-      handlers = list(logical = yaml::verbatim_logical)
-    )
-    wool$frontmatter <- c("---", brio::read_lines(yaml_file), "---")
-  }
+      yaml_file <- withr::local_tempfile()
+      yaml::write_yaml(
+        x = yaml,
+        file = yaml_file,
+        handlers = list(logical = yaml::verbatim_logical)
+      )
+      wool$frontmatter <- c("---", brio::read_lines(yaml_file), "---")
+    }
   }
 
   # translate content ----
@@ -156,12 +166,14 @@ deepl_translate <- function(path,
   brio::write_lines(markdown_lines, out_path)
 }
 
-translate_part <- function(xml,
-                           glossary_id,
-                           source_lang,
-                           target_lang,
-                           formality,
-                           glossary_name) {
+translate_part <- function(
+  xml,
+  glossary_id,
+  source_lang,
+  target_lang,
+  formality,
+  glossary_name
+) {
   temp_file <- withr::local_tempfile()
   file.create(temp_file)
   woolish <- tinkr::yarn$new(path = temp_file)
@@ -186,7 +198,9 @@ translate_part <- function(xml,
     '//*[contains(text(), "[") and contains(text(), "]")]'
   )
   # for some reason purrr::discard does not work
-  contain_square_brackets <- contain_square_brackets[!xml2::xml_name(contain_square_brackets) %in% c("code", "code_block")]
+  contain_square_brackets <- contain_square_brackets[
+    !xml2::xml_name(contain_square_brackets) %in% c("code", "code_block")
+  ]
 
   if (length(contain_square_brackets) > 0) {
     purrr::walk(contain_square_brackets, protect_squaries)
@@ -201,7 +215,13 @@ translate_part <- function(xml,
   purrr::walk(non_code_blocks, protect_non_code_block)
 
   ## translate ----
-  .translate <- function(text, glossary_id, source_lang, target_lang, formality) {
+  .translate <- function(
+    text,
+    glossary_id,
+    source_lang,
+    target_lang,
+    formality
+  ) {
     body_params <- list(
       text = text,
       source_lang = source_lang,
@@ -234,7 +254,8 @@ translate_part <- function(xml,
 
   ### special case for fig-alt
   purrr::walk(
-    curlies, translate_alt_curly,
+    curlies,
+    translate_alt_curly,
     glossary_name = glossary_name,
     source_lang = source_lang,
     target_lang = target_lang,
@@ -244,7 +265,7 @@ translate_part <- function(xml,
   ## Make math tags text tags again ----
   maths <- xml2::xml_find_all(woolish$body, "//d1:math")
   purrr::walk(maths, unprotect_math)
-  ## Make fence tags text tags again ---- 
+  ## Make fence tags text tags again ----
   fences <- xml2::xml_find_all(woolish$body, "//d1:fence")
   purrr::walk(fences, unprotect_fence)
 
@@ -283,10 +304,12 @@ fakify_xml <- function(nodes_list) {
     paste(as.character(nodes_list), collapse = "\n")
   } else if (inherits(nodes_list, "xml_node")) {
     as.character(nodes_list)
-  } else
-    {
+  } else {
     paste(
-      purrr::map_chr(nodes_list, ~ paste(as.character(xml2::xml_children(.x)), collapse = "\n")),
+      purrr::map_chr(
+        nodes_list,
+        ~ paste(as.character(xml2::xml_children(.x)), collapse = "\n")
+      ),
       collapse = "\n"
     )
   }
@@ -312,11 +335,13 @@ fakify_xml <- function(nodes_list) {
 #'   formality = "less"
 #' )
 #' }
-deepl_translate_markdown_string <- function(markdown_string,
-                                            glossary_name = NULL,
-                                            source_lang,
-                                            target_lang,
-                                            formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+deepl_translate_markdown_string <- function(
+  markdown_string,
+  glossary_name = NULL,
+  source_lang,
+  target_lang,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+) {
   file <- withr::local_tempfile()
   brio::write_lines(markdown_string, file)
   deepl_translate(
@@ -340,11 +365,13 @@ deepl_translate_markdown_string <- function(markdown_string,
   lines
 }
 
-translate_shortcode <- function(shortcode,
-                                glossary_name = NULL,
-                                source_lang,
-                                target_lang,
-                                formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+translate_shortcode <- function(
+  shortcode,
+  glossary_name = NULL,
+  source_lang,
+  target_lang,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+) {
   for (param in c("alt", "caption", "title")) {
     m <- regexpr(sprintf(' %s=".*?"', param), shortcode)
     param_value <- regmatches(shortcode, m)
@@ -373,7 +400,13 @@ translate_shortcode <- function(shortcode,
   shortcode
 }
 
-translate_alt_curly <- function(curly, glossary_name, source_lang, target_lang, formality) {
+translate_alt_curly <- function(
+  curly,
+  glossary_name,
+  source_lang,
+  target_lang,
+  formality
+) {
   has_alt <- !is.na(xml2::xml_attr(curly, "alt"))
   if (has_alt) {
     translated_alt <- deepl_translate_markdown_string(
@@ -412,7 +445,6 @@ protect_math <- function(math) {
   }
 
   xml2::xml_name(math) <- "math"
-
 }
 unprotect_math <- function(math) {
   if (xml2::xml_has_attr(math, "softbreak")) {
@@ -432,7 +464,10 @@ protect_squaries <- function(node) {
   text <- gsub("</squary><text>:", ":</squary><text>", text)
 
   # https://rstudio.github.io/visual-markdown-editing/citations.html#inserting-citations
-  at_things <- regmatches(text, gregexpr("@[[:alnum:]\\-\\_\\:\\.\\#\\$\\%\\&\\-\\+\\?\\<\\>\\~\\/]*", text))[[1]]
+  at_things <- regmatches(
+    text,
+    gregexpr("@[[:alnum:]\\-\\_\\:\\.\\#\\$\\%\\&\\-\\+\\?\\<\\>\\~\\/]*", text)
+  )[[1]]
   # https://github.com/ropensci-review-tools/babeldown/issues/78
   at_things <- sub("</squary><text>", "", at_things)
 
@@ -475,7 +510,11 @@ untangle_text <- function(node) {
   text <- xml2::xml_text(node)
   text <- gsub("\\s+", " ", text) # like str_squish w/o str_trim
   # trying to only leave space where needed
-  no_left_sibling <- (length(xml2::xml_find_first(node, "preceding-sibling::*")) == 0)
+  no_left_sibling <- (length(xml2::xml_find_first(
+    node,
+    "preceding-sibling::*"
+  )) ==
+    0)
   which <- if (no_left_sibling) {
     "both"
   } else {
@@ -486,7 +525,7 @@ untangle_text <- function(node) {
   xml2::xml_replace(
     node,
     xml2::xml_name(node),
-    `xml:space`="preserve",
+    `xml:space` = "preserve",
     asis = 'true',
     gsub("\\\n", "", text)
   )
