@@ -175,13 +175,14 @@ deepl_part_translate <- function(
     repo = dir_at_target_latest_update
   )
   old_source <- tinkr::yarn$new(
-    file.path(dir_at_target_latest_update, path),
+    file.path(dir_at_target_latest_update, fs::path_rel(path, repo)),
     sourcepos = TRUE
   )
 
-  new_source <- tinkr::yarn$new(file.path(repo, path), sourcepos = TRUE)
+  new_source <- tinkr::yarn$new(path, sourcepos = TRUE)
 
-  old_target <- tinkr::yarn$new(file.path(repo, out_path), sourcepos = TRUE)
+  old_target <- tinkr::yarn$new(out_path, sourcepos = TRUE)
+
   old_source_nodes <- purrr::map_chr(
     xml_kiddos(old_source$body),
     xml2::xml_name
@@ -194,6 +195,7 @@ deepl_part_translate <- function(
     (xml_kiddos_length(old_source$body) ==
       xml_kiddos_length(old_target$body)) &&
     all(old_source_nodes == old_target_nodes)
+
   if (!same_structure) {
     present_node <- function(node) {
       cli::cli_alert_info(
@@ -243,11 +245,18 @@ deepl_part_translate <- function(
 
       # update sourcepos for ordering
       preceding_siblings <- xml2::xml_find_all(tag, "preceding-sibling::*")
-      just_before_sibling <- preceding_siblings[length(preceding_siblings)]
+      if (length(preceding_siblings) == 0) {
+        just_before_sibling <- xml2::xml_parent(tag)
+        n = 2
+      } else {
+        just_before_sibling <- preceding_siblings[length(preceding_siblings)]
+        n = 1
+      }
+
       xml2::xml_set_attr(
         tag,
         "sourcepos",
-        increment_sourcepos(just_before_sibling)
+        increment_sourcepos(just_before_sibling, n = n)
       )
     }
   }
@@ -346,7 +355,7 @@ update_file_translations <- function(file, repo, tip_commit, tail_commit) {
     file_targets,
     guess_translate,
     repo = repo,
-    source = file,
+    source = fs::path(repo, file),
     tip_commit = tip_commit,
     tail_commit = tail_commit
   )
@@ -380,8 +389,8 @@ guess_translate <- function(
   glossary <- preferences[["glossary"]]
 
   deepl_part_translate(
-    path = file.path(repo, source),
-    out_path = file.path(repo, target),
+    path = source,
+    out_path = target,
     repo = repo,
     source_lang = source_language,
     target_lang = target_language,
@@ -394,10 +403,19 @@ guess_translate <- function(
 }
 
 file_targets <- function(file, repo) {
-  setdiff(
-    fs::dir_ls(path = repo, regex = fs::path_ext_remove(fs::path_file(file))),
+  targets <- setdiff(
+    fs::dir_ls(
+      path = repo,
+      regex = sprintf(
+        "%s\\.?[a-z]?\\.[a-z]*",
+        fs::path_ext_remove(fs::path_file(file))
+      )
+    ) |>
+      fs::path_rel(start = repo),
     file
   )
+
+  fs::path(repo, targets)
 }
 
 commit_files <- function(commit, repo) {
@@ -440,6 +458,6 @@ last_line <- function(node) {
   as.numeric(sub(":.*", "", sub(".*-", "", xml2::xml_attr(node, "sourcepos"))))
 }
 
-increment_sourcepos <- function(node) {
-  sprintf("%s:1-%s:2", last_line(node) + 1, last_line(node) + 1)
+increment_sourcepos <- function(node, n) {
+  sprintf("%s:1-%s:2", last_line(node) + n, last_line(node) + n)
 }
