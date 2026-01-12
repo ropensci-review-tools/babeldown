@@ -22,8 +22,11 @@ deepl_request_basic <- function(path, method) {
   httr2::request(deepl_url()) |>
     httr2::req_url_path_append(deepl_api_version()) |>
     httr2::req_url_path_append(path) |>
-    httr2::req_headers("Authorization" = sprintf("DeepL-Auth-Key %s", deepl_key())) |>
+    httr2::req_headers(
+      "Authorization" = sprintf("DeepL-Auth-Key %s", deepl_key())
+    ) |>
     httr2::req_method(method) |>
+    httr2::req_throttle(capacity = 30, fill_time_s = 60) |>
     httr2::req_retry(max_tries = 3)
 }
 
