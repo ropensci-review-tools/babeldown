@@ -2,6 +2,7 @@
 
 export(deepl_languages)
 export(deepl_translate)
+export(deepl_translate_clipboard)
 export(deepl_translate_hugo)
 export(deepl_translate_markdown_string)
 export(deepl_translate_quarto)

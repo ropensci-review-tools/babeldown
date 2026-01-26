@@ -1,0 +1,24 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EJe%20suis%20en%20vacances%2C%20en%20fait.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=fr&target_lang=EN-US&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=default&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 13:29:22 GMT
+      x-trace-id: 0571c1fa82234553b1ee06c88ebea8dd
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=55, l7_lb_idle;dur=1, l7_lb_receive;dur=0, l7_lb_total;dur=101
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"FR","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">I''m
+        on vacation, actually.</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 13:29:22
+recorded_with: VCR-vcr/2.1.1.91
