@@ -530,3 +530,79 @@ untangle_text <- function(node) {
     gsub("\\\n", "", text)
   )
 }
+
+#' Translate Markdown string from clipboard
+#'
+#' Read the string from the clipboard using the clipr package.
+#' Guesses the source language using the cld3 package.
+#'
+#' @param source_lang Name or code of source language. Guessed using cld3 if not provided.
+#' See [DeepL docs](https://www.deepl.com/docs-api/general/get-languages/).
+
+#' @inheritParams deepl_translate
+#'
+#' @return Translated Markdown string, also put on the clipboard.
+#' @export
+#'
+#' @details
+#' To make this function less chatty, set the `babeldown.quiet`
+#' option to `TRUE`.
+#'
+#'
+#' @examples
+#' \dontrun{
+#' clipr::write_clip("Je suis en vacances, en fait.")
+#' deepl_translate_clipboard(target_lang = "EN-US")
+#'
+#' clipr::write_clip("Je suis en vacances.")
+#' deepl_translate_clipboard(target_lang = "EN-US")
+#' }
+deepl_translate_clipboard <- function(
+  target_lang,
+  source_lang = NULL,
+  glossary_name = NULL,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+) {
+  rlang::check_installed("clipr")
+  markdown_string <- paste(clipr::read_clip(), collapse = "\n")
+  cli_alert_success("Read Markdown string from the clibpoard!")
+
+  if (is.null(source_lang)) {
+    rlang::check_installed("cld3")
+    source_lang <- cld3::detect_language(markdown_string)
+    if (is.na(source_lang)) {
+      cli::cli_abort(c(
+        "Can't identify {.arg source_lang} using the cld3 package",
+        i = "Provide the argument explicitly."
+      ))
+    }
+
+    cli_alert_info(
+      "Detected {.arg source_lang} as {.value {source_lang}}."
+    )
+  }
+
+  file <- withr::local_tempfile()
+  brio::write_lines(markdown_string, file)
+  deepl_translate(
+    path = file,
+    out_path = file,
+    glossary_name = glossary_name,
+    source_lang = source_lang,
+    target_lang = target_lang,
+    formality = formality,
+    yaml_fields = NULL
+  )
+
+  lines <- brio::read_lines(file)
+
+  if (length(lines) > 1) {
+    lines <- paste(lines, collapse = "\n")
+  }
+
+  lines <- gsub("\n*$", "", lines)
+
+  cli_alert_success("Wrote translated Markdown string on the clibpoard!")
+  clipr::write_clip(lines)
+  invisible(lines)
+}
