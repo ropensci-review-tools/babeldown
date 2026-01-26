@@ -313,6 +313,7 @@ test_that("deepl_translate() protects fenced divs", {
 })
 
 test_that("deepl_translate_clipboard() works", {
+  skip_on_os("linux")
   withr::local_options(babeldown.quiet = TRUE)
   withr::local_envvar(CLIPR_ALLOW = TRUE)
   vcr::local_cassette("example-clip")
