@@ -6,6 +6,7 @@ author: "Jane Doe"
 ## Introducción
 
 Este es un apartado actualizado que explica los fundamentos del análisis de datos. Exploraremos cómo cargar datos, procesarlos y crear hermosas visualizaciones.
+
 ```{r}
 # Load the data
 data <- read.csv("data.csv")

@@ -223,9 +223,11 @@ deepl_part_translate <- function(
   old_source_kiddos <- xml_kiddos(old_source$body)
   old_target_kiddos <- xml_kiddos(old_target$body)
 
-  new_lines <- purrr::map(
+  new_lines <- purrr::map2(
     kiddos,
+    seq_along(kiddos),
     reuse_or_translate_node,
+    kiddos = kiddos,
     old_source_kiddos = old_source_kiddos,
     old_target_kiddos = old_target_kiddos,
     current_lines = current_lines,
@@ -243,45 +245,14 @@ deepl_part_translate <- function(
 }
 
 tackle_node <- function(node, current_lines) {
-  if (xml2::xml_has_attr(node, "translation")) {
-    return(xml2::xml_attr(node, "translation"))
-  }
-
-  current_lines <- current_lines[first_line(node):last_line(node)]
-
-  # check whether we need to add an empty line
-  # assuming one at most is needed
-  next_sibling <- xml2::xml_find_first(node, "following-sibling::*")
-
-  last_node <- length(next_sibling) == 0
-  if (last_node) {
-    return(current_lines)
-  }
-
-  # Don't add empty lines between list items
-  both_list_items <- xml2::xml_name(node) == "item" &&
-                     xml2::xml_name(next_sibling) == "item"
-
-  missing_empty_line <- (first_line(next_sibling) > (last_line(node) + 1))
-  if (missing_empty_line && !both_list_items) {
-    current_lines <- c(current_lines, "")
-  }
-
-  if (xml2::xml_name(node) == "heading" && nzchar(tail(current_lines, n = 1))) {
-    current_lines <- c(current_lines, "")
-  }
-
-  if (
-    xml2::xml_name(next_sibling) == "list" && nzchar(tail(current_lines, n = 1))
-  ) {
-    current_lines <- c(current_lines, "")
-  }
-
-  current_lines
+  # Simply extract lines for this node from old translation
+  current_lines[first_line(node):last_line(node)]
 }
 
 reuse_or_translate_node <- function(
   tag,
+  idx,
+  kiddos,
   old_source_kiddos,
   old_target_kiddos,
   current_lines,
@@ -299,7 +270,8 @@ reuse_or_translate_node <- function(
   )
   existing_translation <- any(same_tag)
 
-  if (existing_translation) {
+  # Get content (either reused or translated)
+  content <- if (existing_translation) {
     # Reuse old translation
     same_index <- which(same_tag)[1]
     old_tag <- old_target_kiddos[[same_index]]
@@ -323,6 +295,18 @@ reuse_or_translate_node <- function(
     )
     translation
   }
+
+  # Add spacing based on NEW source structure
+  if (idx < length(kiddos)) {
+    next_node <- kiddos[[idx + 1]]
+    # Check if there should be empty lines between this node and next
+    lines_between <- first_line(next_node) - last_line(tag) - 1
+    if (lines_between > 0) {
+      content <- c(content, rep("", lines_between))
+    }
+  }
+
+  content
 }
 
 #' @rdname deepl_update
