@@ -1,0 +1,24 @@
+---
+title: "Getting Started"
+description: "A simple introduction"
+author: "Jane Doe"
+---
+
+## Introduction
+
+Ce paragraphe explique simplement les bases de l'analyse de données. Nous verrons comment charger des données, les traiter et créer des visualisations.
+
+```{r}
+# Load the data
+data <- read.csv("data.csv")
+head(data)
+```
+
+## Étapes clés
+
+Voici les principales étapes :
+
+- Chargez votre ensemble de données à partir d'un fichier
+- Nettoyez et préparez les données
+- Effectuez une analyse statistique
+- Créez des visualisations pertinentes

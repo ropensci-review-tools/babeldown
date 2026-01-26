@@ -32,6 +32,7 @@ You could store it with the keyring package and retrieve it like so:
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://docs.ropensci.org/babeldown}
   \item \url{https://github.com/ropensci-review-tools/babeldown}
   \item Report bugs at \url{https://github.com/ropensci-review-tools/babeldown/issues}
 }

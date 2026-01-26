@@ -1,0 +1,25 @@
+---
+title: "Getting Started"
+description: "A simple introduction"
+author: "Jane Doe"
+---
+
+## Introduction
+
+This is an updated paragraph explaining the basics of data analysis. We will explore how to load data, process it, and create beautiful visualizations.
+
+```{r}
+# Load the data
+data <- read.csv("data.csv")
+head(data)
+```
+
+## Key Steps
+
+Here are the main steps:
+
+- Load your dataset from a file
+- Clean and prepare the data
+- Create meaningful visualizations
+- Perform statistical analysis
+- Share your findings

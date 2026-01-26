@@ -1,0 +1,93 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EThis%20is%20an%20updated%20paragraph%20explaining%20the%20basics%20of%20data%20analysis.%20We%20will%20explore%20how%20to%20load%20data%2C%20process%20it%2C%20and%20create%20beautiful%20visualizations.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=en&target_lang=es&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 14:37:57 GMT
+      x-trace-id: f15eb062a253431e810737439896fcd0
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=66, l7_lb_idle;dur=0, l7_lb_receive;dur=0, l7_lb_total;dur=140
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Este
+        es un apartado actualizado que explica los fundamentos del análisis de datos.
+        Exploraremos cómo cargar datos, procesarlos y crear hermosas visualizaciones.</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 14:37:58
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Clist%20type%3D%22bullet%22%20tight%3D%22true%22%3E%0A%20%20%20%20%3Citem%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EShare%20your%20findings%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Fitem%3E%0A%20%20%3C%2Flist%3E%0A%3C%2Fdocument%3E%0A&source_lang=en&target_lang=es&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 14:37:58 GMT
+      x-trace-id: ca47ad729a85440d8fc2fcec6eecec5d
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=193, l7_lb_receive;dur=0, l7_lb_total;dur=42
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <list type=\"bullet\" tight=\"true\">\n    <item>\n      <paragraph>\n       <text
+        xml:space=\"preserve\">Comparte tus conclusiones</text>\n      </paragraph>\n    </item>\n  </list>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 14:37:58
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EThis%20is%20an%20updated%20paragraph%20explaining%20the%20basics%20of%20data%20analysis.%20We%20will%20explore%20how%20to%20load%20data%2C%20process%20it%2C%20and%20create%20beautiful%20visualizations.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=en&target_lang=fr&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 14:37:58 GMT
+      x-trace-id: ceb66800ec214ea4ac82b179d97a6d37
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=201, l7_lb_receive;dur=0, l7_lb_total;dur=248
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Voici
+        un paragraphe mis à jour qui explique les bases de l''analyse des données.
+        Nous allons explorer comment charger des données, les traiter et créer de
+        belles visualisations.</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 14:37:59
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Clist%20type%3D%22bullet%22%20tight%3D%22true%22%3E%0A%20%20%20%20%3Citem%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EShare%20your%20findings%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Fitem%3E%0A%20%20%3C%2Flist%3E%0A%3C%2Fdocument%3E%0A&source_lang=en&target_lang=fr&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 14:37:59 GMT
+      x-trace-id: 186f9eb8ea6f4fd6ae2b192df676cb8f
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=360, l7_lb_receive;dur=0, l7_lb_total;dur=298
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <list type=\"bullet\" tight=\"true\">\n    <item>\n      <paragraph>\n       <text
+        xml:space=\"preserve\">Partage tes découvertes</text>\n      </paragraph>\n    </item>\n  </list>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 14:37:59
+recorded_with: VCR-vcr/2.1.1.91

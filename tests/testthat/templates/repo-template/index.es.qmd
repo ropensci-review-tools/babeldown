@@ -1,0 +1,24 @@
+---
+title: "Empezar"
+description: "Una introducción simple"
+author: "Jane Doe"
+---
+
+## Introducción
+
+Este es un sencillo párrafo que explica los conceptos básicos del análisis de datos. Exploraremos cómo cargar datos, procesarlos y crear visualizaciones.
+
+```{r}
+# Load the data
+data <- read.csv("data.csv")
+head(data)
+```
+
+## Pasos clave
+
+Estos son los pasos principales:
+
+- Cargue su conjunto de datos desde un archivo
+- Limpie y prepare los datos
+- Realice análisis estadísticos
+- Cree visualizaciones significativas
