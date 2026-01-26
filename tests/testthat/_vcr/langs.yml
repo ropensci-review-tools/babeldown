@@ -1,0 +1,19 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api-free.deepl.com/v2/languages?type=source
+  response:
+    status: 200
+    headers:
+      content-type: application/json; charset=utf-8
+      date: Mon, 26 Jan 2026 12:17:00 GMT
+      x-trace-id: d003869f45634b0aa69328d8896fc741
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=48, l7_lb_idle;dur=0, l7_lb_receive;dur=0, l7_lb_total;dur=61
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '[{"language":"AR","name":"Arabic"},{"language":"BG","name":"Bulgarian"},{"language":"CS","name":"Czech"},{"language":"DA","name":"Danish"},{"language":"DE","name":"German"},{"language":"EL","name":"Greek"},{"language":"EN","name":"English"},{"language":"ES","name":"Spanish"},{"language":"ET","name":"Estonian"},{"language":"FI","name":"Finnish"},{"language":"FR","name":"French"},{"language":"HE","name":"Hebrew"},{"language":"HU","name":"Hungarian"},{"language":"ID","name":"Indonesian"},{"language":"IT","name":"Italian"},{"language":"JA","name":"Japanese"},{"language":"KO","name":"Korean"},{"language":"LT","name":"Lithuanian"},{"language":"LV","name":"Latvian"},{"language":"NB","name":"Norwegian"},{"language":"NL","name":"Dutch"},{"language":"PL","name":"Polish"},{"language":"PT","name":"Portuguese"},{"language":"RO","name":"Romanian"},{"language":"RU","name":"Russian"},{"language":"SK","name":"Slovak"},{"language":"SL","name":"Slovenian"},{"language":"SV","name":"Swedish"},{"language":"TH","name":"Thai"},{"language":"TR","name":"Turkish"},{"language":"UK","name":"Ukrainian"},{"language":"VI","name":"Vietnamese"},{"language":"ZH","name":"Chinese"}]'
+  recorded_at: 2026-01-26 12:17:01
+recorded_with: VCR-vcr/2.1.1.91

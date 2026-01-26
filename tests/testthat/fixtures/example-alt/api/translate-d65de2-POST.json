@@ -1,8 +1,0 @@
-{
-    "translations": [
-        {
-            "detected_source_language": "EN",
-            "text": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <image destination=\"images/localization_concept_map.png\" title=\"\">\n     <text xml:space=\"preserve\">Proceso de Localización de rOpenSci<\/text>\n   <\/image>\n   <text xml:space=\"preserve\"/>\n   <curly curly=\"true\" alt=\"Localization process cicle\">{fig-alt=\"Localization process cicle\"}<\/curly>\n   <text/>\n  <\/paragraph>\n<\/document>\n"
-        }
-    ]
-}

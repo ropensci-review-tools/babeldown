@@ -1,0 +1,24 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EWickham%20says%20blah%20%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Csquary%3E%40wickham24%3C%2Fsquary%3E%0A%20%20%20%20%20%20%3Ctext%3E.%3C%2Ftext%3E%0A%20%20%20%20%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=en&target_lang=es&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=default&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:41 GMT
+      x-trace-id: feb8243137e14951bdc1f3b1da8c2584
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=243, l7_lb_receive;dur=0, l7_lb_total;dur=56
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">\n     <text
+        xml:space=\"preserve\">Wickham dice bla </text>\n     <squary>@wickham24</squary>\n     <text>.</text>\n   </text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:42
+recorded_with: VCR-vcr/2.1.1.91

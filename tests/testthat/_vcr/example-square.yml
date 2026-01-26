@@ -1,0 +1,28 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EWickham%20says%20blah%20%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Csquary%3E-%40wickham%2B2015%23%3C%2Fsquary%3E%0A%20%20%20%20%20%20%3Ctext%3E%20and%20he%20says%20other%20things%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Csquary%3E%0A%20%20%20%20%20%20%20%20%3Cnotranslate%3E%5Efootnote1%3C%2Fnotranslate%3E%0A%20%20%20%20%20%20%3C%2Fsquary%3E%0A%20%20%20%20%20%20%3Ctext%3E.%3C%2Ftext%3E%0A%20%20%20%20%3C%2Ftext%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EBlah%20Blah%20%3C%2Ftext%3E%0A%20%20%20%20%20%20%3Csquary%3Esee%20%3Cnotranslate%3E%40knuth1984%3C%2Fnotranslate%3E%2C%20pp.%2033-35%3B%20also%20%3Cnotranslate%3E%40wickham2015%3C%2Fnotranslate%3E%2C%20chap.%201%3C%2Fsquary%3E%0A%20%20%20%20%20%20%3Ctext%2F%3E%0A%20%20%20%20%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=en&target_lang=es&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=default&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:41 GMT
+      x-trace-id: ab2a6d6966ba4da19f3aae5679935c0d
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=165, l7_lb_receive;dur=0, l7_lb_total;dur=100
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">\n     <text
+        xml:space=\"preserve\">Wickham dice bla </text>\n     <squary>-@wickham+2015#</squary>\n      <text>
+        y dice otras cosas</text>\n     <squary>\n        <notranslate>^footnote1</notranslate>\n      </squary>\n     <text>.</text>\n   </text>\n   <softbreak/>\n   <text
+        xml:space=\"preserve\">\n     <text xml:space=\"preserve\">Bla bla bla </text>\n     <squary>véase
+        <notranslate>@knuth1984</notranslate>, pp. 33-35; también <notranslate>@wickham2015</notranslate></squary>,
+        <squary>cap. 1</squary>\n     <text/>\n   </text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:42
+recorded_with: VCR-vcr/2.1.1.91

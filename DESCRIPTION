@@ -40,7 +40,7 @@ Suggests:
     blogdown,
     fs,
     gert,
-    httptest2,
+    vcr,
     knitr,
     quarto,
     rmarkdown,

@@ -1,0 +1,19 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api-free.deepl.com/v2/usage
+  response:
+    status: 200
+    headers:
+      content-type: application/json; charset=utf-8
+      date: Mon, 26 Jan 2026 12:17:55 GMT
+      x-trace-id: 43dd943422b44f409131d70b5a5cee7f
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=5311, l7_lb_receive;dur=0, l7_lb_total;dur=2
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"character_count":467625,"character_limit":500000}'
+  recorded_at: 2026-01-26 12:17:56
+recorded_with: VCR-vcr/2.1.1.91

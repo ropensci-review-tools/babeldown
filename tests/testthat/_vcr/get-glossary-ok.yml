@@ -1,0 +1,19 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api-free.deepl.com/v2/glossaries
+  response:
+    status: 200
+    headers:
+      content-type: application/json; charset=utf-8
+      date: Mon, 26 Jan 2026 12:16:19 GMT
+      x-trace-id: d087e8b051d8484fa970fee280a0cd6f
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=49, l7_lb_idle;dur=4, l7_lb_receive;dur=0, l7_lb_total;dur=88
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"glossaries":[{"glossary_id":"42","name":"glosario","ready":true,"source_lang":"en","target_lang":"es","creation_time":"2022-10-18T13:20:13.807055Z","entry_count":46}]}'
+  recorded_at: 2026-01-26 12:16:20
+recorded_with: VCR-vcr/2.1.1.91

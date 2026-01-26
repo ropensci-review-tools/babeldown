@@ -16,16 +16,15 @@ test_that("deepl_update() works", {
     file
   )
 
-  with_mock_dir("git1", {
-    deepl_translate(
-      path = file,
-      out_path = out_file,
-      source_lang = "EN",
-      target_lang = "ES",
-      formality = "less",
-      yaml_fields = NULL
-    )
-  })
+  vcr::local_cassette("git1")
+  deepl_translate(
+    path = file,
+    out_path = out_file,
+    source_lang = "EN",
+    target_lang = "ES",
+    formality = "less",
+    yaml_fields = NULL
+  )
 
   gert::git_init(dir)
   gert::git_config_set("user.name", "Jane Doe", repo = dir)
@@ -44,16 +43,15 @@ test_that("deepl_update() works", {
 
   expect_snapshot(gert::git_ls(repo = dir)[,1])
 
-  with_mock_dir("git2", {
-    deepl_update(
-      path = file,
-      out_path = out_file,
-      source_lang = "EN",
-      target_lang = "ES",
-      formality = "less",
-      yaml_fields = NULL
-    )
-  })
+  vcr::local_cassette("git2")
+  deepl_update(
+    path = file,
+    out_path = out_file,
+    source_lang = "EN",
+    target_lang = "ES",
+    formality = "less",
+    yaml_fields = NULL
+  )
 
   new_translation <- brio::read_lines(out_file)
   expect_true(
@@ -83,16 +81,15 @@ test_that("deepl_update() works -- files in subdirectory", {
     file
   )
 
-  with_mock_dir("git1", {
-    deepl_translate(
-      path = file,
-      out_path = out_file,
-      source_lang = "EN",
-      target_lang = "ES",
-      formality = "less",
-      yaml_fields = NULL
-    )
-  })
+  vcr::local_cassette("git1")
+  deepl_translate(
+    path = file,
+    out_path = out_file,
+    source_lang = "EN",
+    target_lang = "ES",
+    formality = "less",
+    yaml_fields = NULL
+  )
 
   gert::git_init(dir)
   gert::git_config_set("user.name", "Jane Doe", repo = dir)
@@ -111,16 +108,15 @@ test_that("deepl_update() works -- files in subdirectory", {
 
   expect_snapshot(gert::git_ls(repo = dir)[,1])
 
-  with_mock_dir("git2", {
-    deepl_update(
-      path = file,
-      out_path = out_file,
-      source_lang = "EN",
-      target_lang = "ES",
-      formality = "less",
-      yaml_fields = NULL
-    )
-  })
+  vcr::local_cassette("git2")
+  deepl_update(
+    path = file,
+    out_path = out_file,
+    source_lang = "EN",
+    target_lang = "ES",
+    formality = "less",
+    yaml_fields = NULL
+  )
 
   new_translation <- brio::read_lines(out_file)
   expect_true(

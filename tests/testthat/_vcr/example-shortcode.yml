@@ -1,0 +1,160 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ealt%3D%22Portrait%20of%20a%20corgi%20sleeping%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:39 GMT
+      x-trace-id: 12b40218f1a84515b47ec370f6926e3f
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=162, l7_lb_receive;dur=0, l7_lb_total;dur=53
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">alt=\"Retrato
+        de un corgi durmiendo\"</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:40
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ecaption%3D%22Pic%20by%20someone.%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:39 GMT
+      x-trace-id: ee09f21974a84dce99788c65c9c250a1
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=160, l7_lb_receive;dur=0, l7_lb_total;dur=51
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">caption=\"Foto
+        de alguien\".</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:40
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Etitle%3D%22how%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Enice%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20is%20this%20pic%3F%21%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:40 GMT
+      x-trace-id: 2f158db45aae4ae1bd54aba2358bbda3
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=156, l7_lb_receive;dur=0, l7_lb_total;dur=60
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">title=\"cómo
+        </text>\n   <emph>\n     <text xml:space=\"preserve\">bonito</text>\n   </emph>\n    <text
+        xml:space=\"preserve\"> es esta foto?\"</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:40
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ealt%3D%22Portrait%20of%20a%20corgi%20crying%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:39 GMT
+      x-trace-id: 99b384ba488a4e8dafbfd73f76b282f3
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=174, l7_lb_receive;dur=0, l7_lb_total;dur=52
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">alt=\"Retrato
+        de un corgi llorando\"</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:40
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ecaption%3D%22Pic%20by%20someone.%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:40 GMT
+      x-trace-id: 2b196755894e42eba44c51bfa0d13aeb
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=137, l7_lb_receive;dur=0, l7_lb_total;dur=63
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">caption=\"Foto
+        de alguien\".</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:41
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Etitle%3D%22how%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ebad%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20is%20this%20pic%3F%21%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:41 GMT
+      x-trace-id: c5673178b2704f86b74f950116d457e6
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=152, l7_lb_receive;dur=0, l7_lb_total;dur=60
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">title=\"cómo
+        </text>\n   <emph>\n     <text xml:space=\"preserve\">malo</text>\n   </emph>\n    <text
+        xml:space=\"preserve\"> es esta foto?\"</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:41
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cheading%20level%3D%222%22%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EPackage%20name%20and%20metadata%3C%2Ftext%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3E43dbc3a3e9ec612c01b831a369e6de2b%3C%2Fcode%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Ccode_block%20xml%3Aspace%3D%22preserve%22%20language%3D%22%3D%26quot%3Bhtml%26quot%3B%22%20name%3D%22%22%3E%608debfae29a4191bfca5fb8e7c6f877c9%60%0A%3C%2Fcode_block%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:40 GMT
+      x-trace-id: 60652cce79974de28eeaafd152db662b
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=170, l7_lb_receive;dur=0, l7_lb_total;dur=41
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <heading level=\"2\">\n   <text
+        xml:space=\"preserve\">Nombre del paquete y metadatos</text>\n  </heading>\n  <paragraph>\n    <code
+        xml:space=\"preserve\">43dbc3a3e9ec612c01b831a369e6de2b</code>\n  </paragraph>\n  <code_block
+        xml:space=\"preserve\" language=\"=&quot;html&quot;\" name=\"\">`8debfae29a4191bfca5fb8e7c6f877c9`\n</code_block>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:41
+recorded_with: VCR-vcr/2.1.1.91

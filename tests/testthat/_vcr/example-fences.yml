@@ -1,0 +1,28 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ESome%20text.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Cfence%20xml%3Aspace%3D%22preserve%22%20fence%3D%22true%22%3E%3A%3A%3A%20footer%3C%2Ffence%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%0A%20%20%20%20%20%20%3Csquary%3EYou%20are%20sneaky%21%3C%2Fsquary%3E%0A%20%20%20%20%20%20%3Ctext%2F%3E%0A%20%20%20%20%3C%2Ftext%3E%0A%20%20%20%20%3Ccurly%20curly%3D%22true%22%3E%7Bstyle%3D%22color%3A%20transparent%3B%22%7D%3C%2Fcurly%3E%0A%20%20%20%20%3Ctext%2F%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Cfence%20xml%3Aspace%3D%22preserve%22%20fence%3D%22true%22%3E%3A%3A%3A%3C%2Ffence%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:42 GMT
+      x-trace-id: 0168926368614eff8655014b31e073a8
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=103, l7_lb_receive;dur=0, l7_lb_total;dur=41
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Algo
+        de texto.</text>\n  </paragraph>\n  <paragraph>\n   <fence xml:space=\"preserve\"
+        fence=\"true\">::: footer</fence>\n   <softbreak/>\n    <text xml:space=\"preserve\">\n      <squary>¡Eres
+        astuto!</squary>\n      <text/>\n    </text>\n   <curly curly=\"true\">{style=\"color:
+        transparent;\"}</curly>\n   <text/>\n    <softbreak/>\n   <fence xml:space=\"preserve\"
+        fence=\"true\">:::</fence>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:43
+recorded_with: VCR-vcr/2.1.1.91

@@ -16,15 +16,14 @@ test_that("deepl_translate_quarto() works", {
   lines <- lines[-21]
   brio::write_lines(lines, post_path)
 
-  with_mock_dir("hugo-intro", {
-    deepl_translate_hugo(
-      post_path = post_path,
-      force = TRUE, # the existing chapter is a placeholder
-      source_lang = "EN",
-      target_lang = "FR",
-      formality = "less"
-    )
-  })
+  vcr::local_cassette("hugo-intro")
+  deepl_translate_hugo(
+    post_path = post_path,
+    force = TRUE, # the existing chapter is a placeholder
+    source_lang = "EN",
+    target_lang = "FR",
+    formality = "less"
+  )
   target_path <- file.path(temp_dir, "content", "post", "2016-12-30-hello-markdown", "index.fr.md")
   expect_true(fs::file_exists(target_path))
   # have a look at the translation

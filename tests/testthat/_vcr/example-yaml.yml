@@ -1,0 +1,137 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EA%20Wonderful%20Explanation%20of%20Translating%20Stuff%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:38 GMT
+      x-trace-id: 1c2873f463724f679d02575b756866de
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=331, l7_lb_receive;dur=0, l7_lb_total;dur=40
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Una
+        maravillosa explicación de cómo traducir cosas</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:39
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ECheck%20out%20this%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ewonderful%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20%3C%2Ftext%3E%0A%20%20%20%20%3Cstrong%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Efunny%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fstrong%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20post%21%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:38 GMT
+      x-trace-id: 40afe5ba031a48c493cde7623a0cdba3
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=153, l7_lb_receive;dur=0, l7_lb_total;dur=54
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Mira
+        esto </text>\n   <emph>\n     <text xml:space=\"preserve\">maravilloso</text>\n   </emph>\n   <text
+        xml:space=\"preserve\"> </text>\n   <strong>\n     <text xml:space=\"preserve\">divertido</text>\n   </strong>\n    <text
+        xml:space=\"preserve\"> ¡post!</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:39
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Eruniverse-discovering-es%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:38 GMT
+      x-trace-id: 20cead551d244dafb14b3936d32e55f2
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=158, l7_lb_receive;dur=0, l7_lb_total;dur=52
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">runiverso-descubrir-es</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:39
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Epackage%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:38 GMT
+      x-trace-id: 779928ab50b140b2b1695e9a147da20b
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=157, l7_lb_receive;dur=0, l7_lb_total;dur=66
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">paquete</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:39
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Esoftware%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:38 GMT
+      x-trace-id: a8b5e6f5ca664775b904facbaa381031
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=144, l7_lb_receive;dur=0, l7_lb_total;dur=29
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">software</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:39
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cheading%20level%3D%222%22%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EPackage%20name%20and%20metadata%3C%2Ftext%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Cheading%20level%3D%223%22%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ENaming%20your%20package%3C%2Ftext%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Clist%20type%3D%22bullet%22%20tight%3D%22true%22%3E%0A%20%20%20%20%3Citem%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EWe%20strongly%20recommend%20short%2C%20descriptive%20names%20in%20lower%20case.%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Fitem%3E%0A%20%20%3C%2Flist%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=ES&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:39 GMT
+      x-trace-id: ac02e0757da74c3a8bd512f132734529
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=111, l7_lb_receive;dur=0, l7_lb_total;dur=133
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <heading level=\"2\">\n   <text
+        xml:space=\"preserve\">Nombre del paquete y metadatos</text>\n  </heading>\n  <heading
+        level=\"3\">\n   <text xml:space=\"preserve\">Cómo nombrar tu paquete</text>\n  </heading>\n  <list
+        type=\"bullet\" tight=\"true\">\n    <item>\n      <paragraph>\n       <text
+        xml:space=\"preserve\">Recomendamos encarecidamente nombres cortos, descriptivos
+        y en minúsculas.</text>\n      </paragraph>\n    </item>\n  </list>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:39
+recorded_with: VCR-vcr/2.1.1.91

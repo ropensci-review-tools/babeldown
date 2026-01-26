@@ -1,0 +1,143 @@
+http_interactions:
+- request:
+    method: GET
+    uri: https://api-free.deepl.com/v2/languages?type=target
+  response:
+    status: 200
+    headers:
+      content-type: application/json; charset=utf-8
+      date: Mon, 26 Jan 2026 12:17:11 GMT
+      x-trace-id: 637ce744b4c541b48460cc574f91fb03
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=11277, l7_lb_receive;dur=0, l7_lb_total;dur=2
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '[{"language":"AR","name":"Arabic","supports_formality":false},{"language":"BG","name":"Bulgarian","supports_formality":false},{"language":"CS","name":"Czech","supports_formality":false},{"language":"DA","name":"Danish","supports_formality":false},{"language":"DE","name":"German","supports_formality":true},{"language":"EL","name":"Greek","supports_formality":false},{"language":"EN-GB","name":"English
+        (British)","supports_formality":false},{"language":"EN-US","name":"English
+        (American)","supports_formality":false},{"language":"ES","name":"Spanish","supports_formality":true},{"language":"ES-419","name":"Spanish
+        (Latin American)","supports_formality":true},{"language":"ET","name":"Estonian","supports_formality":false},{"language":"FI","name":"Finnish","supports_formality":false},{"language":"FR","name":"French","supports_formality":true},{"language":"HE","name":"Hebrew","supports_formality":false},{"language":"HU","name":"Hungarian","supports_formality":false},{"language":"ID","name":"Indonesian","supports_formality":false},{"language":"IT","name":"Italian","supports_formality":true},{"language":"JA","name":"Japanese","supports_formality":true},{"language":"KO","name":"Korean","supports_formality":false},{"language":"LT","name":"Lithuanian","supports_formality":false},{"language":"LV","name":"Latvian","supports_formality":false},{"language":"NB","name":"Norwegian","supports_formality":false},{"language":"NL","name":"Dutch","supports_formality":true},{"language":"PL","name":"Polish","supports_formality":true},{"language":"PT-BR","name":"Portuguese
+        (Brazilian)","supports_formality":true},{"language":"PT-PT","name":"Portuguese
+        (European)","supports_formality":true},{"language":"RO","name":"Romanian","supports_formality":false},{"language":"RU","name":"Russian","supports_formality":true},{"language":"SK","name":"Slovak","supports_formality":false},{"language":"SL","name":"Slovenian","supports_formality":false},{"language":"SV","name":"Swedish","supports_formality":false},{"language":"TH","name":"Thai","supports_formality":false},{"language":"TR","name":"Turkish","supports_formality":false},{"language":"UK","name":"Ukrainian","supports_formality":false},{"language":"VI","name":"Vietnamese","supports_formality":false},{"language":"ZH","name":"Chinese
+        (simplified)","supports_formality":false},{"language":"ZH-HANS","name":"Chinese
+        (simplified)","supports_formality":false},{"language":"ZH-HANT","name":"Chinese
+        (traditional)","supports_formality":false}]'
+  recorded_at: 2026-01-26 12:17:12
+- request:
+    method: GET
+    uri: https://api-free.deepl.com/v2/languages?type=source
+  response:
+    status: 200
+    headers:
+      content-type: application/json; charset=utf-8
+      date: Mon, 26 Jan 2026 12:17:11 GMT
+      x-trace-id: 4f801bab9914403bb29026ef5920353d
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=91, l7_lb_receive;dur=0, l7_lb_total;dur=3
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '[{"language":"AR","name":"Arabic"},{"language":"BG","name":"Bulgarian"},{"language":"CS","name":"Czech"},{"language":"DA","name":"Danish"},{"language":"DE","name":"German"},{"language":"EL","name":"Greek"},{"language":"EN","name":"English"},{"language":"ES","name":"Spanish"},{"language":"ET","name":"Estonian"},{"language":"FI","name":"Finnish"},{"language":"FR","name":"French"},{"language":"HE","name":"Hebrew"},{"language":"HU","name":"Hungarian"},{"language":"ID","name":"Indonesian"},{"language":"IT","name":"Italian"},{"language":"JA","name":"Japanese"},{"language":"KO","name":"Korean"},{"language":"LT","name":"Lithuanian"},{"language":"LV","name":"Latvian"},{"language":"NB","name":"Norwegian"},{"language":"NL","name":"Dutch"},{"language":"PL","name":"Polish"},{"language":"PT","name":"Portuguese"},{"language":"RO","name":"Romanian"},{"language":"RU","name":"Russian"},{"language":"SK","name":"Slovak"},{"language":"SL","name":"Slovenian"},{"language":"SV","name":"Swedish"},{"language":"TH","name":"Thai"},{"language":"TR","name":"Turkish"},{"language":"UK","name":"Ukrainian"},{"language":"VI","name":"Vietnamese"},{"language":"ZH","name":"Chinese"}]'
+  recorded_at: 2026-01-26 12:17:12
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ealt%3D%22very%20nice%22%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=FR&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:11 GMT
+      x-trace-id: 91b6a4981ea7487d817cf38b8c2b3a2c
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=126, l7_lb_receive;dur=0, l7_lb_total;dur=46
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">alt=\"very
+        nice\"</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:12
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EA%20Plain%20Markdown%20Post%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=FR&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:12 GMT
+      x-trace-id: a8a2d834e3ad4c058910f912f84acd46
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=180, l7_lb_receive;dur=0, l7_lb_total;dur=35
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Un
+        simple billet en Markdown</text>\n  </paragraph>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:12
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EThis%20is%20a%20post%20written%20in%20plain%20Markdown%20%28%3C%2Ftext%3E%0A%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3E%2A.md%3C%2Fcode%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%29%20instead%20of%20R%20Markdown%20%28%3C%2Ftext%3E%0A%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3E%2A.Rmd%3C%2Fcode%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%29.%20The%20major%20differences%20are%3A%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3Ec250e4eefcc5da78956b65555c355dc5%3C%2Fcode%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Clist%20type%3D%22ordered%22%20start%3D%221%22%20delim%3D%22period%22%20tight%3D%22true%22%3E%0A%20%20%20%20%3Citem%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EYou%20cannot%20run%20any%20R%20code%20in%20a%20plain%20Markdown%20document%2C%20whereas%20in%20an%20R%20Markdown%20document%2C%20you%20can%20embed%20R%20code%20chunks%20%28%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3E%60%60%60%7Br%7D%3C%2Fcode%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%29%3B%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Fitem%3E%0A%20%20%20%20%3Citem%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EA%20plain%20Markdown%20post%20is%20rendered%20through%20%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3Clink%20destination%3D%22https%3A%2F%2Fgohugo.io%2Foverview%2Fconfiguration%2F%22%20title%3D%22%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EBlackfriday%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3C%2Flink%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2C%20and%20an%20R%20Markdown%20document%20is%20compiled%20by%20%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3Clink%20destination%3D%22http%3A%2F%2Frmarkdown.rstudio.com%22%20title%3D%22%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cstrong%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ermarkdown%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%20%20%3C%2Fstrong%3E%0A%20%20%20%20%20%20%20%20%3C%2Flink%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20and%20%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3Clink%20destination%3D%22http%3A%2F%2Fpandoc.org%22%20title%3D%22%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EPandoc%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3C%2Flink%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E.%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Fitem%3E%0A%20%20%3C%2Flist%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EThere%20are%20many%20differences%20in%20syntax%20between%20Blackfriday%27s%20Markdown%20and%20Pandoc%27s%20Markdown.%20For%20example%2C%20you%20can%20write%20a%20task%20list%20with%20Blackfriday%20but%20not%20with%20Pandoc%3A%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Clist%20type%3D%22bullet%22%20tight%3D%22true%22%3E%0A%20%20%20%20%3Ctasklist%20completed%3D%22true%22%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EWrite%20an%20R%20package.%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Ftasklist%3E%0A%20%20%20%20%3Ctasklist%20completed%3D%22false%22%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EWrite%20a%20book.%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Ftasklist%3E%0A%20%20%20%20%3Ctasklist%20completed%3D%22false%22%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E...%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Ftasklist%3E%0A%20%20%20%20%3Ctasklist%20completed%3D%22false%22%3E%0A%20%20%20%20%20%20%3Cparagraph%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EProfit%21%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fparagraph%3E%0A%20%20%20%20%3C%2Ftasklist%3E%0A%20%20%3C%2Flist%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EWhen%20creating%20a%20new%20post%2C%20you%20have%20to%20decide%20whether%20the%20post%20format%20is%20Markdown%20or%20R%20Markdown%2C%20and%20this%20can%20be%20done%20via%20the%20%3C%2Ftext%3E%0A%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3Eext%3C%2Fcode%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20argument%20of%20the%20function%20%3C%2Ftext%3E%0A%20%20%20%20%3Ccode%20xml%3Aspace%3D%22preserve%22%3Eblogdown%3A%3Anew_post%28%29%3C%2Fcode%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2C%20e.g.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Ccode_block%20info%3D%22r%22%20xml%3Aspace%3D%22preserve%22%20name%3D%22%22%3Eblogdown%3A%3Anew_post%28%22Post%20Title%22%2C%20ext%20%3D%20%27.Rmd%27%29%0A%3C%2Fcode_block%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=FR&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Mon, 26 Jan 2026 12:17:12 GMT
+      x-trace-id: 5169f92a095d43bc88a333315feceeee
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=0, l7_lb_idle;dur=140, l7_lb_receive;dur=0, l7_lb_total;dur=320
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"detected_source_language":"EN","text":"<?xml version=\"1.0\"
+        encoding=\"UTF-8\"?>\n<!DOCTYPE document SYSTEM \"CommonMark.dtd\">\n<document
+        xmlns=\"http://commonmark.org/xml/1.0\">\n  <paragraph>\n   <text xml:space=\"preserve\">Ceci
+        est un article écrit en Markdown (</text>\n   <code xml:space=\"preserve\">*.md</code>\n   <text
+        xml:space=\"preserve\">) au lieu de R Markdown (</text>\n   <code xml:space=\"preserve\">*.Rmd</code>\n   <text
+        xml:space=\"preserve\">). Les principales différences sont :</text>\n  </paragraph>\n  <paragraph>\n    <code
+        xml:space=\"preserve\">c250e4eefcc5da78956b65555c355dc5</code>\n  </paragraph>\n  <list
+        type=\"ordered\" start=\"1\" delim=\"period\" tight=\"true\">\n    <item>\n      <paragraph>\n       <text
+        xml:space=\"preserve\">Tu ne peux pas exécuter de code R dans un document
+        Markdown ordinaire, alors que dans un document R Markdown, tu peux intégrer
+        des morceaux de code R (</text>\n       <code xml:space=\"preserve\">```{r}</code>\n       <text
+        xml:space=\"preserve\">) ;</text>\n      </paragraph>\n    </item>\n    <item>\n      <paragraph>\n       <text
+        xml:space=\"preserve\">Un message Markdown simple est rendu par </text>\n       <link
+        destination=\"https://gohugo.io/overview/configuration/\" title=\"\">\n         <text
+        xml:space=\"preserve\">Vendredi noir</text>\n       </link>\n       <text
+        xml:space=\"preserve\"> et un document R Markdown est compilé par </text>\n        <link
+        destination=\"http://rmarkdown.rstudio.com\" title=\"\">\n          <strong>\n           <text
+        xml:space=\"preserve\">rmarkdown</text>\n          </strong>\n        </link>\n        <text
+        xml:space=\"preserve\"> et </text>\n       <link destination=\"http://pandoc.org\"
+        title=\"\">\n         <text xml:space=\"preserve\">Pandoc</text>\n       </link>\n       <text
+        xml:space=\"preserve\">.</text>\n      </paragraph>\n    </item>\n  </list>\n  <paragraph>\n   <text
+        xml:space=\"preserve\">Il existe de nombreuses différences de syntaxe entre
+        le Markdown de Blackfriday et le Markdown de Pandoc. Par exemple, tu peux
+        écrire une liste de tâches avec Blackfriday mais pas avec Pandoc :</text>\n  </paragraph>\n  <list
+        type=\"bullet\" tight=\"true\">\n    <tasklist completed=\"true\">\n      <paragraph>\n       <text
+        xml:space=\"preserve\">Écrire un paquetage R.</text>\n      </paragraph>\n    </tasklist>\n    <tasklist
+        completed=\"false\">\n      <paragraph>\n       <text xml:space=\"preserve\">Écris
+        un livre.</text>\n      </paragraph>\n    </tasklist>\n    <tasklist completed=\"false\">\n      <paragraph>\n       <text
+        xml:space=\"preserve\">...</text>\n      </paragraph>\n    </tasklist>\n    <tasklist
+        completed=\"false\">\n      <paragraph>\n       <text xml:space=\"preserve\">Profite
+        !</text>\n      </paragraph>\n    </tasklist>\n  </list>\n  <paragraph>\n   <text
+        xml:space=\"preserve\">Lors de la création d''un nouvel article, tu dois décider
+        si le format de l''article est Markdown ou R Markdown. </text>\n   <code xml:space=\"preserve\">ext</code>\n    <text
+        xml:space=\"preserve\"> de la fonction </text>\n   <code xml:space=\"preserve\">blogdown::new_post()</code>\n   <text
+        xml:space=\"preserve\">, par exemple</text>\n  </paragraph>\n  <code_block
+        info=\"r\" xml:space=\"preserve\" name=\"\">blogdown::new_post(\"Post Title\",
+        ext = ''.Rmd'')\n</code_block>\n</document>\n"}]}'
+  recorded_at: 2026-01-26 12:17:13
+recorded_with: VCR-vcr/2.1.1.91
