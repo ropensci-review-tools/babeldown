@@ -1,0 +1,22 @@
+preferences:
+  - source: en
+    target: es
+    formality: less
+    yaml_fields: ['title', 'description']
+  - source: en
+    target: fr
+    formality: less
+    yaml_fields: ['title', 'description']
+
+excludes: []
+
+languages:
+  - extension: es
+    target: es
+    source: es
+  - extension: ''
+    target: en-us
+    source: en
+  - extension: fr
+    target: fr
+    source: fr

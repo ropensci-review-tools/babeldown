@@ -1,11 +1,5 @@
 test_that("deepl_update() works", {
-
-  tmpdir <- if (isTRUE(as.logical(Sys.getenv("CI", "false")))) {
-    ".."
-  } else {
-    tempdir()
-  }
-  dir <- withr::local_tempdir(tmpdir = tmpdir)
+  dir <- withr::local_tempdir()
 
   file <- file.path(dir, "bla.md")
   fs::file_create(file)
@@ -29,11 +23,23 @@ test_that("deepl_update() works", {
   gert::git_init(dir)
   gert::git_config_set("user.name", "Jane Doe", repo = dir)
   gert::git_config_set("user.email", "jane@example.com", repo = dir)
-  gert::git_add(c(fs::path_rel(file, dir), fs::path_rel(out_file, dir)), repo = dir)
+  gert::git_add(
+    c(fs::path_rel(file, dir), fs::path_rel(out_file, dir)),
+    repo = dir
+  )
   gert::git_commit_all("First commit", repo = dir)
 
   brio::write_lines(
-    c("# a title", "", "this is some text", "", "awesome", "", "## subtitle", ""),
+    c(
+      "# a title",
+      "",
+      "this is some text",
+      "",
+      "awesome",
+      "",
+      "## subtitle",
+      ""
+    ),
     file
   )
   gert::git_add(fs::path_rel(file, dir), repo = dir)
@@ -41,7 +47,7 @@ test_that("deepl_update() works", {
 
   original_translation <- brio::read_lines(out_file)
 
-  expect_snapshot(gert::git_ls(repo = dir)[,1])
+  expect_snapshot(gert::git_ls(repo = dir)[, 1])
 
   vcr::local_cassette("git2")
   deepl_update(
@@ -60,17 +66,10 @@ test_that("deepl_update() works", {
   expect_true(
     any(new_translation %in% original_translation)
   )
-
 })
 
 test_that("deepl_update() works -- files in subdirectory", {
-
-  tmpdir <- if (isTRUE(as.logical(Sys.getenv("CI", "false")))) {
-    ".."
-  } else {
-    tempdir()
-  }
-  dir <- withr::local_tempdir(tmpdir = tmpdir)
+  dir <- withr::local_tempdir()
   fs::dir_create(file.path(dir, "pof"))
   file <- file.path(dir, "pof", "bla.md")
   fs::file_create(file)
@@ -94,11 +93,23 @@ test_that("deepl_update() works -- files in subdirectory", {
   gert::git_init(dir)
   gert::git_config_set("user.name", "Jane Doe", repo = dir)
   gert::git_config_set("user.email", "jane@example.com", repo = dir)
-  gert::git_add(c(fs::path_rel(file, dir), fs::path_rel(out_file, dir)), repo = dir)
+  gert::git_add(
+    c(fs::path_rel(file, dir), fs::path_rel(out_file, dir)),
+    repo = dir
+  )
   gert::git_commit_all("First commit", repo = dir)
 
   brio::write_lines(
-    c("# a title", "", "this is some text", "", "awesome", "", "## subtitle", ""),
+    c(
+      "# a title",
+      "",
+      "this is some text",
+      "",
+      "awesome",
+      "",
+      "## subtitle",
+      ""
+    ),
     file
   )
   gert::git_add(fs::path_rel(file, dir), repo = dir)
@@ -106,7 +117,7 @@ test_that("deepl_update() works -- files in subdirectory", {
 
   original_translation <- brio::read_lines(out_file)
 
-  expect_snapshot(gert::git_ls(repo = dir)[,1])
+  expect_snapshot(gert::git_ls(repo = dir)[, 1])
 
   vcr::local_cassette("git2")
   deepl_update(
@@ -125,5 +136,47 @@ test_that("deepl_update() works -- files in subdirectory", {
   expect_true(
     any(new_translation %in% original_translation)
   )
+})
 
+test_that("deepl_branch_update() works", {
+  dir <- withr::local_tempdir()
+
+  # Copy template repository
+  fs::dir_copy(
+    test_path("templates", "repo-template"),
+    dir,
+    overwrite = TRUE
+  )
+
+  # Initialize git repository
+  gert::git_init(dir)
+  gert::git_config_set("user.name", "Jane Doe", repo = dir)
+  gert::git_config_set("user.email", "jane@example.com", repo = dir)
+
+  # Initial commit on main branch
+  gert::git_add(".", repo = dir)
+  gert::git_commit("Initial commit with translations", repo = dir)
+
+  # Create a new branch
+  gert::git_branch_create("update-content", repo = dir)
+  gert::git_branch_checkout("update-content", repo = dir)
+
+  # Modify the English source file
+  file.copy(
+    test_path("templates", "index-updated.qmd"),
+    file.path(dir, "index.qmd"),
+    overwrite = TRUE
+  )
+
+  # Commit the changes
+  gert::git_add("index.qmd", repo = dir)
+  gert::git_commit("Update English content", repo = dir)
+
+  # Run deepl_branch_update
+  vcr::local_cassette("branch-update")
+  deepl_branch_update(repo = dir)
+
+  # Check that translations were updated
+  expect_snapshot_file(file.path(dir, "index.es.qmd"), "index.es.qmd")
+  expect_snapshot_file(file.path(dir, "index.fr.qmd"), "index.fr.qmd")
 })
