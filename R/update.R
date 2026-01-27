@@ -95,13 +95,10 @@ deepl_update <- function(
 
   translated_lines <- brio::read_lines(out_path)
 
-  repo <- fs::path_tidy(rprojroot::find_root(rprojroot::is_git_root, path))
+  repo <- fs::path_real(rprojroot::find_root(rprojroot::is_git_root, path))
 
-  path <- fs::path_rel(fs::path_expand(fs::path_tidy(path)), start = repo)
-  out_path <- fs::path_rel(
-    fs::path_expand(fs::path_tidy(out_path)),
-    start = repo
-  )
+  path <- fs::path_rel(fs::path_real(path), start = repo)
+  out_path <- fs::path_rel(fs::path_real(out_path), start = repo)
 
   # determine whether out_path is out of date
   log <- gert::git_log(repo = repo, max = max_commits)
