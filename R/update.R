@@ -212,6 +212,7 @@ deepl_part_translate <- function(
 
   new_target <- new_source
 
+  # we work with lines to only modify the lines we're translating
   current_lines <- brio::read_lines(file.path(repo, out_path))
   # Skip frontmatter lines to match sourcepos line numbers
   if (length(old_target$frontmatter) > 0) {
