@@ -213,10 +213,10 @@ deepl_part_translate <- function(
   new_target <- new_source
 
   # we work with lines to only modify the lines we're translating
-  current_lines <- brio::read_lines(file.path(repo, out_path))
+  old_target_lines <- brio::read_lines(file.path(repo, out_path))
   # Skip frontmatter lines to match sourcepos line numbers
   if (length(old_target$frontmatter) > 0) {
-    current_lines <- current_lines[-seq_along(old_target$frontmatter)]
+    old_target_lines <- old_target_lines[-seq_along(old_target$frontmatter)]
   }
 
   # Process nodes in order - don't re-sort after mixing sourcepos from different files
@@ -231,7 +231,7 @@ deepl_part_translate <- function(
     kiddos = kiddos,
     old_source_kiddos = old_source_kiddos,
     old_target_kiddos = old_target_kiddos,
-    current_lines = current_lines,
+    old_target_lines = old_target_lines,
     source_path = file.path(repo, path),
     frontmatter_length = length(new_target$frontmatter),
     glossary = glossary,
@@ -251,7 +251,7 @@ reuse_or_translate_node <- function(
   kiddos,
   old_source_kiddos,
   old_target_kiddos,
-  current_lines,
+  old_target_lines,
   source_path,
   frontmatter_length,
   glossary,
@@ -271,7 +271,7 @@ reuse_or_translate_node <- function(
     # Reuse old translation
     same_index <- which(same_tag)[1]
     old_tag <- old_target_kiddos[[same_index]]
-    current_lines[first_line(old_tag):last_line(old_tag)]
+    old_target_lines[first_line(old_tag):last_line(old_tag)]
   } else {
     # Get new translation
     markdown_lines <- if (first_line(tag) == last_line(tag)) {
