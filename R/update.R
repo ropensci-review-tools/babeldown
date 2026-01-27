@@ -245,11 +245,6 @@ deepl_part_translate <- function(
   brio::write_lines(new_lines, file.path(repo, out_path))
 }
 
-tackle_node <- function(node, current_lines) {
-  # Simply extract lines for this node from old translation
-  current_lines[first_line(node):last_line(node)]
-}
-
 reuse_or_translate_node <- function(
   tag,
   idx,
@@ -276,7 +271,7 @@ reuse_or_translate_node <- function(
     # Reuse old translation
     same_index <- which(same_tag)[1]
     old_tag <- old_target_kiddos[[same_index]]
-    tackle_node(old_tag, current_lines)
+    current_lines[first_line(old_tag):last_line(old_tag)]
   } else {
     # Get new translation
     markdown_lines <- if (first_line(tag) == last_line(tag)) {
