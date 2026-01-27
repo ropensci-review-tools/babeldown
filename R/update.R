@@ -267,11 +267,11 @@ reuse_or_translate_node <- function(
   existing_translation <- any(same_tag)
 
   # Get content (either reused or translated)
-  content <- if (existing_translation) {
+  if (existing_translation) {
     # Reuse old translation
     same_index <- which(same_tag)[1]
     old_tag <- old_target_kiddos[[same_index]]
-    old_target_lines[first_line(old_tag):last_line(old_tag)]
+    content <- old_target_lines[first_line(old_tag):last_line(old_tag)]
   } else {
     # Get new translation
     markdown_lines <- if (first_line(tag) == last_line(tag)) {
@@ -282,14 +282,13 @@ reuse_or_translate_node <- function(
       ]
     }
 
-    translation <- deepl_translate_markdown_string(
+    content <- deepl_translate_markdown_string(
       paste(markdown_lines, collapse = "\n"),
       glossary_name = glossary,
       source_lang = source_lang,
       target_lang = target_lang,
       formality = formality
     )
-    translation
   }
 
   # Add spacing based on NEW source structure
