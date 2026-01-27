@@ -316,9 +316,15 @@ deepl_branch_update <- function(repo = ".", max_commits = 100) {
     target = .git_default_branch(repo),
     repo = repo
   )
+
   excludes <- read_excludes(repo) |>
     purrr::map(\(x) fs::dir_ls(path = repo, glob = x)) |>
     unlist()
+  if (length(excludes) > 0) {
+    excludes <- excludes |>
+      fs::path_rel(start = repo) |>
+      fs::path_tidy()
+  }
 
   log <- gert::git_log(ref = tip_commit, max = max_commits, repo = repo)
 
@@ -327,6 +333,7 @@ deepl_branch_update <- function(repo = ".", max_commits = 100) {
   updated_files <- log[["commit"]][seq_len(first_branch_commit_index)] |>
     purrr::map(\(x) commit_files(x, repo = repo)) |>
     unlist() |>
+    fs::path_tidy() |>
     purrr::keep(\(x) fs::path_ext(x) %in% c("md", "Rmd", "qmd")) |>
     setdiff(excludes)
 
@@ -405,8 +412,9 @@ file_targets <- function(file, repo) {
         fs::path_ext_remove(fs::path_file(file))
       )
     ) |>
-      fs::path_rel(start = repo),
-    file
+      fs::path_rel(start = repo) |>
+      fs::path_tidy(),
+    fs::path_tidy(file)
   )
 
   fs::path(repo, targets)
