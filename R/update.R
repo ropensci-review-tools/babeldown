@@ -313,7 +313,7 @@ deepl_branch_update <- function(repo = ".", max_commits = 100) {
   tip_commit <- gert::git_commit_id(current_branch, repo = repo)
   tail_commit <- gert::git_merge_find_base(
     current_branch,
-    target = .git_default_branch(),
+    target = .git_default_branch(repo),
     repo = repo
   )
   excludes <- read_excludes(repo) |>
