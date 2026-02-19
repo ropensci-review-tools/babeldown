@@ -14,6 +14,8 @@ test_that("deepl_translate() works well", {
   expect_true(file.exists(out_path))
   translated_lines <- readLines(out_path)
   expect_true(any(grepl("paquete", translated_lines)))
+  # spaces not removed
+  expect_no_match(translated_lines[3], "\\*\\*\\*")
 })
 
 test_that("deepl_translate() errors well", {

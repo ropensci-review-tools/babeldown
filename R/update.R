@@ -459,4 +459,4 @@ last_line <- function(node) {
 
 increment_sourcepos <- function(node, n) {
   sprintf("%s:1-%s:2", last_line(node) + n, last_line(node) + n)
-}
+git}

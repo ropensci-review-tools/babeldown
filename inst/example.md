@@ -1,5 +1,7 @@
 ## Package name and metadata
 
+[So _incredibly_ **wonderful!**](https://ropensci.org)
+
 ### Naming your package
 
 * We strongly recommend short, descriptive names in lower case. 
