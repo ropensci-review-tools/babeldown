@@ -325,3 +325,22 @@ test_that("deepl_translate_clipboard() works", {
   lines <- clipr::read_clip()
   expect_true(any(grepl('vacation', lines)))
 })
+
+test_that("deepl_translate() works, paper", {
+  vcr::local_cassette("example-paper")
+  to_translate <- system.file("example-paper.md", package = "babeldown")
+  out_path <- withr::local_tempfile()
+
+  deepl_translate(
+    path = to_translate,
+    out_path = out_path,
+    source_lang = "EN",
+    target_lang = "FR",
+    formality = "prefer_less"
+  )
+
+  expect_true(file.exists(out_path))
+  translated_lines <- readLines(out_path)
+  # spaces not removed
+  expect_no_match(paste(translated_lines, collapse = " "), "famille\\*\\*")
+})
