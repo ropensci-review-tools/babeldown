@@ -360,7 +360,7 @@ update_file_translations <- function(file, repo, tip_commit, tail_commit) {
 }
 
 get_extension <- function(file) {
-  no_ext_file <- fs::path_ext_remove(file)
+  no_ext_file <- fs::path_ext_remove(fs::path_abs(file))
   if (grepl("\\.", no_ext_file)) {
     sub(".*\\.", "", no_ext_file)
   } else {
@@ -403,7 +403,7 @@ guess_translate <- function(
 file_targets <- function(file, repo) {
   targets <- setdiff(
     fs::dir_ls(
-      path = repo,
+      path = fs::path(repo, fs::path_dir(file)),
       regex = sprintf(
         "%s\\.?[a-z]?\\.[a-z]*",
         fs::path_ext_remove(fs::path_file(file))
@@ -413,7 +413,6 @@ file_targets <- function(file, repo) {
       fs::path_tidy(),
     fs::path_tidy(file)
   )
-
   fs::path(repo, targets)
 }
 
@@ -459,4 +458,5 @@ last_line <- function(node) {
 
 increment_sourcepos <- function(node, n) {
   sprintf("%s:1-%s:2", last_line(node) + n, last_line(node) + n)
-git}
+  git
+}
