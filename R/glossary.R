@@ -19,12 +19,16 @@
 #'   source_lang = "English"
 #' )
 #' }
-deepl_upsert_glossary <- function(filename, glossary_name = NULL,
-                                  source_lang, target_lang) {
+deepl_upsert_glossary <- function(
+  filename,
+  glossary_name = NULL,
+  source_lang,
+  target_lang
+) {
   # args checking and input preparation ---------------
 
   format <- tools::file_ext(filename)
-  if (!(format %in% c("tsv", "csv"))) {
+  if (!is.element(format, c("tsv", "csv"))) {
     rlang::abort(sprintf("Can't use file format %s, only csv or tsv.", format))
   }
 
@@ -32,9 +36,8 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
     rlang::abort(sprintf("Can't find file %s.", filename))
   }
 
-  if (is.null(glossary_name)) {
-    glossary_name <- tools::file_path_sans_ext(basename(filename))
-  }
+  glossary_name <- glossary_name %||%
+    tools::file_path_sans_ext(basename(filename))
 
   source_lang_code <- examine_source_lang(source_lang)
   target_lang_code <- examine_target_lang(target_lang)
@@ -46,28 +49,52 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
   )
 
   # prepare entries
-  entries <- switch(format,
+  entries <- switch(
+    format,
     csv = readr::read_csv(filename, show_col_types = FALSE),
     tsv = readr::read_tsv(filename, show_col_types = FALSE)
   )
 
-  if (!source_lang %in% names(entries)) {
+  if (!is.element(source_lang, names(entries))) {
     rlang::abort(sprintf("Can't find %s in glossary variables.", source_lang))
   }
 
-  if (!target_lang %in% names(entries)) {
+  if (!is.element(target_lang, names(entries))) {
     rlang::abort(sprintf("Can't find %s in glossary variables.", target_lang))
   }
 
-  entries <- entries[, c(source_lang, target_lang)]
+  source_target_entries <- entries[, c(source_lang, target_lang)]
   temp_file <- withr::local_tempfile()
 
   if (format == "csv") {
-    readr::write_csv(entries, temp_file)
-    entries <- glue::glue_collapse(brio::read_lines(temp_file)[-1], sep = "\n")
+    readr::write_csv(source_target_entries, temp_file)
+    source_target_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\n"
+    )
   } else {
-    readr::write_tsv(entries, temp_file)
-    entries <- glue::glue_collapse(brio::read_lines(temp_file)[-1], sep = "\t")
+    readr::write_tsv(source_target_entries, temp_file)
+    source_target_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\t"
+    )
+  }
+
+  target_source_entries <- entries[, c(target_lang, source_lang)]
+  temp_file <- withr::local_tempfile()
+
+  if (format == "csv") {
+    readr::write_csv(target_source_entries, temp_file)
+    target_source_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\n"
+    )
+  } else {
+    readr::write_tsv(target_source_entries, temp_file)
+    target_source_entries <- glue::glue_collapse(
+      brio::read_lines(temp_file)[-1],
+      sep = "\t"
+    )
   }
 
   # delete existing glossary if necessary ------
@@ -82,53 +109,85 @@ deepl_upsert_glossary <- function(filename, glossary_name = NULL,
   }
 
   # create glossary ---------------------
-  glossary <- deepl_form_request(
+  glossary <- deepl_json_request(
     path = "glossaries",
-    name = glossary_name,
-    source_lang = source_lang_code,
-    target_lang = target_lang_code,
-    entries = entries,
-    entries_format = format
+    data = list(
+      name = glossary_name,
+      dictionaries = list(
+        list(
+          source_lang = tolower(source_lang_code),
+          target_lang = tolower(target_lang_code),
+          entries = source_target_entries,
+          entries_format = format
+        ),
+        list(
+          source_lang = tolower(target_lang_code),
+          target_lang = tolower(source_lang_code),
+          entries = target_source_entries,
+          entries_format = format
+        )
+      )
+    )
   )
   return(invisible(glossary[["glossary_id"]]))
 }
 
-get_glossary_id <- function(glossary_name,
-                            source_lang, target_lang) {
-  glossaries <- deepl_request("glossaries")
-  glossaries <- purrr::pluck(glossaries, "glossaries")
-
-  glossaries <- glossaries[tolower(purrr::map_chr(glossaries, "source_lang")) == tolower(source_lang)]
-  glossaries <- glossaries[tolower(purrr::map_chr(glossaries, "target_lang")) == tolower(target_lang)]
+get_glossary_id <- function(glossary_name, source_lang, target_lang) {
+  glossaries <- deepl_request("glossaries")[["glossaries"]]
 
   if (length(glossaries) == 0) {
     return(NULL)
   }
 
-  glossary_names <- purrr::map_chr(glossaries, "name")
+  glossaries <- do.call(
+    rbind,
+    purrr::map(glossaries, tibblify_glossary)
+  )
 
-  if (sum(glossary_names == glossary_name) == 0) {
+  glossaries <- glossaries[glossaries[["source_lang"]] == source_lang, ]
+  glossaries <- glossaries[glossaries[["target_lang"]] == target_lang, ]
+
+  if (!is.element(glossary_name, glossaries[["name"]])) {
     return(NULL)
   }
 
-  if (sum(glossary_names == glossary_name) > 1) {
+  if (length(intersect(glossary_name, glossaries[["name"]])) > 1) {
     rlang::abort(
       sprintf(
         "There are %s glossaries with the name %s, please fix.",
-        sum(glossary_names == glossary_name),
+        length(intersect(glossary_name, glossaries[["name"]])) > 1,
         glossary_name
       )
     )
   }
 
-  glossary <- glossaries[glossary_names == glossary_name]
-  return(glossary[[1]][["glossary_id"]])
+  glossaries[["id"]][glossaries[["name"]] == glossary_name]
 }
 
-examine_glossary <- function(glossary_name,
-                             source_lang_code,
-                             target_lang_code,
-                             call = rlang::caller_env()) {
+tibblify_glossary <- function(glossary_list) {
+  info <- do.call(
+    rbind,
+    purrr::map(glossary_list[["dictionaries"]], tibblify_dictionary)
+  )
+  info[["id"]] <- glossary_list[["glossary_id"]]
+  info[["name"]] <- glossary_list[["name"]]
+
+  info
+}
+
+tibblify_dictionary <- function(dictionary_list) {
+  tibble::tibble(
+    source_lang = dictionary_list[["source_lang"]],
+    target_lang = dictionary_list[["target_lang"]]
+  )
+}
+
+examine_glossary <- function(
+  glossary_name,
+  source_lang_code,
+  target_lang_code,
+  call = rlang::caller_env()
+) {
   if (is.null(glossary_name)) {
     return(NULL)
   }
@@ -141,7 +200,7 @@ examine_glossary <- function(glossary_name,
   if (is.null(glossary_id)) {
     cli::cli_abort(
       c(
-        "Can't find {.field glossary_name} {.val {glossary_name}}.",
+        "Can't find glossary called {.val {glossary_name}} ({.field glossary_name} argument).",
         i = "Check the spelling, or create it with {.fun upsert_glossary}."
       ),
       call = call
@@ -149,5 +208,4 @@ examine_glossary <- function(glossary_name,
   }
 
   glossary_id
-
 }
