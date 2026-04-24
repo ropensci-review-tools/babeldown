@@ -36,27 +36,26 @@
 #' readLines(file.path(book_path, "intro.es.qmd"))
 #' # servr::httw(file.path(book_path, "_book"))
 #' }
-deepl_translate_quarto <- function(book_path,
-                                   chapter,
-                                   force = FALSE,
-                                   render = TRUE,
-                                   yaml_fields = c("title", "description"),
-                                   glossary_name = NULL,
-                                   source_lang = NULL,
-                                   target_lang = NULL,
-                                   formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
+deepl_translate_quarto <- function(
+  book_path,
+  chapter,
+  force = FALSE,
+  render = TRUE,
+  yaml_fields = c("title", "description"),
+  glossary_name = NULL,
+  source_lang = NULL,
+  target_lang = NULL,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+) {
   target_lang_code <- examine_target_lang(target_lang)
 
   chapter_path <- file.path(book_path, chapter)
   chapter_path_ext <- fs::path_ext(chapter_path)
-  target_chapter_path <- file.path(
-    book_path,
-    sprintf(
-      "%s.%s.%s",
-      fs::path_ext_remove(fs::path_file(chapter_path)),
-      strsplit(tolower(target_lang_code), "-")[[1]][1],
-      chapter_path_ext
-    )
+  target_chapter_path <- sprintf(
+    "%s.%s.%s",
+    fs::path_ext_remove(chapter_path),
+    strsplit(tolower(target_lang_code), "-")[[1]][1],
+    chapter_path_ext
   )
 
   if (!force && fs::file_exists(target_chapter_path)) {
