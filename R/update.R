@@ -87,12 +87,6 @@ deepl_update <- function(
   source_lang_code <- examine_source_lang(source_lang)
   target_lang_code <- examine_target_lang(target_lang)
 
-  glossary_id <- examine_glossary(
-    glossary_name,
-    source_lang_code = source_lang_code,
-    target_lang_code = target_lang_code
-  )
-
   repo <- fs::path_real(rprojroot::find_root(rprojroot::is_git_root, path))
 
   path <- fs::path_rel(fs::path_real(path), start = repo)
