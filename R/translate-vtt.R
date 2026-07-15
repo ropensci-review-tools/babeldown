@@ -23,13 +23,14 @@
 #' )
 #' head(readLines(file.path(temp_dir, "pecan.es.vtt")))
 #' }
-deepl_translate_vtt <- function(path,
-                                out_path,
-                                glossary_name = NULL,
-                                source_lang = NULL,
-                                target_lang = NULL,
-                                formality = c("default", "more", "less", "prefer_more", "prefer_less")) {
-
+deepl_translate_vtt <- function(
+  path,
+  out_path,
+  glossary_name = NULL,
+  source_lang = NULL,
+  target_lang = NULL,
+  formality = c("default", "more", "less", "prefer_more", "prefer_less")
+) {
   # check arguments ----
 
   if (!file.exists(path)) {
@@ -67,7 +68,11 @@ deepl_translate_vtt <- function(path,
   lines <- brio::read_lines(path)
   first_text_index <- which(lines == "0") + 2
   text_indices <- seq(from = first_text_index, by = 4, to = length(lines))
-  text <- sprintf("<text ind='%s'>%s</text>", text_indices, lines[text_indices]) |>
+  text <- sprintf(
+    "<text ind='%s'>%s</text>",
+    text_indices,
+    lines[text_indices]
+  ) |>
     paste(collapse = "")
   body_params <- list(
     text = text,
@@ -88,78 +93,25 @@ deepl_translate_vtt <- function(path,
     purrr::map(treat_fragment)
   new_df <- do.call(rbind, new_fragments)
   lines2 <- lines
-   for (index in text_indices) {
-     lines2[index] <- paste(
-         new_df[["text"]][new_df[["index"]] == index],
-         collapse = " "
-       )
-   }
+  for (index in text_indices) {
+    lines2[index] <- paste(
+      new_df[["text"]][new_df[["index"]] == index],
+      collapse = " "
+    )
+  }
 
   brio::write_lines(lines2, out_path)
-
-}
-
-translate_part <- function(xml, glossary_id, source_lang, target_lang, formality) {
-  temp_file <- withr::local_tempfile()
-  file.create(temp_file)
-  woolish <- tinkr::yarn$new(path = temp_file)
-  woolish$body <- fakify_xml(xml)
-
-  ## protect content inside curly braces ----
-  woolish$body <- tinkr::protect_curly(woolish$body)
-  curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
-  replace_curly <- function(curly) {
-    xml2::xml_name(curly) <- "curly"
-  }
-  purrr::walk(curlies, replace_curly)
-
-  ## translate ----
-  .translate <- function(text, glossary_id, source_lang, target_lang, formality) {
-
-    body_params <- list(
-        text = text,
-        source_lang = source_lang,
-        target_lang = target_lang,
-        tag_handling = "xml",
-        non_splitting_tags = "text,softbreak",
-        formality = formality,
-        glossary_id = glossary_id,
-        ignore_tags = "code,code_block,curly"
-      ) |>
-      purrr::compact()
-
-    doc <- deepl_form_request("translate", !!!body_params)
-    doc$translations[[1]]$text
-  }
-  translate <- memoise::memoise(.translate)
-
-  woolish$body <- xml2::read_xml(
-    translate(
-      as.character(woolish$body),
-      source_lang = source_lang,
-      target_lang = target_lang,
-      formality = formality,
-      glossary_id = glossary_id
-    )
-  )
-
-  ## Make curly tags text tags again ----
-  curlies <- xml2::xml_find_all(woolish$body, "//*[@curly]")
-  replace_curly <- function(curly) {
-    xml2::xml_name(curly) <- "text"
-  }
-  purrr::walk(curlies, replace_curly)
-
-  woolish[["body"]]
 }
 
 treat_fragment <- function(fragment) {
   text <- sub(
-    "<\\/text>", "",
+    "<\\/text>",
+    "",
     sub("ind='[0-9]*'>", "", fragment)
   )
   index <- sub(
-    ".*='", "",
+    ".*='",
+    "",
     sub("'>.*", "", fragment)
   )
   tibble::tibble(
