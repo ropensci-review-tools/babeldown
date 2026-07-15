@@ -1,0 +1,97 @@
+http_interactions:
+- request:
+    method: POST
+    uri: https://api-free.deepl.com/v2/translate
+    body:
+      string: text=%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3C%21DOCTYPE%20document%20SYSTEM%20%22CommonMark.dtd%22%3E%0A%3Cdocument%20xmlns%3D%22http%3A%2F%2Fcommonmark.org%2Fxml%2F1.0%22%3E%0A%20%20%3Cheading%20level%3D%221%22%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EIntroduction%3C%2Ftext%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Cheading%20level%3D%223%22%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EBlattisocius%20cakmaki%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20Khanjani%20%26amp%3B%20Safiarian%20%3C%2Ftext%3E%0A%20%20%20%20%3Cstrong%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3En.%20sp.%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fstrong%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Cheading%20level%3D%224%22%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EDiagnostic%3C%2Ftext%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EAu%20sein%20de%20la%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Cstrong%3E%0A%20%20%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EPhytoseioidea%3C%2Ftext%3E%0A%20%20%20%20%20%20%3C%2Fstrong%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2C%20acariens%20de%20la%20famille%20%3C%2Ftext%3E%0A%20%20%20%20%3Cstrong%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EBlattisociidae%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fstrong%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20se%20reconnaissent%20%C3%A0%20leur%20apot%C3%A8le%20palpaire-tarsien%20%C3%A0%20deux%20dents%2C%20%C3%A0%20leurs%20boucliers%20podonotal%20et%20opisthonotal%20fusionn%C3%A9s%20et%20%C3%A0%20la%20pr%C3%A9sence%20de%2020%20paires%20de%20soies%20sur%20le%20t%C3%A9gument%20lat%C3%A9ral%20non%20scl%C3%A9rifi%C3%A9%20qui%20entoure%20le%20bouclier%20dorsal%20%28Moraes%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Eet%20al.%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2C%202016%29.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%20%20%3Cheading%20level%3D%224%22%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EFemmes%20%28n%20%3D%2011%29%3C%2Ftext%3E%0A%20%20%3C%2Fheading%3E%0A%20%20%3Cparagraph%3E%0A%20%20%20%20%3Cstrong%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EIdiosome%20dorsal%3C%2Ftext%3E%0A%20%20%20%20%3C%2Fstrong%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%20---%20%28Fig.1A%29.%3C%2Ftext%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EBouclier%20dorsal%20femelle%20long%20de%20575%20%28500-650%29%20et%20large%20de%20250%20%28232-265%29%20au%20niveau%20des%20soies.%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ER2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%3B%20le%20plus%20souvent%20r%C3%A9ticul%C3%A9.%3C%2Ftext%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ELa%20r%C3%A9gion%20podonotale%20du%20bouclier%20dorsal%20comporte%2018%20paires%20de%20soies%2C%20deux%20paires%20de%20poro%C3%AFdes%20et%20une%20paire%20de%20pores%20glandulaires.%3C%2Ftext%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ER%C3%A9gion%20opisthonale%20du%20bouclier%20dorsal%20avec%2015%20paires%20de%20soies%2C%20quatre%20paires%20de%20poro%C3%AFdes%20et%20deux%20paires%20de%20pores%20glandulaires.%3C%2Ftext%3E%0A%20%20%20%20%3Csoftbreak%2F%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EMesures%20des%20soies%20dorsales%20%3A%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ej1%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2038%20%2836-40%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ej2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2044%20%2843-45%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ej3%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2055%20%2851-59%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ej4%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2045%20%2842-48%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ej5%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2042%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ej6%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2046%20%2843-50%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EJ1%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2045%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EJ2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2051%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EJ3%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2044%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EJ4%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2046%20%2846-47%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EJ5%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2028%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ez1%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2022%20%2820-24%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ez2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2043%20%2842-45%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ez3%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2047%20%2843-51%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ez4%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2050%20%2849-%2051%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ez5%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2051%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Ez6%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2051%20%2847-50%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EZ1%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2052%20%2851-53%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EZ2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2045%20%2844-46%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EZ3%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2041%20%2840-42%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EZ4%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2045%20%2844-47%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3EZ5%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2082%20%2881-84%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Es1%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2038%20%2835-41%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Es2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2040%20%2836-44%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Es3%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2052%20%2850-53%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Es4%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2049%20%2846-52%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Es5%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2044%20%2842-46%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3Es6%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2046%20%2843-47%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ES1%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2051%20%2851-52%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ES2%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2047%20%2842-52%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ES3%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2050%20%2848-52%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ES4%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2053%20%2852-54%29%2C%20%3C%2Ftext%3E%0A%20%20%20%20%3Cemph%3E%0A%20%20%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3ES5%3C%2Ftext%3E%0A%20%20%20%20%3C%2Femph%3E%0A%20%20%20%20%3Ctext%20xml%3Aspace%3D%22preserve%22%3E%2058%20%2858-64%29.%3C%2Ftext%3E%0A%20%20%3C%2Fparagraph%3E%0A%3C%2Fdocument%3E%0A&source_lang=EN&target_lang=FR&tag_handling=xml&non_splitting_tags=text%2Csoftbreak&formality=prefer_less&ignore_tags=code%2Ccode_block%2Ccurly%2Cmath%2Cnotranslate%2Cfence
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      date: Wed, 15 Jul 2026 07:18:51 GMT
+      x-trace-id: 12160bf1d89546f294b00cef3f2b1254
+      access-control-expose-headers: Server-Timing, X-Trace-ID
+      server-timing: l7_lb_tls;dur=55, l7_lb_idle;dur=48, l7_lb_receive;dur=0, l7_lb_total;dur=589
+      strict-transport-security: max-age=63072000; includeSubDomains; preload
+      vary: Accept-Encoding
+      content-encoding: gzip
+    body:
+      string: '{"translations":[{"text":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<!DOCTYPE
+        document SYSTEM \"CommonMark.dtd\">\n<document xmlns=\"http://commonmark.org/xml/1.0\">\n  <heading
+        level=\"1\">\n   <text xml:space=\"preserve\">Introduction</text>\n  </heading>\n  <heading
+        level=\"3\"><emph>\n    \n     <text xml:space=\"preserve\">Blattisocius cakmaki</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    Khanjani &amp; Safiarian \n </text>
+        <strong>   \n <text xml:space=\"preserve\">     n. sp.</text>\n    \n </strong></heading>\n  <heading
+        level=\"4\">\n   <text xml:space=\"preserve\">Diagnostic</text>\n  </heading>\n  <paragraph>\n   <text
+        xml:space=\"preserve\">Au sein de la \n   </text><emph>\n      <strong>\n       <text
+        xml:space=\"preserve\">Phytoseioidea</text>\n      </strong>\n    </emph>\n   <text
+        xml:space=\"preserve\">, les acariens de la famille \n </text> <strong>   \n
+        <text xml:space=\"preserve\">     Blattisociidae</text> </strong> <text xml:space=\"preserve\">
+        \n    \n     se reconnaissent à leur apotèle palpaire-tarsien à deux dents,
+        à leurs boucliers podonotal et opisthonotal fusionnés et à la présence de
+        20 paires de soies sur le tégument latéral non sclérifié qui entoure le bouclier
+        dorsal (Moraes \n </text> <emph>   \n <text xml:space=\"preserve\">     et
+        al.</text>\n    \n </emph> <text xml:space=\"preserve\">   , 2016).</text>\n  </paragraph>\n  <heading
+        level=\"4\">\n   <text xml:space=\"preserve\">Femelles (n = 11)</text>\n  </heading>\n  <paragraph><strong>\n    \n     <text
+        xml:space=\"preserve\">Idiosome dorsal</text>\n    \n </strong> <text xml:space=\"preserve\">    ---
+        (Fig. 1A).</text>\n   <softbreak/> \n   <text xml:space=\"preserve\">Bouclier
+        dorsal de la femelle mesurant 575 (500-650) de long et 250 (232-265) de large
+        au niveau des soies. \n </text> <emph>   \n <text xml:space=\"preserve\">     R2</text>\n    \n
+        </emph> <text xml:space=\"preserve\">   ; le plus souvent réticulé.</text>\n   <softbreak/>
+        \n   <text xml:space=\"preserve\">La région podonotale du bouclier dorsal
+        comporte 18 paires de soies, deux paires de poroïdes et une paire de pores
+        glandulaires.</text>\n   <softbreak/> \n   <text xml:space=\"preserve\">Région
+        opisthonale du bouclier dorsal avec 15 paires de soies, quatre paires de poroïdes
+        et deux paires de pores glandulaires.</text>\n   <softbreak/> \n <text xml:space=\"preserve\">   Mesures
+        des soies dorsales : \n </text> <emph>   \n <text xml:space=\"preserve\">     j1</text>
+        </emph> <text xml:space=\"preserve\"> \n    \n     38 (36-40), \n </text>
+        <emph>   \n <text xml:space=\"preserve\">     j2</text>\n    \n </emph> <text
+        xml:space=\"preserve\">    44 (43-45), \n </text> <emph>   \n <text xml:space=\"preserve\">     j3</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    55 (51-59), </text> <emph>\n    \n     <text
+        xml:space=\"preserve\">j4</text>\n    \n </emph> <text xml:space=\"preserve\">    45
+        (42-48), \n </text> <emph>   \n <text xml:space=\"preserve\">     j5</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    42, \n </text> <emph>   \n <text
+        xml:space=\"preserve\">     j6</text>\n    \n </emph> <text xml:space=\"preserve\">    46
+        (43-50), </text> <emph>\n    \n     <text xml:space=\"preserve\">J1</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    45, </text> <emph>\n    \n <text
+        xml:space=\"preserve\">     J2</text>\n    \n </emph> <text xml:space=\"preserve\">    51,
+        </text> <emph>\n    \n <text xml:space=\"preserve\">     J3</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    44, </text> <emph>\n    \n <text
+        xml:space=\"preserve\">     J4</text> </emph> <text xml:space=\"preserve\">
+        \n    \n     46 (46-47), </text> <emph>\n    \n <text xml:space=\"preserve\">     J5</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    28, \n </text> <emph>   \n <text
+        xml:space=\"preserve\">     z1</text>\n    \n </emph> <text xml:space=\"preserve\">    22
+        (20-24), </text> <emph>\n    \n <text xml:space=\"preserve\">     z2</text>
+        </emph> <text xml:space=\"preserve\"> \n    \n     43 (42-45), \n </text>
+        <emph>   \n <text xml:space=\"preserve\">     z3</text>\n    \n </emph> <text
+        xml:space=\"preserve\">    47 (43-51), \n </text> <emph>   \n <text xml:space=\"preserve\">     z4</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    50 (49- 51), </text> <emph>\n    \n     <text
+        xml:space=\"preserve\">z5</text>\n    \n </emph> <text xml:space=\"preserve\">    51,
+        \n </text> <emph>   \n <text xml:space=\"preserve\">     z6</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    51 (47-50), </text> <emph>\n    \n
+        <text xml:space=\"preserve\">     Z1</text>\n    \n </emph> <text xml:space=\"preserve\">    52
+        (51-53), </text> <emph>\n    \n     <text xml:space=\"preserve\">Z2</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    45 (44-46), \n </text> <emph>   \n
+        <text xml:space=\"preserve\">     Z3</text>\n    \n </emph> <text xml:space=\"preserve\">    41
+        (40-42), \n </text> <emph>   \n <text xml:space=\"preserve\">     Z4</text>
+        </emph> <text xml:space=\"preserve\"> \n    \n     45 (44-47), \n </text>
+        <emph>   \n <text xml:space=\"preserve\">     Z5</text>\n    \n </emph> <text
+        xml:space=\"preserve\">    82 (81-84), </text> <emph>\n    \n <text xml:space=\"preserve\">     s1</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    38 (35-41), </text> <emph>\n    \n     <text
+        xml:space=\"preserve\">s2</text>\n    \n </emph> <text xml:space=\"preserve\">    40
+        (36-44), \n </text> <emph>   \n <text xml:space=\"preserve\">     s3</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    52 (50-53), \n </text> <emph>   \n
+        <text xml:space=\"preserve\">     s4</text> </emph> <text xml:space=\"preserve\">
+        \n    \n     49 (46-52), \n </text> <emph>   \n <text xml:space=\"preserve\">     s5</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    44 (42-46), \n </text> <emph>   \n
+        <text xml:space=\"preserve\">     s6</text>\n    \n </emph> <text xml:space=\"preserve\">    46
+        (43-47), </text> <emph>\n    \n     <text xml:space=\"preserve\">S1</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    51 (51-52), \n </text> <emph>   \n
+        <text xml:space=\"preserve\">     S2</text>\n    \n </emph> <text xml:space=\"preserve\">    47
+        (42-52), \n </text> <emph>   \n <text xml:space=\"preserve\">     S3</text>
+        </emph> <text xml:space=\"preserve\"> \n    \n     50 (48-52), \n </text>
+        <emph>   \n <text xml:space=\"preserve\">     S4</text>\n    \n </emph> <text
+        xml:space=\"preserve\">    53 (52-54), \n </text> <emph>   \n <text xml:space=\"preserve\">     S5</text>\n    \n
+        </emph> <text xml:space=\"preserve\">    58 (58-64).</text>\n  </paragraph>\n</document>\n","detected_source_language":"EN","tag_handling_version":"v1"}]}'
+  recorded_at: 2026-07-15 07:18:52
+recorded_with: VCR-vcr/2.1.1.91
