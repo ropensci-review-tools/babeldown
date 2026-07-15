@@ -93,8 +93,6 @@ deepl_update <- function(
     target_lang_code = target_lang_code
   )
 
-  translated_lines <- brio::read_lines(out_path)
-
   repo <- fs::path_real(rprojroot::find_root(rprojroot::is_git_root, path))
 
   path <- fs::path_rel(fs::path_real(path), start = repo)
