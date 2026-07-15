@@ -68,12 +68,12 @@
     Code
       foot_math_lines
     Output
-      [1] "See "                                          
-      [2] " $a$ an equation followed by a footnote [^1] ."
-      [3] ""                                              
-      [4] "[^1] : a footnote."                            
-      [5] ""                                              
-      [6] ""                                              
+      [1] "See "                                         
+      [2] " $a$ an equation followed by a footnote [^1]."
+      [3] ""                                             
+      [4] "[^1]: a footnote."                            
+      [5] ""                                             
+      [6] ""                                             
 
 # deepl_translate() handles equations with curly well
 
@@ -87,11 +87,11 @@
     Code
       brio::read_lines(out_path)
     Output
-      [1] "Un poco de texto."                                  
-      [2] ""                                                   
-      [3] "::: footer"                                         
-      [4] " [¡Qué astuto eres!]{style=\"color: transparent;\"}"
-      [5] ":::"                                                
-      [6] ""                                                   
-      [7] ""                                                   
+      [1] "Un poco de texto."                                 
+      [2] ""                                                  
+      [3] "::: footer"                                        
+      [4] "[¡Qué astuto eres!]{style=\"color: transparent;\"}"
+      [5] ":::"                                               
+      [6] ""                                                  
+      [7] ""                                                  
 

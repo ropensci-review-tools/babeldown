@@ -286,7 +286,6 @@ translate_part <- function(
 
   nested_parents <- xml2::xml_parent(nested_text_nodes)
   purrr::walk(nested_parents, untangle_text)
-
   ## Make non code blocks code blocks again ----
   non_code_blocks <- xml2::xml_find_all(woolish$body, "//d1:non_code_block")
   purrr::walk(non_code_blocks, unprotect_non_code_block)
@@ -530,7 +529,12 @@ unprotect_non_code_block <- function(non_code_block) {
 }
 
 untangle_text <- function(node) {
-  text <- xml2::xml_text(node)
+  text <- purrr::map_chr(xml2::xml_children(node), \(x) {
+    fragment_text <- xml2::xml_text(x)
+    fragment_text <- gsub("     ", "", fragment_text)
+    fragment_text <- gsub("\\n", "", fragment_text)
+  }) |>
+    paste(collapse = "")
   text <- gsub("\\s+", " ", text) # like str_squish w/o str_trim
   # trying to only leave space where needed
   no_left_sibling <- (length(xml2::xml_find_first(
