@@ -269,23 +269,23 @@ translate_part <- function(
   fences <- xml2::xml_find_all(woolish$body, "//d1:fence")
   purrr::walk(fences, unprotect_fence)
 
-  ## Unprotect notranslate ----
-  notranslates <- xml2::xml_find_all(woolish$body, ".//d1:notranslate")
-  purrr::walk(notranslates, unprotect_notranslate)
-  nested_text_nodes <- xml2::xml_find_all(woolish$body, ".//d1:squary/d1:text")
-  nested_parents <- xml2::xml_parent(nested_text_nodes)
-  purrr::walk(nested_parents, untangle_text)
-
   ## Unprotect square brackets ----
-  squaries <- c(
-    xml2::xml_find_all(woolish$body, ".//d1:squary"),
-    xml2::xml_find_all(woolish$body, ".//squary")
+  # nested then unnested
+  nested_squaries <- xml2::xml_find_all(
+    woolish$body,
+    ".//d1:squary/d1:notranslate"
   )
-  purrr::walk(squaries, unprotect_squary)
-  nested_text_nodes <- xml2::xml_find_all(woolish$body, ".//d1:text/d1:text")
+  purrr::walk(nested_squaries, unprotect_nested_squary)
+  free_squaries <- xml2::xml_find_all(woolish$body, ".//d1:squary")
+  purrr::walk(free_squaries, unprotect_free_squary)
+
+  nested_text_nodes <- xml2::xml_find_all(
+    woolish$body,
+    ".//d1:text/d1:text | .//d1:text/text"
+  )
+
   nested_parents <- xml2::xml_parent(nested_text_nodes)
   purrr::walk(nested_parents, untangle_text)
-
   ## Make non code blocks code blocks again ----
   non_code_blocks <- xml2::xml_find_all(woolish$body, "//d1:non_code_block")
   purrr::walk(non_code_blocks, unprotect_non_code_block)
@@ -456,7 +456,7 @@ unprotect_math <- function(math) {
 protect_squaries <- function(node) {
   text <- xml2::xml_text(node)
   text <- gsub('\\[', '</text><squary>', text)
-  text <- gsub('\\]', '</squary><text>', text)
+  text <- gsub('\\]', '</squary><text xml:space="preserve">', text)
   text <- sprintf('<text xml:space="preserve">%s</text>', text)
   text <- gsub('<text xml:space="preserve"><\\/text>', '', text)
   text <- sprintf('<text xml:space="preserve">%s</text>', text)
@@ -469,7 +469,8 @@ protect_squaries <- function(node) {
     gregexpr("@[[:alnum:]\\-\\_\\:\\.\\#\\$\\%\\&\\-\\+\\?\\<\\>\\~\\/]*", text)
   )[[1]]
   # https://github.com/ropensci-review-tools/babeldown/issues/78
-  at_things <- sub("</squary><text>.*", "", at_things)
+  # https://github.com/ropensci-review-tools/babeldown/issues/107
+  at_things <- sub('</squary><text', "", at_things)
 
   footnote_things <- regmatches(text, gregexpr("\\^[[:alnum:]]*", text))[[1]]
   text <- purrr::reduce(
@@ -483,19 +484,41 @@ protect_squaries <- function(node) {
   xml2::xml_replace(node, .value = text_node)
 }
 
-unprotect_squary <- function(node) {
-  xml2::xml_name(node) <- "text"
+unprotect_nested_squary <- function(node) {
   node_text <- trimws(xml2::xml_text(node))
+
   if (!grepl(":$", node_text)) {
-    xml2::xml_text(node) <- sprintf("[%s]", node_text)
+    node_text <- sprintf("[%s]", node_text)
   } else {
     node_text <- sub(":$", "", node_text)
-    xml2::xml_text(node) <- sprintf("[%s]:", node_text)
+    node_text <- sprintf("[%s]:", node_text)
   }
+
+  xml2::xml_replace(
+    xml2::xml_parent(node),
+    "text",
+    `xml:space` = "preserve",
+    node_text
+  )
 }
 
-unprotect_notranslate <- function(node) {
-  xml2::xml_name(node) <- "text"
+
+unprotect_free_squary <- function(node) {
+  node_text <- trimws(xml2::xml_text(node))
+
+  if (!grepl(":$", node_text)) {
+    node_text <- sprintf("[%s]", node_text)
+  } else {
+    node_text <- sub(":$", "", node_text)
+    node_text <- sprintf("[%s]:", node_text)
+  }
+
+  xml2::xml_replace(
+    node,
+    "text",
+    `xml:space` = "preserve",
+    node_text
+  )
 }
 
 protect_non_code_block <- function(non_code_block) {
@@ -507,7 +530,12 @@ unprotect_non_code_block <- function(non_code_block) {
 }
 
 untangle_text <- function(node) {
-  text <- xml2::xml_text(node)
+  text <- purrr::map_chr(xml2::xml_children(node), \(x) {
+    fragment_text <- xml2::xml_text(x)
+    fragment_text <- gsub("     ", "", fragment_text)
+    fragment_text <- gsub("\\n", "", fragment_text)
+  }) |>
+    paste(collapse = "")
   text <- gsub("\\s+", " ", text) # like str_squish w/o str_trim
   # trying to only leave space where needed
   no_left_sibling <- (length(xml2::xml_find_first(
@@ -527,7 +555,7 @@ untangle_text <- function(node) {
     xml2::xml_name(node),
     `xml:space` = "preserve",
     asis = 'true',
-    gsub("\\\n", "", text)
+    gsub("(\\\n)*$", "", text)
   )
 }
 
