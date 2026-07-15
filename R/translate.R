@@ -279,7 +279,11 @@ translate_part <- function(
   free_squaries <- xml2::xml_find_all(woolish$body, ".//d1:squary")
   purrr::walk(free_squaries, unprotect_free_squary)
 
-  nested_text_nodes <- xml2::xml_find_all(woolish$body, ".//d1:text/d1:text")
+  nested_text_nodes <- xml2::xml_find_all(
+    woolish$body,
+    ".//d1:text/d1:text | .//d1:text/text"
+  )
+
   nested_parents <- xml2::xml_parent(nested_text_nodes)
   purrr::walk(nested_parents, untangle_text)
 
@@ -526,7 +530,7 @@ unprotect_non_code_block <- function(non_code_block) {
 }
 
 untangle_text <- function(node) {
-  text <- trimws(xml2::xml_text(node))
+  text <- xml2::xml_text(node)
   text <- gsub("\\s+", " ", text) # like str_squish w/o str_trim
   # trying to only leave space where needed
   no_left_sibling <- (length(xml2::xml_find_first(
@@ -546,7 +550,7 @@ untangle_text <- function(node) {
     xml2::xml_name(node),
     `xml:space` = "preserve",
     asis = 'true',
-    gsub("\\\n", "", text)
+    gsub("(\\\n)*$", "", text)
   )
 }
 
