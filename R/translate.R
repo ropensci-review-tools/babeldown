@@ -469,7 +469,7 @@ protect_squaries <- function(node) {
     gregexpr("@[[:alnum:]\\-\\_\\:\\.\\#\\$\\%\\&\\-\\+\\?\\<\\>\\~\\/]*", text)
   )[[1]]
   # https://github.com/ropensci-review-tools/babeldown/issues/78
-  at_things <- sub("</squary><text>", "", at_things)
+  at_things <- sub("</squary><text>.*", "", at_things)
 
   footnote_things <- regmatches(text, gregexpr("\\^[[:alnum:]]*", text))[[1]]
   text <- purrr::reduce(

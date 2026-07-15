@@ -232,11 +232,12 @@ test_that("deepl_translate() handles square brackets stuff well", {
   expect_match(lines, "también")
   vcr::local_cassette("example-square2")
   lines <- deepl_translate_markdown_string(
-    "Wickham says blah [@wickham24].",
+    "Wickham says blah [@wickham24] and [@g]. S",
     source_lang = "en",
     target_lang = "es"
   )
   expect_match(lines, "\\[@wickham24]")
+  expect_match(lines, "\\[@g]")
 })
 
 test_that("deepl_translate() handles equations well", {
