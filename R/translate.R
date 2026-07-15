@@ -481,7 +481,7 @@ protect_squaries <- function(node) {
 }
 
 unprotect_nested_squary <- function(node) {
-  node_text <- xml2::xml_text(node)
+  node_text <- trimws(xml2::xml_text(node))
 
   if (!grepl(":$", node_text)) {
     node_text <- sprintf("[%s]", node_text)
