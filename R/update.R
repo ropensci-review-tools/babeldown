@@ -455,8 +455,3 @@ first_line <- function(node) {
 last_line <- function(node) {
   as.numeric(sub(":.*", "", sub(".*-", "", xml2::xml_attr(node, "sourcepos"))))
 }
-
-increment_sourcepos <- function(node, n) {
-  sprintf("%s:1-%s:2", last_line(node) + n, last_line(node) + n)
-  git
-}
