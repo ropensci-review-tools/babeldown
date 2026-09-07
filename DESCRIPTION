@@ -13,7 +13,6 @@ Description: Provide workflows and guidance for automatic translation of Markdow
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3.9000
 URL: https://docs.ropensci.org/babeldown, https://github.com/ropensci-review-tools/babeldown
 BugReports: https://github.com/ropensci-review-tools/babeldown/issues
 Depends: R (>= 4.1)
@@ -54,3 +53,4 @@ Remotes:
     ropensci/tinkr
 Config/testthat/edition: 3
 Config/ropensci/maintainer: staff
+Config/roxygen2/version: 8.1.0.9000
