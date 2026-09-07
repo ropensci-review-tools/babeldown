@@ -168,36 +168,14 @@ deepl_part_translate <- function(
     sourcepos = TRUE
   )
 
+  check_xml_structure(
+    path1 = file.path(dir_at_target_latest_update, path),
+    path2 = file.path(repo, out_path)
+  )
+
   new_source <- tinkr::yarn$new(file.path(repo, path), sourcepos = TRUE)
 
   old_target <- tinkr::yarn$new(file.path(repo, out_path), sourcepos = TRUE)
-
-  old_source_nodes <- purrr::map_chr(
-    xml_kiddos(old_source$body),
-    xml2::xml_name
-  )
-  old_target_nodes <- purrr::map_chr(
-    xml_kiddos(old_target$body),
-    xml2::xml_name
-  )
-  same_structure <-
-    (xml_kiddos_length(old_source$body) ==
-      xml_kiddos_length(old_target$body)) &&
-    all(old_source_nodes == old_target_nodes)
-
-  if (!same_structure) {
-    present_node <- function(node) {
-      cli_alert_info(
-        "{xml2::xml_name(node)} ({substr(xml2::xml_text(node), 1, 50)})"
-      )
-    }
-    first_bad <- min(which(old_source_nodes != old_target_nodes))
-    present_node(xml_kiddos(old_source$body)[[first_bad]])
-    present_node(xml_kiddos(old_target$body)[[first_bad]])
-    cli::cli_abort(
-      "Old version of {path}, and current {out_path}, do not have an equivalent XML structure."
-    )
-  }
 
   new_target <- new_source
 
@@ -446,4 +424,48 @@ first_line <- function(node) {
 
 last_line <- function(node) {
   as.numeric(sub(":.*", "", sub(".*-", "", xml2::xml_attr(node, "sourcepos"))))
+}
+
+#' Check that two files have the same XML structure
+#'
+#' Useful if `deepl_branch_update()` fails with an error about the XML structure.
+#' Checkout the default branch, check the two files.
+#'
+#' @param path1 First path
+#' @param path2 Second path
+#'
+#'
+#' @export
+check_xml_structure <- function(path1, path2) {
+  old_source <- tinkr::yarn$new(path1, sourcepos = TRUE)
+
+  old_target <- tinkr::yarn$new(path2, sourcepos = TRUE)
+
+  old_source_nodes <- purrr::map_chr(
+    xml_kiddos(old_source$body),
+    xml2::xml_name
+  )
+  old_target_nodes <- purrr::map_chr(
+    xml_kiddos(old_target$body),
+    xml2::xml_name
+  )
+  same_structure <-
+    (xml_kiddos_length(old_source$body) ==
+      xml_kiddos_length(old_target$body)) &&
+    all(old_source_nodes == old_target_nodes)
+
+  if (!same_structure) {
+    present_node <- function(node) {
+      cli_alert_info(
+        "{xml2::xml_name(node)} ({substr(xml2::xml_text(node), 1, 50)})"
+      )
+    }
+    first_bad <- min(which(old_source_nodes != old_target_nodes))
+    present_node(xml_kiddos(old_source$body)[[first_bad]])
+    present_node(xml_kiddos(old_target$body)[[first_bad]])
+    cli::cli_abort(
+      "Old version of {fs::path_file(path1)}, and current {fs::path_file(path2)}, do not have an equivalent XML structure.",
+      i = "You can use {.fn check_xml_structure} in the default branch."
+    )
+  }
 }
