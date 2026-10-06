@@ -15,4 +15,7 @@ reference:
   - '`deepl_translate_hugo`'
   - '`deepl_translate_vtt`'
   - '`deepl_update`'
+- title: Utils
+  contents:
+  - check_xml_structure
 
